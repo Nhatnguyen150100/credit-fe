@@ -84,7 +84,7 @@ export default function InformationDetail() {
                 src={userInfo?.front_end_user_id_img}
               />
             </div>
-            <div className="flex flex-col justify-start items-center space-y-3 w-full">
+            {/* <div className="flex flex-col justify-start items-center space-y-3 w-full">
               <label className="text-base md:text-lg font-medium uppercase text-start w-full">
                 CCCD mặt sau:
               </label>
@@ -93,7 +93,7 @@ export default function InformationDetail() {
                 className="max-h-[120px] w-full object-contain"
                 src={userInfo?.back_end_user_id_img}
               />
-            </div>
+            </div> */}
             <div className="flex flex-row justify-start items-center space-x-2">
               <label className="text-base md:text-lg font-medium first-letter:capitalize">
                 thời gian vay:
