@@ -30,6 +30,7 @@ type FieldType = {
   company: string;
   date_payable: Dayjs;
   amount_payable: number;
+  bank_name: string;
   status: "NOT_PAY" | "PAYED";
 };
 
@@ -74,6 +75,7 @@ export default function InfoComponentCommon({
     formData.append("loan_amount", data.loan_amount.toString());
     formData.append("loan_date", data.loan_date.toString());
     formData.append("receiving_account_number", data.receiving_account_number);
+    formData.append("bank_name", data.bank_name);
     formData.append("address", data.address);
     formData.append("company", data.company);
     formData.append(
@@ -114,6 +116,7 @@ export default function InfoComponentCommon({
             loan_amount: infoProps?.loan_amount ?? 0,
             loan_date: infoProps?.loan_date ? dayjs(infoProps.loan_date) : null,
             receiving_account_number: infoProps?.receiving_account_number ?? "",
+            bank_name: infoProps?.bank_name ?? "",
             address: infoProps?.address ?? "",
             company: infoProps?.company ?? "",
             date_payable: infoProps?.date_payable
@@ -183,7 +186,7 @@ export default function InfoComponentCommon({
             />
           </Form.Item>
 
-          <Form.Item<any>
+          {/* <Form.Item<any>
             label={
               <div className="flex flex-row justify-between items-center space-x-1">
                 <span className="text-base text-red-500">*</span>
@@ -203,7 +206,7 @@ export default function InfoComponentCommon({
                 setImgCCCD((pre: any) => ({ ...pre, backEndImg: null }));
               }}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item<FieldType>
             label="Số điện thoại khách hàng"
@@ -243,6 +246,14 @@ export default function InfoComponentCommon({
             rules={[
               { required: true, message: "Hãy nhập số tài khoản nhận tiền" },
             ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item<FieldType>
+            label="Ngân hàng"
+            name="bank_name"
+            rules={[{ required: true, message: "Hãy nhập ngân hàng" }]}
           >
             <Input />
           </Form.Item>

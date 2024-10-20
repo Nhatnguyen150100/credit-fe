@@ -133,6 +133,14 @@ export default function InformationDetail() {
               </span>
             </div>
             <div className="flex flex-row justify-start items-center space-x-2">
+              <label className="text-base text-nowrap md:text-lg font-medium first-letter:capitalize">
+                Ngân hàng:
+              </label>
+              <span className="text-base md:text-xl font-semibold">
+                {userInfo?.bank_name}
+              </span>
+            </div>
+            <div className="flex flex-row justify-start items-center space-x-2">
               <label className="text-base md:text-lg font-medium first-letter:capitalize">
                 Địa chỉ chỗ ở:
               </label>

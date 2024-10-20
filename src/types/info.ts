@@ -19,6 +19,7 @@ export interface IInfo {
   loan_amount: number;
   loan_date: string;
   receiving_account_number: string;
+  bank_name: string;
   date_payable: string;
   address: string;
   company: string;
