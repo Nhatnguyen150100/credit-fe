@@ -55,20 +55,39 @@ export default function InfoComponentCommon({
   });
   const [form] = Form.useForm();
 
+  const onStatusChange = (value: string) => {
+    if (value === "OVER_DATE") {
+      const currentAmount = infoProps?.amount_payable;
+      if (!currentAmount) {
+        toast.error("Chưa nhập số tiền thanh toán");
+        return;
+      }
+      const newPayment = Math.round(currentAmount * 1.1);
+      form.setFieldsValue({ amount_payable: newPayment });
+      toast.info("Đã cộng thêm 10% vào số tiền phải trả !");
+      return;
+    }
+
+    // else {
+    //   form.setFieldsValue({ amount_payable: infoProps?.amount_payable });
+    //   toast.info("Đã reset số tiền phải trả về lại ban đầu!");
+    // }
+  };
+
   const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     const data = { ...values };
     const formData = new FormData();
-    if (
-      !(files?.fontEndImg || files?.backEndImg || files?.userTakeIdImg) &&
-      !(
-        infoProps?.user_take_id_img ||
-        infoProps?.front_end_user_id_img ||
-        infoProps?.back_end_user_id_img
-      )
-    ) {
-      toast.error("Chưa chọn đủ ảnh");
-      return;
-    }
+    // if (
+    //   !(files?.fontEndImg || files?.backEndImg || files?.userTakeIdImg) &&
+    //   !(
+    //     infoProps?.user_take_id_img ||
+    //     infoProps?.front_end_user_id_img ||
+    //     infoProps?.back_end_user_id_img
+    //   )
+    // ) {
+    //   toast.error("Chưa chọn đủ ảnh");
+    //   return;
+    // }
     formData.append("user_id", data.user_id);
     formData.append("name", data.name);
     formData.append("phone_number", data.phone_number);
@@ -145,7 +164,6 @@ export default function InfoComponentCommon({
           <Form.Item<any>
             label={
               <div className="flex flex-row justify-between items-center space-x-1">
-                <span className="text-base text-red-500">*</span>
                 <span className="text-sm">Ảnh khách hàng cầm CCCD</span>
               </div>
             }
@@ -167,7 +185,6 @@ export default function InfoComponentCommon({
           <Form.Item<any>
             label={
               <div className="flex flex-row justify-between items-center space-x-1">
-                <span className="text-base text-red-500">*</span>
                 <span className="text-sm">Ảnh CCCD mặt trước</span>
               </div>
             }
@@ -299,9 +316,10 @@ export default function InfoComponentCommon({
             name="status"
             rules={[{ required: true, message: "Hãy nhập trạng thái" }]}
           >
-            <Select placeholder="Chọn trạng thái">
+            <Select placeholder="Chọn trạng thái" onChange={onStatusChange}>
               <Select.Option value="NOT_PAY">Chưa thanh toán</Select.Option>
               <Select.Option value="PAYED">Đã thanh toán</Select.Option>
+              <Select.Option value="OVER_DATE">Quá hạn</Select.Option>
             </Select>
           </Form.Item>
 

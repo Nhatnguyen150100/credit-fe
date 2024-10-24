@@ -2,31 +2,45 @@ import * as React from "react";
 import { toast } from "react-toast";
 import {
   Button,
+  DatePicker,
   Empty,
   Modal,
   notification,
+  Select,
   Spin,
   Table,
   TableProps,
   Tag,
 } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  PhoneOutlined,
+  PlusOutlined,
+  SearchOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { IInfo } from "../../../types/info";
 import axiosRequest from "../../../plugins/request";
 import onRemoveParams from "../../../utils/remove-params";
 import { formatCurrency } from "../../../utils/format-money";
 import { formatDate } from "../../../utils/day-format";
-import BaseSearch from "../../../components/BaseSearch";
 import DEFINE_ROUTER from "../../../constants/router-define";
 import Visibility from "../../../components/visibility";
 import DEFINE_STATUS from "../../../constants/status";
+import InputSearch from "../../../components/InputSearch";
+import { TableRowSelection } from "antd/es/table/interface";
 
 export default function TableInfo() {
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [listInfo, setListInfo] = React.useState<IInfo[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [query, setQuery] = React.useState({
     nameLike: "",
+    userId: "",
+    phoneNumber: "",
+    status: undefined,
+    datePayable: "",
     page: 1,
     limit: 5,
   });
@@ -47,6 +61,46 @@ export default function TableInfo() {
       setLoading(false);
     }
   };
+
+  const deleteMultiple = async () => {
+    Modal.confirm({
+      title: "Bạn có muốn xóa các thông tin đã chọn này này",
+      okText: "Có",
+      okType: "danger",
+      cancelText: "Không",
+      style: {
+        top: "50%",
+        transform: "translateY(-50%)",
+      },
+      onOk: async () => {
+        try {
+          setLoading(true);
+          const rs = await axiosRequest.post(
+            "/v1/information/delete-multi",
+            selectedRowKeys
+          );
+          setSelectedRowKeys([]);
+          onGetListInfo();
+          toast.success(rs.data.message);
+        } catch (error: any) {
+          toast.error(error.message);
+        } finally {
+          setLoading(false);
+        }
+      },
+    });
+  };
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection: TableRowSelection<IInfo> = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const hasSelected = selectedRowKeys.length > 0;
 
   const handleDeleteInfo = async (_info: IInfo) => {
     Modal.confirm({
@@ -78,7 +132,7 @@ export default function TableInfo() {
 
   const columns: TableProps<IInfo>["columns"] = [
     {
-      title: "Index",
+      title: "Số thứ tự",
       dataIndex: "index",
       render: (_, __, index) => index + 1,
     },
@@ -139,11 +193,7 @@ export default function TableInfo() {
       dataIndex: "status",
       render: (text) => (
         <span className="text-lg uppercase underline">
-          {text === DEFINE_STATUS.NOT_PAY ? (
-            <Tag color="error">Chưa thanh toán</Tag>
-          ) : (
-            <Tag color="success">Đã thanh toán</Tag>
-          )}
+          {onGetStatusTag(text)}
         </span>
       ),
     },
@@ -167,13 +217,25 @@ export default function TableInfo() {
     },
   ];
 
+  const onGetStatusTag = (status: string) => {
+    let el;
+    switch (status) {
+      case DEFINE_STATUS.NOT_PAY:
+        el = <Tag color="error">Chưa thanh toán</Tag>;
+        break;
+      case DEFINE_STATUS.PAYED:
+        el = <Tag color="success">Đã thanh toán</Tag>;
+        break;
+      default:
+        el = <Tag color="red-inverse">Quá hạn</Tag>;
+        break;
+    }
+    return el;
+  };
+
   const handleClickRow = (record: IInfo) => {
     navigate(`/admin/edit-info/${record._id}`);
   };
-
-  React.useEffect(() => {
-    if (!query.nameLike) onGetListInfo();
-  }, [query.nameLike]);
 
   React.useEffect(() => {
     onGetListInfo();
@@ -182,14 +244,61 @@ export default function TableInfo() {
   return (
     <>
       <div className="w-full flex justify-between items-center mb-5">
-        <BaseSearch
-          value={query.nameLike!}
-          placeholder="Nhập tên hoặc CCCD để tìm kiếm"
-          onHandleChange={(value) => {
-            setQuery({ ...query, nameLike: value });
-          }}
-          onSearch={() => onGetListInfo()}
-        />
+        <div className="flex-grow flex justify-start items-center space-x-3">
+          <InputSearch
+            value={query.nameLike}
+            onHandleChange={(value) =>
+              setQuery((pre) => ({ ...pre, nameLike: value }))
+            }
+            placeholder="Tìm kiếm theo tên"
+            onSearch={onGetListInfo}
+          />
+          <InputSearch
+            icon={<TeamOutlined />}
+            value={query.userId}
+            onHandleChange={(value) =>
+              setQuery((pre) => ({ ...pre, userId: value }))
+            }
+            placeholder="Tìm kiếm theo CCCD"
+            onSearch={onGetListInfo}
+          />
+          <InputSearch
+            icon={<PhoneOutlined />}
+            typeInput="number"
+            value={query.phoneNumber}
+            onHandleChange={(value) =>
+              setQuery((pre) => ({ ...pre, phoneNumber: value }))
+            }
+            placeholder="Tìm kiếm theo số điện thoại"
+            onSearch={onGetListInfo}
+          />
+          <DatePicker
+            className=" h-[38px] rounded-2xl"
+            placeholder="Tìm kiếm theo ngày trả"
+            format={"DD/MM/YYYY"}
+            value={query.datePayable}
+            onChange={(value) =>
+              setQuery((pre) => ({
+                ...pre,
+                datePayable: value,
+              }))
+            }
+          />
+          <Select
+            className="min-w-[160px]"
+            allowClear
+            placeholder="Tìm kiếm theo trạng thái"
+            value={query.status}
+            onChange={(value) => setQuery((pre) => ({ ...pre, status: value }))}
+          >
+            <Select.Option value="NOT_PAY">Chưa thanh toán</Select.Option>
+            <Select.Option value="PAYED">Đã thanh toán</Select.Option>
+            <Select.Option value="OVER_DATE">Quá hạn</Select.Option>
+          </Select>
+          <Button type="primary" color="primary" onClick={onGetListInfo}>
+            Tìm kiếm
+          </Button>
+        </div>
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -201,13 +310,28 @@ export default function TableInfo() {
           Thêm mới thông tin
         </Button>
       </div>
+      <Visibility visibility={hasSelected && selectedRowKeys.length > 1}>
+        <div className="w-full flex justify-start items-center mb-5">
+          <Button
+            variant="solid"
+            color="danger"
+            shape="default"
+            icon={<DeleteOutlined />}
+            iconPosition="end"
+            onClick={deleteMultiple}
+          >
+            Xóa các hàng đã chọn
+          </Button>
+        </div>
+      </Visibility>
       <Visibility
         visibility={Boolean(listInfo.length)}
         suspenseComponent={loading ? <Spin /> : <Empty />}
       >
         <div className="w-full">
           <Table<IInfo>
-            rowKey="id"
+            rowSelection={rowSelection}
+            rowKey="_id"
             columns={columns}
             dataSource={listInfo}
             style={{
