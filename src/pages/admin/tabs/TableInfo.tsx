@@ -16,7 +16,6 @@ import {
   DeleteOutlined,
   PhoneOutlined,
   PlusOutlined,
-  SearchOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
