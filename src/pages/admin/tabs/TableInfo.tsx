@@ -351,7 +351,7 @@ export default function TableInfo() {
           </Button>
         </div>
       </Visibility>
-      <div className="mb-5 flex w-full justify-start items-start">
+      {/* <div className="mb-5 flex w-full justify-start items-start">
         <Button
           variant="solid"
           color="primary"
@@ -361,7 +361,7 @@ export default function TableInfo() {
         >
           {`Kiểm tra và cập nhật dữ liệu đã bị quá hạn trả (quá ngày ${dayjs().format("DD/MM/YYYY")})`}
         </Button>
-      </div>
+      </div> */}
       <Visibility
         visibility={Boolean(listInfo.length)}
         suspenseComponent={loading ? <Spin /> : <Empty />}
