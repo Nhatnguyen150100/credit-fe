@@ -1,8 +1,8 @@
 import { message, Table, TableProps, Tooltip } from "antd";
 import * as React from "react";
-import axiosRequest from "../plugins/request";
+import axiosRequest from "../../plugins/request";
 import { toast } from "react-toast";
-import { IBank } from "../types/bank";
+import { IBank } from "../../types/bank";
 
 export default function PaymentMethod() {
   const [listBank, setListBank] = React.useState<IBank[]>([]);

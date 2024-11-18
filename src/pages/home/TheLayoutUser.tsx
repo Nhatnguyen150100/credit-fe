@@ -1,4 +1,4 @@
-import DEFINE_ROUTER from "../constants/router-define";
+import DEFINE_ROUTER from "../../constants/router-define";
 import { Outlet } from "react-router-dom";
 
 export default function TheLayoutUser() {

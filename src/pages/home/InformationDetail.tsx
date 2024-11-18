@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Empty, Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosRequest from "../plugins/request";
-import Visibility from "../components/visibility";
-import { IInfo } from "../types/info";
-import { formatCurrency } from "../utils/format-money";
-import { formatDate } from "../utils/day-format";
+import axiosRequest from "../../plugins/request";
+import Visibility from "../../components/visibility";
+import { IInfo } from "../../types/info";
+import { formatCurrency } from "../../utils/format-money";
+import { formatDate } from "../../utils/day-format";
 
 export default function InformationDetail() {
   const { id } = useParams<{ id: string }>();

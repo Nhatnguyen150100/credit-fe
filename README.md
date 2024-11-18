@@ -48,3 +48,7 @@ export default tseslint.config({
   },
 })
 ```
+
+NEW_PAGE: https://m.ctcrt.com
+0342675251
+Mk : hd150200

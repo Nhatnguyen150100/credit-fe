@@ -1,5 +1,7 @@
 const DEFINE_ROUTER = {
   home: "/",
+  paymentApplication: "/payment-application",
+  my: '/my',
   information: "/:id",
   admin: "/admin",
   payment: "/:id/payment-method",
