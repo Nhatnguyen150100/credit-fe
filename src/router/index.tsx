@@ -12,6 +12,8 @@ import TheLayoutUser from "../pages/home/TheLayoutUser";
 import PaymentMethod from "../pages/home/PaymentMethod";
 import TheLayoutApp from "../pages/home/layout/TheLayoutApp";
 import HomePage from "../pages/home/home-page/HomePage";
+import PaymentApplication from "../pages/home/loan-application/PaymentApplication";
+import Profile from "../pages/home/profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />,
       },
+      {
+        path: DEFINE_ROUTER.paymentApplication,
+        element: <PaymentApplication />
+      },
+      {
+        path: DEFINE_ROUTER.my,
+        element: <Profile />
+      }
     ]
   },
   {

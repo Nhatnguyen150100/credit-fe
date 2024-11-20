@@ -12,9 +12,9 @@ import { Provider } from "react-redux";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
     <Provider store={store}>
       <PersistGate loading={<Spin />} persistor={persistor}>
+        <RouterProvider router={router} />
         <ToastContainer delay={1500} />
       </PersistGate>
     </Provider>
