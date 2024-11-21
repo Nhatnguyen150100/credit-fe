@@ -33,27 +33,31 @@ export default function Profile() {
         dataSource={[
           {
             title: "Quản lý thẻ ngân hàng",
-            icon: <CreditCardOutlined />
+            icon: <CreditCardOutlined />,
+            path: "#"
           },
           {
             title: "Trung tâm trợ giúp",
-            icon: <QuestionCircleOutlined />
+            icon: <QuestionCircleOutlined />,
+            path: "#"
           },
           {
             title: "Chính sách bảo mật",
-            icon: <BugOutlined />
+            icon: <BugOutlined />,
+            path: "#"
           },
           {
             title: "Thiết lập",
-            icon: <SettingOutlined />
+            icon: <SettingOutlined />,
+            path: "#"
           },
         ]}
         renderItem={(item, _) => (
           <List.Item>
-            <div className="flex flex-row justify-start items-center space-x-3">
+            <Link to={item.path} className="flex flex-row justify-start items-center space-x-3">
               {item.icon}
               <span>{item.title}</span>
-            </div>
+            </Link>
           </List.Item>
         )}
       />

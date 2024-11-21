@@ -4,6 +4,8 @@ const DEFINE_ROUTER = {
   my: '/my',
   information: "/:id",
   admin: "/admin",
+  setting: "setting",
+
   payment: "/:id/payment-method",
   loginAdmin: "/login-admin",
   newInfo: "/admin/new-info",
