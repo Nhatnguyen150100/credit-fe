@@ -7,6 +7,7 @@ import { Avatar, Button, List } from "antd";
 import { title } from "process";
 import { Link } from "react-router-dom";
 import { BugOutlined, CreditCardOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons";
+import DEFINE_ROUTER from "../../../constants/router-define";
 
 export default function Profile() {
   const user = useSelector((state: IRootState) => state.user);
@@ -49,7 +50,7 @@ export default function Profile() {
           {
             title: "Thiết lập",
             icon: <SettingOutlined />,
-            path: "#"
+            path: DEFINE_ROUTER.setting
           },
         ]}
         renderItem={(item, _) => (

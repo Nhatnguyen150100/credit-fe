@@ -14,6 +14,8 @@ import TheLayoutApp from "../pages/home/layout/TheLayoutApp";
 import HomePage from "../pages/home/home-page/HomePage";
 import PaymentApplication from "../pages/home/loan-application/PaymentApplication";
 import Profile from "../pages/home/profile/Profile";
+import Setting from "../pages/home/profile/setting/Setting";
+import LoginPage from "../pages/home/profile/login/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +34,17 @@ const router = createBrowserRouter([
       {
         path: DEFINE_ROUTER.my,
         element: <Profile />
+      },
+      {
+        path: DEFINE_ROUTER.setting,
+        element: <Setting />
       }
     ]
+  },
+  {
+    path: DEFINE_ROUTER.login,
+    errorElement: <ErrorPage />,
+    element: <LoginPage />,
   },
   {
     path: DEFINE_ROUTER.information,
