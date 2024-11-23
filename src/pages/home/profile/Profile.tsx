@@ -3,17 +3,28 @@ import { useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
 import maskNumber from "../../../utils/mask_number";
-import { Avatar, Button, List } from "antd";
-import { title } from "process";
-import { Link } from "react-router-dom";
-import { BugOutlined, CreditCardOutlined, QuestionCircleOutlined, SettingOutlined } from "@ant-design/icons";
+import { Button, List } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  BugOutlined,
+  CreditCardOutlined,
+  QuestionCircleOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import DEFINE_ROUTER from "../../../constants/router-define";
 
 export default function Profile() {
   const user = useSelector((state: IRootState) => state.user);
+  const navigate = useNavigate();
 
   const LoginButton = (
-    <Button type="text" className="text-white text-base">
+    <Button
+      type="text"
+      className="text-white text-base"
+      onClick={() => {
+        navigate(DEFINE_ROUTER.login);
+      }}
+    >
       Đăng nhập
     </Button>
   );
@@ -35,27 +46,30 @@ export default function Profile() {
           {
             title: "Quản lý thẻ ngân hàng",
             icon: <CreditCardOutlined />,
-            path: "#"
+            path: "#",
           },
           {
             title: "Trung tâm trợ giúp",
             icon: <QuestionCircleOutlined />,
-            path: "#"
+            path: "#",
           },
           {
             title: "Chính sách bảo mật",
             icon: <BugOutlined />,
-            path: "#"
+            path: "#",
           },
           {
             title: "Thiết lập",
             icon: <SettingOutlined />,
-            path: DEFINE_ROUTER.setting
+            path: DEFINE_ROUTER.setting,
           },
         ]}
         renderItem={(item, _) => (
           <List.Item>
-            <Link to={item.path} className="flex flex-row justify-start items-center space-x-3">
+            <Link
+              to={item.path}
+              className="flex flex-row justify-start items-center space-x-3"
+            >
               {item.icon}
               <span>{item.title}</span>
             </Link>
