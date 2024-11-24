@@ -3,31 +3,65 @@ import * as React from "react";
 import Result from "./tabs/Result";
 import Refund from "./tabs/Refund";
 import Repayment from "./tabs/Repayment";
-
-const items: TabsProps["items"] = [
-  {
-    key: "1",
-    label: <span className="text-xs">Kết quả xét duyệt</span>,
-    children: <Result />,
-  },
-  {
-    key: "2",
-    label: <span className="text-xs">Đang đợi hoàn trả</span>,
-    children: <Refund />,
-  },
-  {
-    key: "3",
-    label: <span className="text-xs">Trả nợ thành công</span>,
-    children: <Repayment />,
-  },
-];
+import { IInfo } from "../../../types/info";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../lib/store";
+import axiosRequest from "../../../plugins/request";
 
 export default function PaymentApplication() {
+  const { _id: id } = useSelector((state: IRootState) => state.user);
+  const [userInfo, setUserInfo] = React.useState<IInfo>();
+
+  const handleGetInfo = async () => {
+    const rs = await axiosRequest.get(`/v1/information/${id}`);
+    const data = rs.data.data;
+    setUserInfo(data);
+  };
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: <span className="text-xs">Kết quả xét duyệt</span>,
+      children: <Result />,
+    },
+    {
+      key: "2",
+      label: <span className="text-xs">Đang đợi hoàn trả</span>,
+      children: (
+        <Refund
+          userInfo={
+            userInfo?.status !== "PAYED" && userInfo?._id ? userInfo : null
+          }
+        />
+      ),
+    },
+    {
+      key: "3",
+      label: <span className="text-xs">Trả nợ thành công</span>,
+      children: (
+        <Repayment
+          userInfo={
+            userInfo?.status === "PAYED" && userInfo?._id ? userInfo : null
+          }
+        />
+      ),
+    },
+  ];
+
+  React.useEffect(() => {
+    if (id) handleGetInfo();
+  }, [id]);
+
   return (
     <div className="w-screen justify-center items-center flex flex-col">
       <h3 className="bg-white w-full text-center pt-3">Đơn vay</h3>
       <div className="w-full bg-transparent">
-        <Tabs className="bg-white" centered defaultActiveKey="1" items={items} />
+        <Tabs
+          className="bg-white"
+          centered
+          defaultActiveKey="1"
+          items={items}
+        />
       </div>
     </div>
   );

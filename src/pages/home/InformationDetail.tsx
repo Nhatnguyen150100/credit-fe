@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Empty, Spin } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import { Button, Empty, message, Modal, Spin, Table } from "antd";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "../../plugins/request";
 import Visibility from "../../components/visibility";
 import { IInfo } from "../../types/info";
 import { formatCurrency } from "../../utils/format-money";
 import { formatDate } from "../../utils/day-format";
+import DEFINE_ROUTER from "../../constants/router-define";
+import { ArrowLeftOutlined, PhoneOutlined } from "@ant-design/icons";
 
 export default function InformationDetail() {
   const { id } = useParams<{ id: string }>();
@@ -35,144 +37,124 @@ export default function InformationDetail() {
     navigate(`/${id}/payment-method`);
   };
 
+  if (!id) {
+    message.error("Không tìm thấy hồ sơ của bạn");
+    return <Navigate to={DEFINE_ROUTER.home} replace />;
+  }
+
+  const DEFINE_TABLE_INFO = [
+    {
+      label: "Thời gian nộp đơn",
+      value: formatDate(userInfo?.loan_date ?? "", "DD-MM-YYYY"),
+    },
+    {
+      label: "Số tiền cần vay",
+      value: formatCurrency(userInfo?.loan_amount ?? 0),
+    },
+    {
+      label: "Kì hạn xin vay tiền",
+      value: "7 ngày",
+    },
+    {
+      label: "Số tiền đến hạn thanh toán",
+      value: formatCurrency(userInfo?.amount_payable ?? 0),
+    },
+  ];
+
   return (
     <>
       <Visibility
         visibility={Boolean(userInfo)}
         suspenseComponent={loading ? <Spin /> : <Empty />}
       >
-        <span className="uppercase text-2xl md:text-3xl font-semibold max-w-[780px] scale-animation">
-          hồ sơ của bạn sắp hết hạn vui lòng bấm vào phần thanh toán
-        </span>
-        <div className="max-w-[860px] container flex flex-col justify-start items-start space-y-5 p-5 md:p-10 border-black border-2 border-dashed rounded-2xl relative">
-          <Visibility visibility={userInfo?.status === "PAYED"}>
-            <div className="p-8 md:p-10 w-[300px] md:w-[580px] h-[100px] md:h-[120px] bg-red-600 text-black text-2xl md:text-5xl text-center font-bold uppercase rotate-45 absolute top-[40%] left-[10%] md:left-[20%]">
-              đã thanh toán
-            </div>
-          </Visibility>
-          <div className="flex flex-col justify-start items-start w-full space-y-2">
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium uppercase">
-                họ và tên khách hàng:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {userInfo?.name}
-              </span>
-            </div>
-            <div className="flex flex-col justify-start items-center w-full">
-              <img
-                crossOrigin="anonymous"
-                className="max-h-[120px] w-full object-contain"
-                src={userInfo?.user_take_id_img}
-              />
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium uppercase">
-                Số CCCD:
-              </label>
-              <span className="text-base md:text-xl font-semibold text-blue-700 underline">
-                {userInfo?.user_id}
-              </span>
-            </div>
-            <div className="flex flex-col justify-start items-center space-y-3 w-full">
-              <label className="text-base md:text-lg font-medium uppercase text-start w-full">
-                CCCD mặt trước:
-              </label>
-              <img
-                crossOrigin="anonymous"
-                className="max-h-[120px] w-full object-contain"
-                src={userInfo?.front_end_user_id_img}
-              />
-            </div>
-            {/* <div className="flex flex-col justify-start items-center space-y-3 w-full">
-              <label className="text-base md:text-lg font-medium uppercase text-start w-full">
-                CCCD mặt sau:
-              </label>
-              <img
-                crossOrigin="anonymous"
-                className="max-h-[120px] w-full object-contain"
-                src={userInfo?.back_end_user_id_img}
-              />
-            </div> */}
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium first-letter:capitalize">
-                thời gian vay:
-              </label>
-              <span className="text-base md:text-xl font-semibold">7 ngày</span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium first-letter:capitalize">
-                số điện thoại:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {userInfo?.phone_number}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium first-letter:capitalize">
-                số tiền nhận giải ngân:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {formatCurrency(Number(userInfo?.loan_amount))}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium first-letter:capitalize">
-                Ngày nhận giải ngân:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {formatDate(userInfo?.loan_date ?? "")}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base text-nowrap md:text-lg font-medium first-letter:capitalize">
-                số tài khoản nhận tiền:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {userInfo?.receiving_account_number}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base text-nowrap md:text-lg font-medium first-letter:capitalize">
-                Ngân hàng:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {userInfo?.bank_name}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium first-letter:capitalize">
-                Địa chỉ chỗ ở:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {userInfo?.address}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-base md:text-lg font-medium first-letter:capitalize">
-                Tên công ty:
-              </label>
-              <span className="text-base md:text-xl font-semibold">
-                {userInfo?.company}
-              </span>
-            </div>
-            <div className="flex flex-row justify-start items-center space-x-2">
-              <label className="text-md md:text-3xl font-medium text-red-600 first-letter:capitalize">
-                số tiền cần hoàn trả:
-              </label>
-              <span className="text-lg md:text-3xl font-semibold text-red-600">
-                {formatCurrency(Number(userInfo?.amount_payable))}
-              </span>
-            </div>
+        <div className="h-screen overflow-y-auto w-screen flex flex-col justify-start items-center bg-gray-100">
+          <div className="py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
+            <ArrowLeftOutlined
+              className="text-white"
+              onClick={() => navigate(-1)}
+            />
+            <span className="text-sm text-white font-light">
+              Chi tiết đơn vay
+            </span>
+            <PhoneOutlined className="text-white" />
           </div>
-        </div>
-        <div className="flex justify-center items-start w-full">
-          <button
-            className="w-full md:w-[360px] h-[50px] md:h-[60px] bg-yellow-500 text-white text-lg md:text-2xl hover:bg-yellow-600 rounded-lg"
-            onClick={handleClickPayment}
-          >
-            Thanh toán
-          </button>
+          <div className="flex w-full flex-col justify-start items-center">
+            <div className="h-[160px] w-full bg-blue-700 relative">
+              <div className="w-full absolute top-10 flex justify-center items-center">
+                <div className="rounded-lg w-[80vw] bg-white p-5 flex flex-col justify-start items-center space-y-5">
+                  <div className="flex flex-col w-full space-y-2 justify-start items-center">
+                    <span className="text-sm text-gray-700">
+                      Tổng số tiền cần phải trả
+                    </span>
+                    <span className="text-3xl text-blue-700 font-semibold">
+                      {formatCurrency(userInfo?.amount_payable ?? 0)}
+                    </span>
+                  </div>
+                  <div className="w-full px-5 flex flex-row justify-between items-center">
+                    <div className="flex flex-col justify-start items-start space-y-1">
+                      <span className="text-sm text-gray-700">
+                        Ngày hoàn trả khoản vay
+                      </span>
+                      <span className="text-sm ">
+                        {formatDate(userInfo?.date_payable ?? "", "DD-MM-YYYY")}
+                      </span>
+                    </div>
+                    <div className="flex flex-col justify-start items-start space-y-1">
+                      <span className="text-sm text-red-700">
+                        {userInfo?.status === "NOT_PAY"
+                          ? "Chưa thanh toán"
+                          : "Đã quá hạn"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-[80px] flex flex-col justify-start items-center space-y-5 w-full">
+              <div className="bg-white w-full p-3">
+                <div className=" grid grid-cols-2 w-full border">
+                  {DEFINE_TABLE_INFO.map((item, index) => (
+                    <>
+                      <span
+                        className={`text-sm text-gray-700 border-r h-[40px] flex justify-center items-center ${
+                          index !== DEFINE_TABLE_INFO.length - 1 && "border-b"
+                        }`}
+                        key={index}
+                      >
+                        {item.label}
+                      </span>
+                      <span
+                        className={`text-sm  h-[40px] flex justify-center items-center ${
+                          index !== DEFINE_TABLE_INFO.length - 1 && "border-b"
+                        }`}
+                      >
+                        {item.value}
+                      </span>
+                    </>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <Button
+              type="primary"
+              onClick={() => {
+                handleClickPayment();
+              }}
+              className="rounded-sm h-[40px] mt-5 w-[90vw]"
+            >
+              Lập tức thanh toán
+            </Button>
+            <p className="text-yellow-600 text-sm whitespace-pre-wrap px-5 mt-5">
+              Lưu ý: tài khoản thanh toán của mỗi đơn đặt hàng khác nhau, hãy
+              nhấp vào "thanh toán ngay lập tức" để xem tài khoản thanh toán thứ
+              tự của bạn. Để tránh mất tiền, hãy cẩn thận kiểm tra tài khoản
+              chuyển tiền.
+            </p>
+            <p className="text-yellow-600 text-sm whitespace-pre-wrap px-5 mt-3">
+              Nếu có bất kỳ câu hỏi nào khác, vui lòng liên hệ với chúng tôi{" "}
+              <a className="text-blue-700 underline">Đi ngay</a>
+            </p>
+          </div>
         </div>
       </Visibility>
     </>

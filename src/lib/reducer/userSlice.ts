@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { IInfo } from "../../types/info";
 
-const initialState: any = {};
+const initialState: IInfo = {} as IInfo;
 
 export const userSlice = createSlice({
   name: "user",

@@ -3,25 +3,27 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import userReducer from "./reducer/userSlice";
 import generalReducer from "./reducer/generalSlice";
+import loanApplicationReducer from "./reducer/loanApplicationSlice";
 
 const persistConfig = {
-    key: "root",
-    storage,
+  key: "root",
+  storage,
 };
 
 const rootReducer = combineReducers({
-    user: userReducer,
-    general: generalReducer,
+  user: userReducer,
+  general: generalReducer,
+  loanApplication: loanApplicationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false,
-        }),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export const persistor = persistStore(store);

@@ -1,5 +1,5 @@
-function maskNumber(input: number): string {
-  if(!input) return '';
+function maskNumber(input: string): string {
+  if (!input) return "";
   const strNumber = input.toString();
 
   if (strNumber.length <= 6) {

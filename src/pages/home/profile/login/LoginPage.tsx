@@ -65,8 +65,8 @@ export default function LoginPage() {
         otp: otpCode,
       });
       message.success(rs.data.message);
-      dispatch(setUser(rs.data.user));
-      cookiesStore.set("access_token", rs.data.accessToken);
+      dispatch(setUser(rs.data.data.user));
+      cookiesStore.set("access_token", rs.data.data.accessToken);
       navigate(DEFINE_ROUTER.home);
     } finally {
       setLoading(false);

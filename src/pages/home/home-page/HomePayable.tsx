@@ -1,14 +1,22 @@
-import { Divider, Radio, Select } from "antd";
+import { Divider, message, Radio, Select } from "antd";
 import React, { useState } from "react";
 import { formatDate } from "../../../utils/day-format";
-import dayjs from "dayjs";
 import { formatCurrency } from "../../../utils/format-money";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../../lib/store";
+import { setLoanAmount } from "../../../lib/reducer/loanApplicationSlice";
+import axiosRequest from "../../../plugins/request";
+import { IInfo } from "../../../types/info";
+import DEFINE_ROUTER from "../../../constants/router-define";
 
 const DEFINE_AMOUNT = [1500000, 5000000, 10000000];
 
 export default function HomePayable() {
+  const user = useSelector((state: IRootState) => state.user);
+  const dispatch = useDispatch();
   const [payAmount, setPayAmount] = useState(DEFINE_AMOUNT[0]);
+  const navigate = useNavigate();
 
   const DEFINE_INFO = [
     {
@@ -28,6 +36,20 @@ export default function HomePayable() {
       value: formatCurrency(payAmount + 73973),
     },
   ];
+
+  const handleAccept = () => {
+    if (!user._id) {
+      message.error("Đăng nhập để nộp đơn vay");
+      return;
+    }
+    if (user.status !== "PAYED") {
+      message.error("Chỉ có thể nộp đơn vay khi đã trả khoản vay trước");
+      return;
+    }
+    dispatch(setLoanAmount(payAmount));
+    message.success("Nộp đơn vay thành công");
+    navigate(DEFINE_ROUTER.paymentApplication);
+  };
 
   return (
     <div className="flex flex-col justify-start items-start w-full space-y-3">
@@ -70,24 +92,28 @@ export default function HomePayable() {
         </div>
       </div>
       <div className="rounded-xl bg-white flex flex-col space-y-5 justify-start items-start w-full p-3">
-        {
-          DEFINE_INFO.map((item) => {
-            return (
-              <div className="border-b border-solid flex flex-row justify-between items-center pb-2 w-full">
-                <label className="text-sm">{item.label}:</label>
-                <span className="text-gray-500 text-sm">{item.value}</span>
-              </div>
-            )
-          })
-        }
+        {DEFINE_INFO.map((item) => {
+          return (
+            <div className="border-b border-solid flex flex-row justify-between items-center pb-2 w-full">
+              <label className="text-sm">{item.label}:</label>
+              <span className="text-gray-500 text-sm">{item.value}</span>
+            </div>
+          );
+        })}
       </div>
       <div className="flex flex-row justify-start items-start w-full flex-nowrap">
-        <Radio checked/>
+        <Radio checked />
         <span>
-          Tôi đã đọc và đồng ý với chính sách bản mật <Link to="/term" className="primary-color">(Chính sách bảo mật)</Link>
+          Tôi đã đọc và đồng ý với chính sách bản mật{" "}
+          <Link to="/term" className="primary-color">
+            (Chính sách bảo mật)
+          </Link>
         </span>
       </div>
-      <button className="primary-bg rounded-3xl p-3 text-center w-full flex justify-center item-center text-white">
+      <button
+        className="primary-bg rounded-3xl p-3 text-center w-full flex justify-center item-center text-white"
+        onClick={handleAccept}
+      >
         Nộp đơn vay
       </button>
     </div>

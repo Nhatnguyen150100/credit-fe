@@ -1,21 +1,37 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { setUser } from "../../../../lib/reducer/userSlice";
+import { IRootState } from "../../../../lib/store";
+import DEFINE_ROUTER from "../../../../constants/router-define";
+import { setLoanAmount } from "../../../../lib/reducer/loanApplicationSlice";
 
 export default function Setting() {
+  const user = useSelector((state: IRootState) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  if (!user._id) {
+    return <Navigate to={DEFINE_ROUTER.login} replace />;
+  }
+
   const handleLogout = () => {
     dispatch(setUser(undefined));
-    navigate("/login");
+    dispatch(setLoanAmount(null));
+    navigate("/login", {
+      replace: true,
+    });
   };
 
   return (
     <div className="w-screen d-flex flex-col justify-center items-start space-y-5">
-      <div className="w-full bg-white px-3 py-3 justify-start items-center space-x-5" onClick={() => {navigate(-1)}}>
+      <div
+        className="w-full bg-white px-3 py-3 justify-start items-center space-x-5"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
         <ArrowLeftOutlined />
         <span className="text-sm">Trở lại</span>
       </div>

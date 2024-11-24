@@ -29,17 +29,17 @@ const router = createBrowserRouter([
       },
       {
         path: DEFINE_ROUTER.paymentApplication,
-        element: <PaymentApplication />
+        element: <PaymentApplication />,
       },
       {
         path: DEFINE_ROUTER.my,
-        element: <Profile />
+        element: <Profile />,
       },
       {
         path: DEFINE_ROUTER.setting,
-        element: <Setting />
-      }
-    ]
+        element: <Setting />,
+      },
+    ],
   },
   {
     path: DEFINE_ROUTER.login,
@@ -49,17 +49,12 @@ const router = createBrowserRouter([
   {
     path: DEFINE_ROUTER.information,
     errorElement: <ErrorPage />,
-    Component: TheLayoutUser,
-    children: [
-      {
-        index: true,
-        element: <InformationDetail />,
-      },
-      {
-        path: DEFINE_ROUTER.payment,
-        element: <PaymentMethod />,
-      },
-    ]
+    element: <InformationDetail />,
+  },
+  {
+    path: DEFINE_ROUTER.payment,
+    errorElement: <ErrorPage />,
+    element: <PaymentMethod />,
   },
   {
     path: DEFINE_ROUTER.admin,
