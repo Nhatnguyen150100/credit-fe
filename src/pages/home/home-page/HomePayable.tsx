@@ -1,13 +1,11 @@
 import { Divider, message, Radio, Select } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { formatDate } from "../../../utils/day-format";
 import { formatCurrency } from "../../../utils/format-money";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
 import { setLoanAmount } from "../../../lib/reducer/loanApplicationSlice";
-import axiosRequest from "../../../plugins/request";
-import { IInfo } from "../../../types/info";
 import DEFINE_ROUTER from "../../../constants/router-define";
 
 const DEFINE_AMOUNT = [1500000, 5000000, 10000000];

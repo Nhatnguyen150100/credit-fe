@@ -1,4 +1,3 @@
-import * as React from "react";
 import HomePayable from "./HomePayable";
 import PaymentSolution from "./PaymentSolution";
 

@@ -1,4 +1,4 @@
-import { Button, List, message, Table, TableProps, Tooltip } from "antd";
+import { Button,  message } from "antd";
 import * as React from "react";
 import axiosRequest from "../../../plugins/request";
 import { toast } from "react-toast";
@@ -12,6 +12,7 @@ export default function PaymentMethod() {
   const [listBank, setListBank] = React.useState<IBank[]>([]);
   const user = useSelector((state: IRootState) => state.user);
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
+  console.log("🚀 ~ PaymentMethod ~ isMobile:", isMobile)
   const navigate = useNavigate();
 
   const handleGetBank = async () => {
@@ -36,65 +37,65 @@ export default function PaymentMethod() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        message.success("Sao chép số tài khoản thành công");
-      })
-      .catch(() => {
-        message.error("Sao chép số tài khoản thất bại");
-      });
-  };
+  // const copyToClipboard = (text: string) => {
+  //   navigator.clipboard
+  //     .writeText(text)
+  //     .then(() => {
+  //       message.success("Sao chép số tài khoản thành công");
+  //     })
+  //     .catch(() => {
+  //       message.error("Sao chép số tài khoản thất bại");
+  //     });
+  // };
 
-  const columns: TableProps<IBank>["columns"] = [
-    {
-      title: "Tên ngân hàng",
-      dataIndex: "name_bank",
-      key: "bankName",
-      render: (text) => (
-        <span className="text-xl font-bold uppercase">{text}</span>
-      ),
-    },
-    {
-      title: "Tên chủ tài khoản",
-      dataIndex: "name_account",
-      key: "accountName",
-      render: (text) => (
-        <span className="text-lg font-semibold uppercase">{text}</span>
-      ),
-    },
-    {
-      title: "Số tài khoản",
-      key: "accountNumber",
-      dataIndex: "account_number",
-      render: (text) => (
-        <Tooltip title="Nhấn để sao chép số tài khoản">
-          <span
-            className="text-lg font-semibold uppercase text-blue-500 hover:underline hover:text-blue-800 cursor-pointer"
-            onClick={() => {
-              copyToClipboard(text);
-            }}
-          >
-            {text}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      title: "QR code",
-      key: "qrUrl",
-      dataIndex: "qr_code_img",
-      render: (url) => (
-        <img
-          crossOrigin="anonymous"
-          className="h-[160px]"
-          alt="QR code"
-          src={url}
-        />
-      ),
-    },
-  ];
+  // const columns: TableProps<IBank>["columns"] = [
+  //   {
+  //     title: "Tên ngân hàng",
+  //     dataIndex: "name_bank",
+  //     key: "bankName",
+  //     render: (text) => (
+  //       <span className="text-xl font-bold uppercase">{text}</span>
+  //     ),
+  //   },
+  //   {
+  //     title: "Tên chủ tài khoản",
+  //     dataIndex: "name_account",
+  //     key: "accountName",
+  //     render: (text) => (
+  //       <span className="text-lg font-semibold uppercase">{text}</span>
+  //     ),
+  //   },
+  //   {
+  //     title: "Số tài khoản",
+  //     key: "accountNumber",
+  //     dataIndex: "account_number",
+  //     render: (text) => (
+  //       <Tooltip title="Nhấn để sao chép số tài khoản">
+  //         <span
+  //           className="text-lg font-semibold uppercase text-blue-500 hover:underline hover:text-blue-800 cursor-pointer"
+  //           onClick={() => {
+  //             copyToClipboard(text);
+  //           }}
+  //         >
+  //           {text}
+  //         </span>
+  //       </Tooltip>
+  //     ),
+  //   },
+  //   {
+  //     title: "QR code",
+  //     key: "qrUrl",
+  //     dataIndex: "qr_code_img",
+  //     render: (url) => (
+  //       <img
+  //         crossOrigin="anonymous"
+  //         className="h-[160px]"
+  //         alt="QR code"
+  //         src={url}
+  //       />
+  //     ),
+  //   },
+  // ];
 
   const handleCopy = async (textToCopy: string) => {
     try {

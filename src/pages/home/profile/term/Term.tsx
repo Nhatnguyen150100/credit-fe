@@ -1,5 +1,4 @@
 import { ArrowLeftOutlined, BugOutlined } from "@ant-design/icons";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Term() {

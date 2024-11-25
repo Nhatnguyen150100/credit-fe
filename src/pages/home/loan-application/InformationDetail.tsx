@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Empty, message, Modal, Spin, Table } from "antd";
+import { Button, Empty, message, Spin } from "antd";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "../../../plugins/request";
 import Visibility from "../../../components/visibility";

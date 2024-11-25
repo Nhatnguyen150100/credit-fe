@@ -1,4 +1,3 @@
-import * as React from "react";
 import { IInfo } from "../../../../types/info";
 import Visibility from "../../../../components/visibility";
 import { Button, Empty } from "antd";

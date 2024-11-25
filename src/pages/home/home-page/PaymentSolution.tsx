@@ -1,4 +1,3 @@
-import * as React from "react";
 import { formatCurrency } from "../../../utils/format-money";
 
 const DEFINE_ITEM = [

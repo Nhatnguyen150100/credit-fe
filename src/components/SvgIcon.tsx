@@ -8,7 +8,7 @@ interface SvgIconProps {
     color?: string; // Màu sắc cho icon
 }
 
-const SvgIcon: React.FC<SvgIconProps> = ({ src, alt, width = '24px', height = '24px', color = 'currentColor' }) => {
+const SvgIcon: React.FC<SvgIconProps> = ({ src, width = '24px', height = '24px', color = 'currentColor' }) => {
     const [svgContent, setSvgContent] = useState<string | null>(null);
 
     useEffect(() => {
