@@ -1,21 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
 import DEFINE_ROUTER from "../constants/router-define";
 import ErrorPage from "../pages/not-found";
-import App from "../App";
-import InformationDetail from "../pages/home/InformationDetail";
+import InformationDetail from "../pages/home/loan-application/InformationDetail";
 import AdminPage from "../pages/admin/AdminPage";
 import LoginAdminPage from "../pages/admin/LoginAdmin";
 import TheLayout from "../pages/admin/TheLayout";
 import NewInfo from "../pages/admin/Info/NewInfo";
 import EditInfo from "../pages/admin/Info/EditInfo";
-import TheLayoutUser from "../pages/home/TheLayoutUser";
-import PaymentMethod from "../pages/home/PaymentMethod";
+import PaymentMethod from "../pages/home/loan-application/PaymentMethod";
 import TheLayoutApp from "../pages/home/layout/TheLayoutApp";
 import HomePage from "../pages/home/home-page/HomePage";
 import PaymentApplication from "../pages/home/loan-application/PaymentApplication";
 import Profile from "../pages/home/profile/Profile";
 import Setting from "../pages/home/profile/setting/Setting";
 import LoginPage from "../pages/home/profile/login/LoginPage";
+import MyAccountBanking from "../pages/home/profile/account-banking/MyAccountBanking";
+import Term from "../pages/home/profile/term/Term";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +38,14 @@ const router = createBrowserRouter([
       {
         path: DEFINE_ROUTER.setting,
         element: <Setting />,
+      },
+      {
+        path: DEFINE_ROUTER.myBank,
+        element: <MyAccountBanking />,
+      },
+      {
+        path: DEFINE_ROUTER.term,
+        element: <Term />,
       },
     ],
   },

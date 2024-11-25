@@ -111,71 +111,73 @@ export default function LoginPage() {
   );
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col justify-start items-start w-screen p-3">
-      <div className="w-full flex justify-start items-center">
-        <ArrowLeftOutlined className="h-6 w-6" onClick={() => navigate(-1)} />
-      </div>
-      <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
-        <img
-          className="object-cover h-[100px] w-[100px]"
-          src="/cat-credit.jpg"
-        />
-        <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
-          <PhoneOutlined />
-          <input
-            className="outline-none w-full text-sm"
-            placeholder="Nhập số điện thoại để đăng nhập"
-            pattern="[0-9]*"
-            type="number"
-            inputMode="numeric"
-            value={phoneNumber}
-            onChange={(e) => {
-              setPhoneNumber(e.target.value);
-            }}
-          />
+    <div className="w-full flex justify-center items-center">
+      <div className="h-screen overflow-hidden flex flex-col justify-start items-start w-screen p-3 sm:max-w-[450px] sm:border">
+        <div className="w-full flex justify-start items-center">
+          <ArrowLeftOutlined className="h-6 w-6" onClick={() => navigate(-1)} />
         </div>
-        <Visibility visibility={isActive}>
+        <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
+          <img
+            className="object-cover h-[100px] w-[100px]"
+            src="/yoshi-credit.jpg"
+          />
           <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
-            <img className="h-5 w-5" src="/icon/otp-icon.png" alt="otp" />
+            <PhoneOutlined />
             <input
               className="outline-none w-full text-sm"
-              placeholder="Nhập OTP"
+              placeholder="Nhập số điện thoại để đăng nhập"
               pattern="[0-9]*"
-              maxLength={6}
               type="number"
               inputMode="numeric"
-              value={otpCode}
+              value={phoneNumber}
               onChange={(e) => {
-                setOtpCode(e.target.value);
+                setPhoneNumber(e.target.value);
               }}
             />
-            <span className="text-sm text-nowrap text-gray-600">
-              {formatTime(timeLeft)}
-            </span>
           </div>
-          <div className="w-full mt-3 flex flex-row justify-end items-center">
-            <span
-              className={`text-sm text-blue-600 underline`}
-              onClick={() => {
-                if (timeLeft >= 120) {
-                  message.error("Đợi còn 2 phút để gửi lại OTP");
-                  return;
-                }
-                handleSendOtp();
-                resetTimer();
-              }}
-            >
-              Gửi lại OTP
-            </span>
+          <Visibility visibility={isActive}>
+            <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
+              <img className="h-5 w-5" src="/icon/otp-icon.png" alt="otp" />
+              <input
+                className="outline-none w-full text-sm"
+                placeholder="Nhập OTP"
+                pattern="[0-9]*"
+                maxLength={6}
+                type="number"
+                inputMode="numeric"
+                value={otpCode}
+                onChange={(e) => {
+                  setOtpCode(e.target.value);
+                }}
+              />
+              <span className="text-sm text-nowrap text-gray-600">
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+            <div className="w-full mt-3 flex flex-row justify-end items-center">
+              <span
+                className={`text-sm text-blue-600 underline`}
+                onClick={() => {
+                  if (timeLeft >= 120) {
+                    message.error("Đợi còn 2 phút để gửi lại OTP");
+                    return;
+                  }
+                  handleSendOtp();
+                  resetTimer();
+                }}
+              >
+                Gửi lại OTP
+              </span>
+            </div>
+          </Visibility>
+          <Visibility visibility={!isActive} suspenseComponent={btnVerifyOtp}>
+            {btnLogin}
+          </Visibility>
+          <div className="mt-5 flex justify-center items-center">
+            <Link className="text-sm text-blue-600 underline" to={"/#"}>
+              Đăng kí / Đăng nhập bằng số điện thoại
+            </Link>
           </div>
-        </Visibility>
-        <Visibility visibility={!isActive} suspenseComponent={btnVerifyOtp}>
-          {btnLogin}
-        </Visibility>
-        <div className="mt-5 flex justify-center items-center">
-          <Link className="text-sm text-blue-600 underline" to={"/#"}>
-            Đăng kí / Đăng nhập bằng số điện thoại
-          </Link>
         </div>
       </div>
     </div>

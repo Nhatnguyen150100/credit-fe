@@ -12,7 +12,7 @@ export default function Result() {
   );
   const DEFINE_LIST_RESULTS = [
     {
-      logo: "/cat-credit.jpg",
+      logo: "/yoshi-credit.jpg",
       listItems: [
         {
           id: 1,
@@ -38,7 +38,7 @@ export default function Result() {
   ];
 
   return (
-    <div className="w-screen flex flex-col justify-start items-center space-y-3 bg-gray-100">
+    <div className="w-screen flex flex-col justify-start items-center space-y-3 bg-gray-100 sm:w-full">
       <Visibility
         visibility={loanApplication.loanAmount}
         suspenseComponent={<Empty description="Không có dữ liệu" />}

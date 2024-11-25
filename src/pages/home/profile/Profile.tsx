@@ -30,7 +30,7 @@ export default function Profile() {
   );
 
   return (
-    <div className="w-screen flex flex-col justify-start items-start">
+    <div className="w-screen flex flex-col justify-start items-start sm:w-full">
       <div className="bg-blue-700 w-full flex flex-col justify-center items-center h-[220px] space-y-3">
         <img className="h-[56px]" src="/user/user_default.png" />
         <Visibility visibility={user._id} suspenseComponent={LoginButton}>
@@ -46,7 +46,7 @@ export default function Profile() {
           {
             title: "Quản lý thẻ ngân hàng",
             icon: <CreditCardOutlined />,
-            path: "#",
+            path: DEFINE_ROUTER.myBank,
           },
           {
             title: "Trung tâm trợ giúp",
@@ -56,7 +56,7 @@ export default function Profile() {
           {
             title: "Chính sách bảo mật",
             icon: <BugOutlined />,
-            path: "#",
+            path: DEFINE_ROUTER.term,
           },
           {
             title: "Thiết lập",

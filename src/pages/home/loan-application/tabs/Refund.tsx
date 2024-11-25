@@ -15,13 +15,13 @@ interface IProps {
 export default function Refund({ userInfo }: IProps) {
   const navigate = useNavigate();
   return (
-    <div className="w-screen flex flex-col justify-start items-start space-y-3 bg-gray-100">
+    <div className="w-screen flex flex-col justify-start items-center space-y-3 bg-gray-100 sm:w-full">
       <Visibility
         visibility={userInfo?._id}
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
         <CommonElement
-          logo="/cat-credit.jpg"
+          logo="/yoshi-credit.jpg"
           listItem={[
             {
               id: 1,

@@ -53,7 +53,7 @@ export default function PaymentApplication() {
   }, [id]);
 
   return (
-    <div className="w-screen justify-center items-center flex flex-col">
+    <div className="w-screen justify-center items-center flex flex-col sm:w-full">
       <h3 className="bg-white w-full text-center pt-3">Đơn vay</h3>
       <div className="w-full bg-transparent">
         <Tabs
