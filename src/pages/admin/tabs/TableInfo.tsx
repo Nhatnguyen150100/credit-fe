@@ -29,7 +29,6 @@ import Visibility from "../../../components/visibility";
 import DEFINE_STATUS from "../../../constants/status";
 import InputSearch from "../../../components/InputSearch";
 import { TableRowSelection } from "antd/es/table/interface";
-import dayjs from "dayjs";
 
 export default function TableInfo() {
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
@@ -130,32 +129,32 @@ export default function TableInfo() {
     });
   };
 
-  const updateMultipleStatus = async () => {
-    Modal.confirm({
-      title: "Bạn có muốn kiểm tra và cập nhật toàn bộ dữ liệu và đánh dấu trạng thái \"Quá hạn\" cho toàn bộ dữ liệu",
-      okText: "Có",
-      okType: "primary",
-      cancelText: "Không",
-      style: {
-        top: "50%",
-        transform: "translateY(-50%)",
-      },
-      onOk: async () => {
-        try {
-          await axiosRequest.post(`/v1/information/update-multi-info`);
-          notification.success({
-            message: "Cập nhật thông tin thành công",
-          });
-          onGetListInfo();
-        } catch (error: any) {
-          notification.error({
-            message: "Cập nhật thông tin thất bại",
-            description: error.message,
-          });
-        }
-      },
-    });
-  };
+  // const updateMultipleStatus = async () => {
+  //   Modal.confirm({
+  //     title: "Bạn có muốn kiểm tra và cập nhật toàn bộ dữ liệu và đánh dấu trạng thái \"Quá hạn\" cho toàn bộ dữ liệu",
+  //     okText: "Có",
+  //     okType: "primary",
+  //     cancelText: "Không",
+  //     style: {
+  //       top: "50%",
+  //       transform: "translateY(-50%)",
+  //     },
+  //     onOk: async () => {
+  //       try {
+  //         await axiosRequest.post(`/v1/information/update-multi-info`);
+  //         notification.success({
+  //           message: "Cập nhật thông tin thành công",
+  //         });
+  //         onGetListInfo();
+  //       } catch (error: any) {
+  //         notification.error({
+  //           message: "Cập nhật thông tin thất bại",
+  //           description: error.message,
+  //         });
+  //       }
+  //     },
+  //   });
+  // };
 
   const columns: TableProps<IInfo>["columns"] = [
     {
