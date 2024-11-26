@@ -32,9 +32,9 @@ export default function Profile() {
     <div className="w-screen flex flex-col justify-start items-start sm:w-full">
       <div className="bg-blue-700 w-full flex flex-col justify-center items-center h-[220px] space-y-3">
         <img className="h-[56px]" src="/user/user_default.png" />
-        <Visibility visibility={user._id} suspenseComponent={LoginButton}>
+        <Visibility visibility={user?.phone_number} suspenseComponent={LoginButton}>
           <span className="text-sm text-white">
-            {maskNumber(user.phone_number)}
+            {maskNumber(user!.phone_number)}
           </span>
         </Visibility>
       </div>

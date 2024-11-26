@@ -19,7 +19,7 @@ export default function BottomBar() {
       path: DEFINE_ROUTER.paymentApplication,
       icon: "loan",
       handleClick: () => {
-        if (!user._id) {
+        if (!(user?._id || user?.phone_number)) {
           message.error("Đăng nhập để xem thông tin đơn vay");
           return;
         }

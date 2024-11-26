@@ -44,8 +44,11 @@ export default function LoginPage() {
       const rs = await axiosRequest.post("/v1/auth/login-user", {
         phoneNumber,
       });
+      // message.success(rs.data.message);
+      // startTimer();
       message.success(rs.data.message);
-      startTimer();
+      dispatch(setUser({...rs.data.data, phone_number: phoneNumber}));
+      navigate(DEFINE_ROUTER.home);
     } catch (error: any) {
       message.error(error.message);
     } finally {
@@ -65,7 +68,7 @@ export default function LoginPage() {
         otp: otpCode,
       });
       message.success(rs.data.message);
-      dispatch(setUser(rs.data.data.user));
+      dispatch(setUser({...rs.data.data.user, phone_number: phoneNumber}));
       cookiesStore.set("access_token", rs.data.data.accessToken);
       navigate(DEFINE_ROUTER.home);
     } finally {

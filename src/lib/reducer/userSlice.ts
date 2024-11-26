@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IInfo } from "../../types/info";
 
-const initialState: IInfo = {} as IInfo;
+const initialState: IInfo | null = {} as IInfo | null;
 
 export const userSlice = createSlice({
   name: "user",

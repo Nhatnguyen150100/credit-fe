@@ -9,11 +9,11 @@ import { IRootState } from "../../../lib/store";
 import axiosRequest from "../../../plugins/request";
 
 export default function PaymentApplication() {
-  const { _id: id } = useSelector((state: IRootState) => state.user);
+  const user = useSelector((state: IRootState) => state.user);
   const [userInfo, setUserInfo] = React.useState<IInfo>();
 
   const handleGetInfo = async () => {
-    const rs = await axiosRequest.get(`/v1/information/${id}`);
+    const rs = await axiosRequest.get(`/v1/information/${user?._id}`);
     const data = rs.data.data;
     setUserInfo(data);
   };
@@ -49,8 +49,8 @@ export default function PaymentApplication() {
   ];
 
   React.useEffect(() => {
-    if (id) handleGetInfo();
-  }, [id]);
+    if (user?._id) handleGetInfo();
+  }, [user?._id]);
 
   return (
     <div className="w-screen justify-center items-center flex flex-col sm:w-full">

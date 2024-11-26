@@ -12,6 +12,7 @@ const DEFINE_AMOUNT = [1500000, 5000000, 10000000];
 
 export default function HomePayable() {
   const user = useSelector((state: IRootState) => state.user);
+  console.log("🚀 ~ HomePayable ~ user:", user)
   const dispatch = useDispatch();
   const [payAmount, setPayAmount] = useState(DEFINE_AMOUNT[0]);
   const navigate = useNavigate();
@@ -36,11 +37,11 @@ export default function HomePayable() {
   ];
 
   const handleAccept = () => {
-    if (!user._id) {
+    if (!user?.phone_number) {
       message.error("Đăng nhập để nộp đơn vay");
       return;
     }
-    if (user.status !== "PAYED") {
+    if (user?.status !== "PAYED" && user?.status !== undefined) {
       message.error("Chỉ có thể nộp đơn vay khi đã trả khoản vay trước");
       return;
     }

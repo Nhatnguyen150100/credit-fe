@@ -12,7 +12,7 @@ export default function Setting() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  if (!user._id) {
+  if (!(user?._id || user?.phone_number )) {
     return <Navigate to={DEFINE_ROUTER.login} replace />;
   }
 
