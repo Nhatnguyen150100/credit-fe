@@ -43,8 +43,8 @@ export default function Result() {
         visibility={loanApplication.loanAmount}
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
-        {DEFINE_LIST_RESULTS.map((item) => (
-          <CommonElement logo={item.logo} listItem={item.listItems} />
+        {DEFINE_LIST_RESULTS.map((item, index) => (
+          <CommonElement key={index} logo={item.logo} listItem={item.listItems} />
         ))}
       </Visibility>
     </div>

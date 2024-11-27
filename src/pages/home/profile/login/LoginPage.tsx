@@ -1,13 +1,16 @@
-import { ArrowLeftOutlined, PhoneOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosRequest from "../../../../plugins/request";
-import cookiesStore from "../../../../plugins/cookiesStore";
 import Visibility from "../../../../components/visibility";
 import DEFINE_ROUTER from "../../../../constants/router-define";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../../lib/reducer/userSlice";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from "../../../../config/firebase.config";
 
 const TIME_EXPIRE_OTP = 3 * 60;
 
@@ -34,7 +37,74 @@ export default function LoginPage() {
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
 
-  const handleSendOtp = async () => {
+  function onCaptchVerify() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          defaultCountry: "VN",
+          callback: (_: any) => {
+            // handleSentOTP();
+          },
+          "expired-callback": () => {
+            console.log("Expired callback");
+          },
+        }
+      );
+    }
+  }
+
+  React.useEffect(() => {
+    onCaptchVerify();
+  }, []);
+
+  function isValidPhoneNumber(phone: string): boolean {
+    const phoneRegex =
+      /^\+?[0-9]{1,3}?[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,4}[-. ]?[0-9]{1,9}$/;
+    return phoneRegex.test(phone);
+  }
+
+  const handleSentOTP = async () => {
+    setLoading(true);
+    onCaptchVerify();
+
+    const appVerifier = window.recaptchaVerifier;
+
+    if (!appVerifier) {
+      message.error("ReCaptcha không hợp lệ");
+      return;
+    }
+
+    const formatPh = "+84" + Number(phoneNumber);
+    if (!isValidPhoneNumber(formatPh)) {
+      message.error("Số điện thoại không hợp lệ");
+      return;
+    }
+
+    try {
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        formatPh,
+        appVerifier
+      );
+      console.log(
+        "🚀 ~ handleSentOTP ~ confirmationResult:",
+        confirmationResult
+      );
+      window.confirmationResult = confirmationResult;
+      setLoading(false);
+      startTimer();
+      message.success("Gửi mã OTP thành công");
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+      message.error("Gửi OTP thất bại. Hãy thử lại sau");
+    }
+  };
+
+  const handleLogin = async () => {
     if (!phoneNumber) {
       message.error("Vui lòng nhập số điện thoại");
       return;
@@ -44,10 +114,8 @@ export default function LoginPage() {
       const rs = await axiosRequest.post("/v1/auth/login-user", {
         phoneNumber,
       });
-      // message.success(rs.data.message);
-      // startTimer();
       message.success(rs.data.message);
-      dispatch(setUser({...rs.data.data, phone_number: phoneNumber}));
+      dispatch(setUser({ ...rs.data.data, phone_number: phoneNumber }));
       navigate(DEFINE_ROUTER.home);
     } catch (error: any) {
       message.error(error.message);
@@ -57,20 +125,23 @@ export default function LoginPage() {
   };
 
   const handleVerifyOtp = async () => {
-    if (!(otpCode && phoneNumber)) {
-      message.error("Vui lòng nhập số điện thoại và OTP");
+    if (!otpCode) {
+      message.error("Vui lòng nhập OTP");
       return;
     }
+
+    if(otpCode.length !== 6) {
+      message.error("Mã OTP phải có 6 chữ số");
+      return;
+    }
+
     try {
       setLoading(true);
-      const rs = await axiosRequest.post("/v1/auth/verify-otp", {
-        phoneNumber,
-        otp: otpCode,
-      });
-      message.success(rs.data.message);
-      dispatch(setUser({...rs.data.data.user, phone_number: phoneNumber}));
-      cookiesStore.set("access_token", rs.data.data.accessToken);
-      navigate(DEFINE_ROUTER.home);
+      await window.confirmationResult.confirm(otpCode);
+      handleLogin();
+    } catch (error: any) {
+      console.log("🚀 ~ handleVerifyOtp ~ error:", error);
+      message.error("Xác nhận OTP thất bại. Hãy kiểm tra và thử lại");
     } finally {
       setLoading(false);
     }
@@ -96,7 +167,7 @@ export default function LoginPage() {
       className="w-full py-3 mt-5 h-[40px]"
       type="primary"
       loading={loading}
-      onClick={handleSendOtp}
+      onClick={handleSentOTP}
     >
       Đăng nhập
     </Button>
@@ -115,29 +186,34 @@ export default function LoginPage() {
 
   return (
     <div className="w-full flex justify-center items-center">
+      <div id="recaptcha-container"></div>
       <div className="h-screen overflow-hidden flex flex-col justify-start items-start w-screen p-3 sm:max-w-[450px] sm:border">
         <div className="w-full flex justify-start items-center">
           <ArrowLeftOutlined className="h-6 w-6" onClick={() => navigate(-1)} />
         </div>
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
           <img
-            className="object-cover h-[100px] w-[100px]"
+            className="object-cover h-[100px] w-[100px] mb-5"
             src="/yoshi-credit.jpg"
           />
-          <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
-            <PhoneOutlined />
-            <input
-              className="outline-none w-full text-sm"
-              placeholder="Nhập số điện thoại để đăng nhập"
-              pattern="[0-9]*"
-              type="number"
-              inputMode="numeric"
-              value={phoneNumber}
-              onChange={(e) => {
-                setPhoneNumber(e.target.value);
+          <Visibility visibility={!isActive}>
+            <PhoneInput
+              inputStyle={{
+                width: "100%",
               }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSentOTP();
+                }
+              }}
+              country={"vn"}
+              disableCountryCode
+              disableDropdown
+              value={phoneNumber}
+              onChange={setPhoneNumber}
+              placeholder="Số điện thoại"
             />
-          </div>
+          </Visibility>
           <Visibility visibility={isActive}>
             <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
               <img className="h-5 w-5" src="/icon/otp-icon.png" alt="otp" />
@@ -161,11 +237,11 @@ export default function LoginPage() {
               <span
                 className={`text-sm text-blue-600 underline`}
                 onClick={() => {
-                  if (timeLeft >= 120) {
-                    message.error("Đợi còn 2 phút để gửi lại OTP");
+                  if (timeLeft >= 60) {
+                    message.error("Đợi còn 1 phút để gửi lại OTP");
                     return;
                   }
-                  handleSendOtp();
+                  handleSentOTP();
                   resetTimer();
                 }}
               >
