@@ -7,11 +7,9 @@ import {
   InputNumber,
   Select,
 } from "antd";
-import React from "react";
 import { IInfo } from "../../../types/info";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "react-toast";
-import ImgUpload from "../../../components/ImgUpload";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -39,20 +37,20 @@ export default function InfoComponentCommon({
   handleSubmit,
 }: Props) {
   const navigate = useNavigate();
-  const [files, setFiles] = React.useState<{
-    userTakeIdImg: File | undefined;
-    fontEndImg: File | undefined;
-    backEndImg: File | undefined;
-  }>();
-  const [imgCCCD, setImgCCCD] = React.useState<{
-    userTakeIdImg: string | null;
-    fontEndImg: string | null;
-    backEndImg: string | null;
-  }>({
-    userTakeIdImg: infoProps?.user_take_id_img ?? null,
-    fontEndImg: infoProps?.front_end_user_id_img ?? null,
-    backEndImg: infoProps?.back_end_user_id_img ?? null,
-  });
+  // const [files, setFiles] = React.useState<{
+  //   userTakeIdImg: File | undefined;
+  //   fontEndImg: File | undefined;
+  //   backEndImg: File | undefined;
+  // }>();
+  // const [imgCCCD, setImgCCCD] = React.useState<{
+  //   userTakeIdImg: string | null;
+  //   fontEndImg: string | null;
+  //   backEndImg: string | null;
+  // }>({
+  //   userTakeIdImg: infoProps?.user_take_id_img ?? null,
+  //   fontEndImg: infoProps?.front_end_user_id_img ?? null,
+  //   backEndImg: infoProps?.back_end_user_id_img ?? null,
+  // });
   const [form] = Form.useForm();
 
   const onStatusChange = (value: string) => {
@@ -103,10 +101,10 @@ export default function InfoComponentCommon({
     );
     formData.append("amount_payable", data.amount_payable.toString());
     formData.append("status", data.status);
-    if (files?.userTakeIdImg)
-      formData.append("userTakeIdImg", files.userTakeIdImg!);
-    if (files?.fontEndImg) formData.append("frontEndImg", files.fontEndImg!);
-    if (files?.backEndImg) formData.append("backEndImg", files.backEndImg!);
+    // if (files?.userTakeIdImg)
+    //   formData.append("userTakeIdImg", files.userTakeIdImg!);
+    // if (files?.fontEndImg) formData.append("frontEndImg", files.fontEndImg!);
+    // if (files?.backEndImg) formData.append("backEndImg", files.backEndImg!);
     handleSubmit(formData);
   };
 
