@@ -45,24 +45,40 @@ export default function InformationDetail() {
 
   const DEFINE_TABLE_INFO = [
     {
+      label: "Họ tên",
+      value: userInfo?.name
+    },
+    {
+      label: "Số CCCD",
+      value: userInfo?.user_id
+    },
+    {
+      label: "Tài khoản nhận tiền",
+      value: userInfo?.receiving_account_number
+    },
+    {
+      label: "Ngân hàng",
+      value: userInfo?.bank_name
+    },
+    {
       label: "Thời gian nộp đơn",
       value: formatDate(userInfo?.loan_date ?? "", "DD-MM-YYYY"),
     },
     {
-      label: "Số tiền cần vay",
+      label: "Số tiền giải ngân",
       value: formatCurrency(userInfo?.loan_amount ?? 0),
     },
     {
       label: "Kì hạn xin vay tiền",
-      value: dayjs().diff(userInfo?.date_payable, 'day'),
+      value: "7 ngày",
     },
     {
       label: "Số tiền đến hạn thanh toán",
-      value: formatCurrency(userInfo?.loan_amount ?? 0),
+      value: formatCurrency(userInfo?.amount_payable ?? 0),
     },
     {
       label: "Phí quá hạn vay",
-      value: formatCurrency((userInfo?.amount_payable ?? 0) - (userInfo?.loan_amount ?? 0)),
+      value: formatCurrency(0),
     },
     {
       label: "Tổng số tiền cần hoàn trả",
@@ -88,7 +104,7 @@ export default function InformationDetail() {
               </span>
               <PhoneOutlined className="text-white" />
             </div>
-            <div className="flex w-full flex-col justify-start items-center">
+            <div className="flex w-full flex-col justify-start items-center pb-10">
               <div className="h-[160px] w-full bg-blue-700 relative">
                 <div className="w-full absolute top-10 flex justify-center items-center">
                   <div className="rounded-lg w-[90vw] bg-white p-5 flex flex-col justify-start items-center space-y-5 sm:w-[380px]">

@@ -161,7 +161,7 @@ export default function InfoComponentCommon({
             <Input />
           </Form.Item>
 
-          <Form.Item<any>
+          {/* <Form.Item<any>
             label={
               <div className="flex flex-row justify-between items-center space-x-1">
                 <span className="text-sm">Ảnh khách hàng cầm CCCD</span>
@@ -201,7 +201,7 @@ export default function InfoComponentCommon({
                 setImgCCCD((pre: any) => ({ ...pre, fontEndImg: null }));
               }}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           {/* <Form.Item<any>
             label={
@@ -295,7 +295,7 @@ export default function InfoComponentCommon({
             />
           </Form.Item>
 
-          <Form.Item<FieldType>
+          {/* <Form.Item<FieldType>
             label="Địa chỉ chỗ ở"
             name="address"
             rules={[{ required: true, message: "Hãy nhập địa chỉ khách hàng" }]}
@@ -309,7 +309,7 @@ export default function InfoComponentCommon({
             rules={[{ required: true, message: "Hãy nhập tên công ty" }]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item<FieldType>
             label="Trạng thái"

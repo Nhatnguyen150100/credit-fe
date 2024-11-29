@@ -62,6 +62,11 @@ export default function LoginAdminPage() {
                             type="text"
                             placeholder="User name"
                             className="mb-4"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                onHandleSubmit();
+                              }
+                            }}
                             value={form.userName}
                             onChange={(e) => {
                               setForm((pre) => ({
@@ -74,6 +79,11 @@ export default function LoginAdminPage() {
                             type="password"
                             placeholder="Password"
                             className="mb-4"
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                onHandleSubmit();
+                              }
+                            }}
                             value={form.password}
                             onChange={(e: any) => {
                               setForm((pre) => ({
