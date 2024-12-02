@@ -24,8 +24,8 @@ type FieldType = {
   loan_amount: number;
   loan_date: Dayjs;
   receiving_account_number: string;
-  address: string;
-  company: string;
+  address: string | undefined;
+  company: string | undefined;
   date_payable: Dayjs;
   amount_payable: number;
   bank_name: string;
@@ -36,6 +36,7 @@ export default function InfoComponentCommon({
   infoProps,
   handleSubmit,
 }: Props) {
+  console.log("🚀 ~ infoProps:", infoProps)
   const navigate = useNavigate();
   // const [files, setFiles] = React.useState<{
   //   userTakeIdImg: File | undefined;
@@ -93,8 +94,8 @@ export default function InfoComponentCommon({
     formData.append("loan_date", data.loan_date.toString());
     formData.append("receiving_account_number", data.receiving_account_number);
     formData.append("bank_name", data.bank_name);
-    formData.append("address", data.address);
-    formData.append("company", data.company);
+    if(data.address) formData.append("address", data.address);
+    if(data.company) formData.append("company", data.company);
     formData.append(
       "date_payable",
       data.date_payable ? data.date_payable.toString() : ""
