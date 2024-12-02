@@ -36,7 +36,6 @@ export default function InfoComponentCommon({
   infoProps,
   handleSubmit,
 }: Props) {
-  console.log("🚀 ~ infoProps:", infoProps)
   const navigate = useNavigate();
   // const [files, setFiles] = React.useState<{
   //   userTakeIdImg: File | undefined;
