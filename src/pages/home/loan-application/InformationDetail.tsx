@@ -91,9 +91,8 @@ export default function InformationDetail() {
         visibility={Boolean(userInfo)}
         suspenseComponent={loading ? <Spin /> : <Empty />}
       >
-        <div className="w-full flex justify-center items-center">
-          <div className="h-screen overflow-y-auto w-screen flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
-            <div className="py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
+        <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
+            <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
               <ArrowLeftOutlined
                 className="text-white"
                 onClick={() => navigate(-1)}
@@ -184,7 +183,6 @@ export default function InformationDetail() {
               </p>
             </div>
           </div>
-        </div>
       </Visibility>
     </>
   );

@@ -12,7 +12,6 @@ const DEFINE_AMOUNT = [1500000, 5000000, 10000000];
 
 export default function HomePayable() {
   const user = useSelector((state: IRootState) => state.user);
-  console.log("🚀 ~ HomePayable ~ user:", user)
   const dispatch = useDispatch();
   const [payAmount, setPayAmount] = useState(DEFINE_AMOUNT[0]);
   const navigate = useNavigate();

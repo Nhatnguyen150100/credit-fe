@@ -38,7 +38,7 @@ export default function Setting() {
       <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[120px]">
         <div className="flex flex-col justify-start items-center w-full space-y-3">
           <img className="h-[56px]" src="/yoshi-credit.jpg" alt="logo" />
-          <h2 className="text-lg">Cat credit</h2>
+          <h2 className="text-lg">Yoshi credit</h2>
           <h2 className="text-lg">V1.6.0</h2>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
 import maskNumber from "../../../utils/mask_number";
@@ -11,10 +11,17 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import DEFINE_ROUTER from "../../../constants/router-define";
+import { useEffect } from "react";
+import { setFirstVisit } from "../../../lib/reducer/generalSlice";
 
 export default function Profile() {
   const user = useSelector((state: IRootState) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setFirstVisit(false));
+  }, [])
 
   const LoginButton = (
     <Button
@@ -29,7 +36,7 @@ export default function Profile() {
   );
 
   return (
-    <div className="w-screen flex flex-col justify-start items-start sm:w-full">
+    <div className="w-full flex flex-col justify-start items-start">
       <div className="bg-blue-700 w-full flex flex-col justify-center items-center h-[220px] space-y-3">
         <img className="h-[56px]" src="/user/user_default.png" />
         <Visibility visibility={user?.phone_number} suspenseComponent={LoginButton}>
