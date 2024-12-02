@@ -1,14 +1,13 @@
-import { useSelector } from "react-redux";
 import HomePayable from "./HomePayable";
 import PaymentSolution from "./PaymentSolution";
-import { IRootState } from "../../../lib/store";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import DEFINE_ROUTER from "../../../constants/router-define";
 
 export default function HomePage() {
-  const firstVisit = useSelector((state: IRootState) => state.general.firstVisit);
+  const [searchParams] = useSearchParams();
 
-  if(firstVisit) {
+  console.log("🚀 ~ HomePage ~ searchParams", searchParams.get("noRedirect"))
+  if(!searchParams.get("noRedirect")) {
     return <Navigate to={DEFINE_ROUTER.my} replace/>;
   }
 

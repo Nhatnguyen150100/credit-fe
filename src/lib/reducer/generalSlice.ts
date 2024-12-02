@@ -3,9 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import DEFINE_TAB from "../../constants/tab";
 
-const initialState: { tab: TTab, firstVisit: boolean } = {
-  tab: DEFINE_TAB.HOME,
-  firstVisit: true
+const initialState: { tab: TTab } = {
+  tab: DEFINE_TAB.HOME
 };
 
 export const generalSlice = createSlice({
@@ -16,14 +15,10 @@ export const generalSlice = createSlice({
       state = { ...state, tab: action.payload };
       return state;
     },
-    setFirstVisit: (state, action: PayloadAction<boolean>) => {
-      state = { ...state, firstVisit: action.payload };
-      return state;
-    },
   },
 });
 
-export const { setTab, setFirstVisit } = generalSlice.actions;
+export const { setTab } = generalSlice.actions;
 
 const generalReducer = generalSlice.reducer;
 

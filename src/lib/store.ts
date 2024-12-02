@@ -8,12 +8,13 @@ import loanApplicationReducer from "./reducer/loanApplicationSlice";
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ['general']
 };
 
 const rootReducer = combineReducers({
   user: userReducer,
   general: generalReducer,
-  loanApplication: loanApplicationReducer,
+  loanApplication: loanApplicationReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

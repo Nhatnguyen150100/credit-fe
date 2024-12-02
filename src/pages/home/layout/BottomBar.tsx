@@ -13,6 +13,9 @@ export default function BottomBar() {
       label: "Trang chủ",
       path: DEFINE_ROUTER.home,
       icon: "home",
+      handleClick: () => {
+        window.location.href = `${DEFINE_ROUTER.home}?noRedirect=true`;
+      },
     },
     {
       label: "Đơn vay",

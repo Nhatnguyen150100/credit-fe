@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
 import maskNumber from "../../../utils/mask_number";
@@ -11,17 +11,10 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import DEFINE_ROUTER from "../../../constants/router-define";
-import { useEffect } from "react";
-import { setFirstVisit } from "../../../lib/reducer/generalSlice";
 
 export default function Profile() {
   const user = useSelector((state: IRootState) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setFirstVisit(false));
-  }, [])
 
   const LoginButton = (
     <Button
