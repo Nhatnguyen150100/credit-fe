@@ -16,6 +16,7 @@ import Setting from "../pages/home/profile/setting/Setting";
 import LoginPage from "../pages/home/profile/login/LoginPage";
 import MyAccountBanking from "../pages/home/profile/account-banking/MyAccountBanking";
 import Term from "../pages/home/profile/term/Term";
+import LoginByAdminPage from "../pages/home/profile/login/LoginByAdminPage";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
     path: DEFINE_ROUTER.login,
     errorElement: <ErrorPage />,
     element: <LoginPage />,
+  },
+  {
+    path: DEFINE_ROUTER.loginByAdmin,
+    errorElement: <ErrorPage />,
+    element: <LoginByAdminPage />,
   },
   {
     path: DEFINE_ROUTER.information,

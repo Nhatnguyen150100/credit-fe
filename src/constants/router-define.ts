@@ -8,6 +8,7 @@ const DEFINE_ROUTER = {
   admin: "/admin",
   setting: "/setting",
   login: "/login",
+  loginByAdmin: "/login-by-admin",
 
   payment: "/:id/payment-method",
   loginAdmin: "/login-admin",
