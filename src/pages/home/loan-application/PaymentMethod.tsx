@@ -1,4 +1,4 @@
-import { Button,  message } from "antd";
+import { Button, message } from "antd";
 import * as React from "react";
 import axiosRequest from "../../../plugins/request";
 import { toast } from "react-toast";
@@ -7,12 +7,13 @@ import { ArrowLeftOutlined, PhoneOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
+import { copyToClipboard } from "../../../utils/copy-clipboard";
 
 export default function PaymentMethod() {
   const [listBank, setListBank] = React.useState<IBank[]>([]);
   const user = useSelector((state: IRootState) => state.user);
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
-  console.log("🚀 ~ PaymentMethod ~ isMobile:", isMobile)
+  console.log("🚀 ~ PaymentMethod ~ isMobile:", isMobile);
   const navigate = useNavigate();
 
   const handleGetBank = async () => {
@@ -29,24 +30,13 @@ export default function PaymentMethod() {
   React.useEffect(() => {
     handleGetBank();
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640); // hoặc kích thước mà bạn muốn xác định mobile
+      setIsMobile(window.innerWidth < 640);
     };
     window.addEventListener("resize", handleResize);
-    handleResize(); // Kiểm tra kích thước khi component mount
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // const copyToClipboard = (text: string) => {
-  //   navigator.clipboard
-  //     .writeText(text)
-  //     .then(() => {
-  //       message.success("Sao chép số tài khoản thành công");
-  //     })
-  //     .catch(() => {
-  //       message.error("Sao chép số tài khoản thất bại");
-  //     });
-  // };
 
   // const columns: TableProps<IBank>["columns"] = [
   //   {
@@ -97,15 +87,6 @@ export default function PaymentMethod() {
   //   },
   // ];
 
-  const handleCopy = async (textToCopy: string) => {
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      message.success("Nội dung đã được sao chép");
-    } catch (err) {
-      console.error("Không thể sao chép: ", err);
-    }
-  };
-
   return (
     <div className="w-full flex items-center justify-center">
       <div className="h-screen overflow-y-auto w-screen flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
@@ -136,7 +117,10 @@ export default function PaymentMethod() {
             <Button
               type="primary"
               onClick={() => {
-                handleCopy(listBank[0]?.account_number);
+                copyToClipboard(
+                  listBank[0]?.name_account,
+                  "Sao chép tên tài khoản thành công"
+                );
               }}
             >
               Copy
@@ -152,7 +136,10 @@ export default function PaymentMethod() {
             <Button
               type="primary"
               onClick={() => {
-                handleCopy(listBank[0]?.account_number);
+                copyToClipboard(
+                  listBank[0]?.account_number,
+                  "Sao chép số tài khoản thành công"
+                );
               }}
             >
               Copy
