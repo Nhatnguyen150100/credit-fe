@@ -21,11 +21,6 @@ export default function PaymentApplication() {
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: <span className="text-xs">Kết quả xét duyệt</span>,
-      children: <Result />,
-    },
-    {
-      key: "2",
       label: <span className="text-xs">Đang đợi hoàn trả</span>,
       children: (
         <Refund
@@ -34,6 +29,11 @@ export default function PaymentApplication() {
           }
         />
       ),
+    },
+    {
+      key: "2",
+      label: <span className="text-xs">Kết quả xét duyệt</span>,
+      children: <Result />,
     },
     {
       key: "3",
