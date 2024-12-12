@@ -14,6 +14,66 @@
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.lato-thin {
+  font-family: "Lato", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: "Lato", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.lato-thin-italic {
+  font-family: "Lato", serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.lato-light-italic {
+  font-family: "Lato", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.lato-regular-italic {
+  font-family: "Lato", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.lato-bold-italic {
+  font-family: "Lato", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.lato-black-italic {
+  font-family: "Lato", serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -25,17 +85,36 @@ body {
 .custom-shape {
   padding: 20px; /* Khoảng cách bên trong */
   color: white; /* Màu chữ */
-  clip-path: polygon(0 0, 100% 0, 100% 20%, 100% 80%, 69% 94%, 26% 94%, 0% 80%, 0% 20%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 20%,
+    100% 80%,
+    69% 94%,
+    26% 94%,
+    0% 80%,
+    0% 20%
+  );
   border-bottom-left-radius: 50px; /* Độ cong cho góc dưới bên trái */
   border-bottom-right-radius: 50px; /* Độ cong cho góc dưới bên phải */
 }
 
 .primary-color {
-  color: #9568ff;
+  color: green;
 }
 
 .primary-bg {
-  background-color: #9568ff;
+  background-color: green;
+}
+
+:where(.css-dev-only-do-not-override-1hpnbz2).ant-slider:hover
+  .ant-slider-handle::after {
+  box-shadow: 0 0 0 2px green !important;
+}
+
+:where(.css-dev-only-do-not-override-1hpnbz2).ant-slider
+  .ant-slider-handle::after {
+  box-shadow: 0 0 0 2px green !important;
 }
 
 @tailwind base;
