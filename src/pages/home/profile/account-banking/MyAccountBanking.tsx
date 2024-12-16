@@ -9,7 +9,7 @@ export default function MyAccountBanking() {
 
   return (
     <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
-      <div className="py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
+      <div className="py-3 px-4 flex justify-between items-center w-full primary-bg border-b border-white">
         <ArrowLeftOutlined
           className="text-white"
           onClick={() => navigate(-1)}

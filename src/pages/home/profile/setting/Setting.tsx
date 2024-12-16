@@ -35,16 +35,18 @@ export default function Setting() {
         <ArrowLeftOutlined />
         <span className="text-sm">Trở lại</span>
       </div>
-      <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[120px]">
-        <div className="flex flex-col justify-start items-center w-full space-y-3">
-          <img className="h-[56px]" src="/yoshi-credit.jpg" alt="logo" />
-          <h2 className="text-lg">Yoshi credit</h2>
+      <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[80px]">
+        <div className="flex flex-col justify-start items-center w-full space-y-2">
+          {/* <img className="h-[56px]" src="/yoshi-credit.jpg" alt="logo" /> */}
+          <h1 className="text-2xl md:text-7xl font-bold primary-color mb-2">
+            SKYLIMIT CREDIT
+          </h1>
           <h2 className="text-lg">V1.6.0</h2>
         </div>
       </div>
       <div className="flex flex-row px-5 justify-center items-center">
         <Button
-          className="w-[220px] py-2"
+          className="w-[220px] py-2 primary-bg"
           type="primary"
           variant="solid"
           onClick={handleLogout}

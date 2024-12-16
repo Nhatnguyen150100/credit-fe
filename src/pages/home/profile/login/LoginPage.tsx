@@ -130,7 +130,7 @@ export default function LoginPage() {
       return;
     }
 
-    if(otpCode.length !== 6) {
+    if (otpCode.length !== 6) {
       message.error("Mã OTP phải có 6 chữ số");
       return;
     }
@@ -164,7 +164,7 @@ export default function LoginPage() {
 
   const btnLogin = (
     <Button
-      className="w-full py-3 mt-5 h-[40px]"
+      className="w-full py-3 mt-5 h-[40px] primary-bg"
       type="primary"
       loading={loading}
       onClick={handleSentOTP}
@@ -175,7 +175,7 @@ export default function LoginPage() {
 
   const btnVerifyOtp = (
     <Button
-      className="w-full py-3 mt-5 h-[40px]"
+      className="w-full py-3 mt-5 h-[40px] primary-bg"
       type="primary"
       loading={loading}
       onClick={handleVerifyOtp}
@@ -192,10 +192,13 @@ export default function LoginPage() {
           <ArrowLeftOutlined className="h-6 w-6" onClick={() => navigate(-1)} />
         </div>
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
-          <img
+          {/* <img
             className="object-cover h-[100px] w-[100px] mb-5"
             src="/yoshi-credit.jpg"
-          />
+          /> */}
+          <h1 className="text-2xl md:text-7xl font-bold primary-color mb-5">
+            SKYLIMIT CREDIT
+          </h1>
           <Visibility visibility={!isActive}>
             <PhoneInput
               inputStyle={{

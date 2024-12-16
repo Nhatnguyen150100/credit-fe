@@ -50,7 +50,7 @@ export default function Repayment({ userInfo }: IProps) {
             <Button
               type="primary"
               variant="filled"
-              className="rounded-md py-2 w-full"
+              className="rounded-md py-2 w-full primary-bg"
               onClick={() => navigate(DEFINE_ROUTER.home)}
             >
               Mượn cái khác

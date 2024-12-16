@@ -1,7 +1,15 @@
-import { Divider, Slider } from "antd";
+import { Divider, message, Slider } from "antd";
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../../lib/store";
+import { setLoanAmount } from "../../../lib/reducer/loanApplicationSlice";
+import { useNavigate } from "react-router-dom";
+import DEFINE_ROUTER from "../../../constants/router-define";
 
 export default function LoanSection() {
+  const user = useSelector((state: IRootState) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [count, setCount] = React.useState(2000000);
   const [day, setDay] = React.useState(180);
 
@@ -83,6 +91,20 @@ export default function LoanSection() {
     }
   }, [count]);
 
+  const handleAccept = () => {
+    if (!user?.phone_number) {
+      message.error("Đăng nhập để nộp đơn vay");
+      return;
+    }
+    if (user?.status !== "PAYED" && user?.status !== undefined) {
+      message.error("Chỉ có thể nộp đơn vay khi đã trả khoản vay trước");
+      return;
+    }
+    dispatch(setLoanAmount(count));
+    message.success("Nộp đơn vay thành công");
+    navigate(DEFINE_ROUTER.paymentApplication);
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-screen">
       <div className="w-[93vw] bg-white rounded-lg shadow relative flex flex-col justify-start items-center px-3 pb-3">
@@ -150,7 +172,7 @@ export default function LoanSection() {
         </div>
       </div>
 
-      <button className="w-[93vw] py-3 text-white text-center bg-green-700 rounded-3xl mt-5">
+      <button className="w-[93vw] py-3 text-white text-center bg-green-700 rounded-3xl mt-5" onClick={handleAccept}>
         Gửi yêu cầu
       </button>
     </div>

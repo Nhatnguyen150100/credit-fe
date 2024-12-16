@@ -3,6 +3,7 @@ import DEFINE_ROUTER from "../../../constants/router-define";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
 import { message } from "antd";
+import isChildUrl from "../../../utils/check-active-router";
 
 export default function BottomBar() {
   const user = useSelector((state: IRootState) => state.user);
@@ -10,7 +11,7 @@ export default function BottomBar() {
 
   const LIST_TAB = [
     {
-      label: "Trang chủ",
+      label: "Khoản vay",
       path: DEFINE_ROUTER.home,
       icon: "home",
       handleClick: () => {
@@ -18,7 +19,7 @@ export default function BottomBar() {
       },
     },
     {
-      label: "Đơn vay",
+      label: "Đơn hàng",
       path: DEFINE_ROUTER.paymentApplication,
       icon: "loan",
       handleClick: () => {
@@ -39,7 +40,7 @@ export default function BottomBar() {
   return (
     <div className="py-1 bg-white border-b border-solid flex flex-row justify-evenly items-end w-full mb-1 shadow-lg">
       {LIST_TAB.map((item) => {
-        const isActive = item.path === location.pathname;
+        const isActive = isChildUrl(item.path, location.pathname);
         return (
           <div
             key={item.label}

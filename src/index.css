@@ -117,6 +117,22 @@ body {
   box-shadow: 0 0 0 2px green !important;
 }
 
+:where(.css-dev-only-do-not-override-1hpnbz2).ant-tabs
+  > .ant-tabs-nav
+  .ant-tabs-nav-list,
+:where(.css-dev-only-do-not-override-1hpnbz2).ant-tabs
+  > div
+  > .ant-tabs-nav
+  .ant-tabs-nav-list {
+  display: block;
+}
+
+:where(.css-dev-only-do-not-override-1hpnbz2).ant-tabs
+  .ant-tabs-tab.ant-tabs-tab-active
+  .ant-tabs-tab-btn {
+  color: green !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

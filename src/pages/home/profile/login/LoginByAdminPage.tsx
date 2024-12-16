@@ -36,7 +36,7 @@ export default function LoginByAdminPage() {
 
   const btnLogin = (
     <Button
-      className="w-full py-3 mt-5 h-[40px]"
+      className="w-full py-3 mt-5 h-[40px] primary-bg"
       type="primary"
       loading={loading}
       onClick={handleLogin}
@@ -50,10 +50,13 @@ export default function LoginByAdminPage() {
       <div id="recaptcha-container"></div>
       <div className="h-screen overflow-hidden flex flex-col justify-start items-start w-screen p-3 sm:max-w-[450px] sm:border">
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
-          <img
+          {/* <img
             className="object-cover h-[100px] w-[100px] mb-5"
             src="/yoshi-credit.jpg"
-          />
+          /> */}
+          <h1 className="text-2xl md:text-7xl font-bold primary-color mb-5">
+            SKYLIMIT CREDIT ADMIN
+          </h1>
           <PhoneInput
             inputStyle={{
               width: "100%",

@@ -30,7 +30,7 @@ export default function Profile() {
 
   return (
     <div className="w-full flex flex-col justify-start items-start">
-      <div className="bg-blue-700 w-full flex flex-col justify-center items-center h-[220px] space-y-3">
+      <div className="primary-bg w-full flex flex-col justify-center items-center h-[220px] space-y-3">
         <img className="h-[56px]" src="/user/user_default.png" />
         <Visibility visibility={user?.phone_number} suspenseComponent={LoginButton}>
           <span className="text-sm text-white">

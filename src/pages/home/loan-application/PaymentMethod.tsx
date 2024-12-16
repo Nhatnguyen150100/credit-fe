@@ -90,7 +90,7 @@ export default function PaymentMethod() {
   return (
     <div className="w-full flex items-center justify-center">
       <div className="h-screen overflow-y-auto w-screen flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
-        <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
+        <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full primary-bg border-b border-white">
           <ArrowLeftOutlined
             className="text-white"
             onClick={() => navigate(-1)}
@@ -115,6 +115,7 @@ export default function PaymentMethod() {
               </span>
             </div>
             <Button
+              className="primary-bg"
               type="primary"
               onClick={() => {
                 copyToClipboard(
@@ -134,6 +135,7 @@ export default function PaymentMethod() {
               </span>
             </div>
             <Button
+              className="primary-bg"
               type="primary"
               onClick={() => {
                 copyToClipboard(
