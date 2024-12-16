@@ -1,6 +1,6 @@
 #root {
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: hidden;
   margin: 0 auto;
   text-align: center;
 }

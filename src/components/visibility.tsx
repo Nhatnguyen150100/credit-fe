@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface IVisibilityProps {
-  visibility: boolean;
+  visibility: unknown;
   children: React.ReactNode;
   boundaryComponent?: boolean;
   suspenseComponent?: React.JSX.Element |  null

@@ -1,0 +1,1 @@
+export type TTab = 'HOME' | 'LOAN_APPLICATION' | 'PROFILE'

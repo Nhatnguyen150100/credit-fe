@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import cookiesStore from "./cookiesStore";
+import { message } from "antd";
 
 const API_URL: string | undefined = import.meta.env.VITE_BASE_URL;
 
@@ -25,6 +26,10 @@ const onFulFillResponse = (
 const onRejectResponse = (error: any) => {
   const { data, status } = error.response;
 
+  if (status === 400) {
+    message.error(data.message);
+  }
+
   if (status === 401 || data.status === 403) {
     cookiesStore.remove("access_token");
     axiosRequest.defaults.headers.common["Authorization"] = "";
@@ -46,3 +51,4 @@ axiosRequest.interceptors.request.use((config) => {
 });
 
 export default axiosRequest;
+

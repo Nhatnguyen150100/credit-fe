@@ -7,11 +7,9 @@ import {
   InputNumber,
   Select,
 } from "antd";
-import React from "react";
 import { IInfo } from "../../../types/info";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "react-toast";
-import ImgUpload from "../../../components/ImgUpload";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -26,8 +24,8 @@ type FieldType = {
   loan_amount: number;
   loan_date: Dayjs;
   receiving_account_number: string;
-  address: string;
-  company: string;
+  address: string | undefined;
+  company: string | undefined;
   date_payable: Dayjs;
   amount_payable: number;
   bank_name: string;
@@ -39,20 +37,20 @@ export default function InfoComponentCommon({
   handleSubmit,
 }: Props) {
   const navigate = useNavigate();
-  const [files, setFiles] = React.useState<{
-    userTakeIdImg: File | undefined;
-    fontEndImg: File | undefined;
-    backEndImg: File | undefined;
-  }>();
-  const [imgCCCD, setImgCCCD] = React.useState<{
-    userTakeIdImg: string | null;
-    fontEndImg: string | null;
-    backEndImg: string | null;
-  }>({
-    userTakeIdImg: infoProps?.user_take_id_img ?? null,
-    fontEndImg: infoProps?.front_end_user_id_img ?? null,
-    backEndImg: infoProps?.back_end_user_id_img ?? null,
-  });
+  // const [files, setFiles] = React.useState<{
+  //   userTakeIdImg: File | undefined;
+  //   fontEndImg: File | undefined;
+  //   backEndImg: File | undefined;
+  // }>();
+  // const [imgCCCD, setImgCCCD] = React.useState<{
+  //   userTakeIdImg: string | null;
+  //   fontEndImg: string | null;
+  //   backEndImg: string | null;
+  // }>({
+  //   userTakeIdImg: infoProps?.user_take_id_img ?? null,
+  //   fontEndImg: infoProps?.front_end_user_id_img ?? null,
+  //   backEndImg: infoProps?.back_end_user_id_img ?? null,
+  // });
   const [form] = Form.useForm();
 
   const onStatusChange = (value: string) => {
@@ -95,18 +93,18 @@ export default function InfoComponentCommon({
     formData.append("loan_date", data.loan_date.toString());
     formData.append("receiving_account_number", data.receiving_account_number);
     formData.append("bank_name", data.bank_name);
-    formData.append("address", data.address);
-    formData.append("company", data.company);
+    if(data.address) formData.append("address", data.address);
+    if(data.company) formData.append("company", data.company);
     formData.append(
       "date_payable",
       data.date_payable ? data.date_payable.toString() : ""
     );
     formData.append("amount_payable", data.amount_payable.toString());
     formData.append("status", data.status);
-    if (files?.userTakeIdImg)
-      formData.append("userTakeIdImg", files.userTakeIdImg!);
-    if (files?.fontEndImg) formData.append("frontEndImg", files.fontEndImg!);
-    if (files?.backEndImg) formData.append("backEndImg", files.backEndImg!);
+    // if (files?.userTakeIdImg)
+    //   formData.append("userTakeIdImg", files.userTakeIdImg!);
+    // if (files?.fontEndImg) formData.append("frontEndImg", files.fontEndImg!);
+    // if (files?.backEndImg) formData.append("backEndImg", files.backEndImg!);
     handleSubmit(formData);
   };
 
@@ -161,7 +159,7 @@ export default function InfoComponentCommon({
             <Input />
           </Form.Item>
 
-          <Form.Item<any>
+          {/* <Form.Item<any>
             label={
               <div className="flex flex-row justify-between items-center space-x-1">
                 <span className="text-sm">Ảnh khách hàng cầm CCCD</span>
@@ -201,7 +199,7 @@ export default function InfoComponentCommon({
                 setImgCCCD((pre: any) => ({ ...pre, fontEndImg: null }));
               }}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           {/* <Form.Item<any>
             label={
@@ -295,7 +293,7 @@ export default function InfoComponentCommon({
             />
           </Form.Item>
 
-          <Form.Item<FieldType>
+          {/* <Form.Item<FieldType>
             label="Địa chỉ chỗ ở"
             name="address"
             rules={[{ required: true, message: "Hãy nhập địa chỉ khách hàng" }]}
@@ -309,7 +307,7 @@ export default function InfoComponentCommon({
             rules={[{ required: true, message: "Hãy nhập tên công ty" }]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item<FieldType>
             label="Trạng thái"
