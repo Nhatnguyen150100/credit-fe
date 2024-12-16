@@ -133,6 +133,10 @@ body {
   color: green !important;
 }
 
+:where(.css-dev-only-do-not-override-1hpnbz2).ant-btn-variant-solid {
+  background-color: green !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

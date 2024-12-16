@@ -37,10 +37,7 @@ export default function Setting() {
       </div>
       <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[80px]">
         <div className="flex flex-col justify-start items-center w-full space-y-2">
-          {/* <img className="h-[56px]" src="/yoshi-credit.jpg" alt="logo" /> */}
-          <h1 className="text-2xl md:text-7xl font-bold primary-color mb-2">
-            SKYLIMIT CREDIT
-          </h1>
+          <img className="h-[56px]" src="/skylimit-credit.jpg" alt="logo" />
           <h2 className="text-lg">V1.6.0</h2>
         </div>
       </div>

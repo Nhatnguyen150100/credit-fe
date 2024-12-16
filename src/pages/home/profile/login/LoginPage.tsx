@@ -192,13 +192,10 @@ export default function LoginPage() {
           <ArrowLeftOutlined className="h-6 w-6" onClick={() => navigate(-1)} />
         </div>
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
-          {/* <img
+          <img
             className="object-cover h-[100px] w-[100px] mb-5"
-            src="/yoshi-credit.jpg"
-          /> */}
-          <h1 className="text-2xl md:text-7xl font-bold primary-color mb-5">
-            SKYLIMIT CREDIT
-          </h1>
+            src="/skylimit-credit.jpg"
+          />
           <Visibility visibility={!isActive}>
             <PhoneInput
               inputStyle={{

@@ -20,7 +20,7 @@ export default function Refund({ userInfo }: IProps) {
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
         <CommonElement
-          logo="/yoshi-credit.jpg"
+          logo="/skylimit-credit.jpg"
           listItem={[
             {
               id: 1,

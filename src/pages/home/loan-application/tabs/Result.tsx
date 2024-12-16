@@ -12,7 +12,7 @@ export default function Result() {
   );
   const DEFINE_LIST_RESULTS = [
     {
-      logo: "/yoshi-credit.jpg",
+      logo: "/skylimit-credit.jpg",
       listItems: [
         {
           id: 1,
