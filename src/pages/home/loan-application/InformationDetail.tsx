@@ -45,19 +45,19 @@ export default function InformationDetail() {
   const DEFINE_TABLE_INFO = [
     {
       label: "Họ tên",
-      value: userInfo?.name
+      value: userInfo?.name,
     },
     {
       label: "Số CCCD",
-      value: userInfo?.user_id
+      value: userInfo?.user_id,
     },
     {
       label: "Tài khoản nhận tiền",
-      value: userInfo?.receiving_account_number
+      value: userInfo?.receiving_account_number,
     },
     {
       label: "Ngân hàng",
-      value: userInfo?.bank_name
+      value: userInfo?.bank_name,
     },
     {
       label: "Thời gian nộp đơn",
@@ -91,7 +91,8 @@ export default function InformationDetail() {
         visibility={Boolean(userInfo)}
         suspenseComponent={loading ? <Spin /> : <Empty />}
       >
-        <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
+        <div className="w-full flex items-center justify-center">
+          <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
             <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full primary-bg border-b border-white">
               <ArrowLeftOutlined
                 className="text-white"
@@ -183,6 +184,7 @@ export default function InformationDetail() {
               </p>
             </div>
           </div>
+        </div>
       </Visibility>
     </>
   );

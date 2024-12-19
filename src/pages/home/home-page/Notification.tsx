@@ -2,7 +2,7 @@ import { BellFilled } from "@ant-design/icons";
 
 export default function Notification() {
   return (
-    <div className="flex justify-center items-center w-screen">
+    <div className="flex justify-center items-center w-screen md:w-[400px]">
       <div className="p-3 bg-white shadow-md flex flex-row justify-start items-start w-[93vw] rounded-xl space-x-3">
         <BellFilled className="text-[#818488]" />
         <p className="text-sm text-[#818488] font-normal tracking-wide">

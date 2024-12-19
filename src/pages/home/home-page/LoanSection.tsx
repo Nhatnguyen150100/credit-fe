@@ -106,8 +106,8 @@ export default function LoanSection() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-screen">
-      <div className="w-[93vw] bg-white rounded-lg shadow relative flex flex-col justify-start items-center px-3 pb-3">
+    <div className="flex flex-col justify-center items-center w-screen md:w-full">
+      <div className="w-[93vw] md:w-[400px] bg-white rounded-lg shadow relative flex flex-col justify-start items-center px-3 pb-3">
         <img className="absolute top-0 h-[20px]" src="/bg-loan-app.png" />
         <span className="z-10 text-[13px]">Số tiền vay</span>
         <span className="text-4xl text-center font-normal lato-light mt-8">
@@ -172,7 +172,7 @@ export default function LoanSection() {
         </div>
       </div>
 
-      <button className="w-[93vw] py-3 text-white text-center bg-green-700 rounded-3xl mt-5" onClick={handleAccept}>
+      <button className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-green-700 rounded-3xl mt-5" onClick={handleAccept}>
         Gửi yêu cầu
       </button>
     </div>
