@@ -252,6 +252,16 @@ export default function LoginPage() {
           <Visibility visibility={!isActive} suspenseComponent={btnVerifyOtp}>
             {btnLogin}
           </Visibility>
+          <div className="flex flex-col justify-center items-center my-3">
+            <span className="text-red-600 text-sm">
+              <sup>*</sup>Chú ý: Phải nhập đầy đủ số điện thoại bao gồm 10 số
+              bao gồm cả số <strong>0</strong> ở đầu.
+            </span>
+            <span className="text-red-600 text-sm">
+              Ví dụ: Số điện thoại của bạn là <strong>0123456789.</strong> Thì
+              bạn phải nhập đầy đủ là <strong>0123456789</strong>.
+            </span>
+          </div>
           <div className="mt-5 flex justify-center items-center">
             <Link className="text-sm text-blue-600 underline" to={"/#"}>
               Đăng kí / Đăng nhập bằng số điện thoại
