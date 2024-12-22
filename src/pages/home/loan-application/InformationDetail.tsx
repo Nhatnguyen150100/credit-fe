@@ -128,10 +128,22 @@ export default function InformationDetail() {
                         </span>
                       </div>
                       <div className="flex flex-col justify-start items-start space-y-1">
-                        <span className="text-sm text-red-700">
-                          {userInfo?.status === "NOT_PAY"
+                        <span
+                          className={`text-sm ${
+                            userInfo?.status === "PAYED"
+                              ? "text-green-700"
+                              : userInfo?.status === "NOT_PAY"
+                              ? "text-red-700"
+                              : "text-red-700"
+                          }`}
+                        >
+                          {userInfo?.status === "PAYED"
+                            ? "Đã thanh toán"
+                            : userInfo?.status === "NOT_PAY"
                             ? "Chưa thanh toán"
-                            : "Đã quá hạn"}
+                            : userInfo?.status === "OVER_DATE"
+                            ? "Quá hạn"
+                            : null}
                         </span>
                       </div>
                     </div>
@@ -142,7 +154,7 @@ export default function InformationDetail() {
                 <div className="bg-white w-full p-3">
                   <div className=" grid grid-cols-2 w-full border">
                     {DEFINE_TABLE_INFO.map((item, index) => (
-                      <>
+                      <div key={index}>
                         <span
                           className={`text-sm text-gray-700 border-r h-[40px] flex justify-center items-center ${
                             index !== DEFINE_TABLE_INFO.length - 1 && "border-b"
@@ -158,20 +170,22 @@ export default function InformationDetail() {
                         >
                           {item.value}
                         </span>
-                      </>
+                      </div>
                     ))}
                   </div>
                 </div>
               </div>
-              <Button
-                type="primary"
-                onClick={() => {
-                  handleClickPayment();
-                }}
-                className="rounded-sm h-[40px] mt-5 w-[90vw] sm:max-w-[360px]"
-              >
-                Lập tức thanh toán
-              </Button>
+              <Visibility visibility={userInfo?.status !== "PAYED"}>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    handleClickPayment();
+                  }}
+                  className="rounded-sm h-[40px] mt-5 w-[90vw] sm:max-w-[360px] primary-bg"
+                >
+                  Lập tức thanh toán
+                </Button>
+              </Visibility>
               <p className="text-yellow-600 text-sm whitespace-pre-wrap px-5 mt-5">
                 Lưu ý: tài khoản thanh toán của mỗi đơn đặt hàng khác nhau, hãy
                 nhấp vào "thanh toán ngay lập tức" để xem tài khoản thanh toán
