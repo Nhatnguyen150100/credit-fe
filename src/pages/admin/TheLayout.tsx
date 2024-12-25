@@ -25,10 +25,10 @@ export default function TheLayout() {
     <div className="flex flex-col justify-start p-5 items-center space-y-5">
       <header className="w-full py-2 justify-between flex items-center">
         <a
-          className="uppercase text-3xl text-blue-600 font-bold justify-start items-center flex"
+          className="uppercase text-3xl text-green-600 font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          YOSHI CREDIT ADMIN
+          SKYLIMIT CREDIT ADMIN
         </a>
         <Button
           type="primary"
