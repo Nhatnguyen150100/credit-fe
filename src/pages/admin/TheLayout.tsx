@@ -28,7 +28,7 @@ export default function TheLayout() {
           className="uppercase text-3xl text-blue-600 font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          YOSHI CREDIT ADMIN
+          Bee Cash ADMIN
         </a>
         <Button
           type="primary"

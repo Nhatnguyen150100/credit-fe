@@ -18,7 +18,7 @@ export default function HomePage() {
         style={{ backgroundImage: "url('./bg-home.jpg')" }}
       >
         <div className="w-full flex justify-center">
-          <span className="text-center text-white font-medium mt-3">Yoshi Credit</span>
+          <span className="text-center text-white font-medium mt-3">Bee Cash</span>
         </div>
       </div>
       <div className="px-5 space-y-5">
