@@ -28,7 +28,7 @@ export default function TheLayout() {
           className="uppercase text-3xl text-green-600 font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          SKYLIMIT CREDIT ADMIN
+          VAY CASH ADMIN
         </a>
         <Button
           type="primary"
