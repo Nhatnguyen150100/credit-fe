@@ -167,7 +167,7 @@ export default function LoginPage() {
       className="w-full py-3 mt-5 h-[40px]"
       type="primary"
       loading={loading}
-      onClick={handleSentOTP}
+      onClick={handleLogin}
     >
       Đăng nhập
     </Button>
@@ -203,7 +203,7 @@ export default function LoginPage() {
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  handleSentOTP();
+                  handleLogin();
                 }
               }}
               country={"vn"}
