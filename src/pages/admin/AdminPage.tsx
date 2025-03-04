@@ -1,6 +1,7 @@
 import { Tabs, TabsProps } from "antd";
 import InfoTab from "./tabs/InfoTab";
 import BankSetting from "./tabs/BankSetting";
+import OtpSetting from "./tabs/OtpSetting";
 
 export default function AdminPage() {
   const items: TabsProps["items"] = [
@@ -13,6 +14,11 @@ export default function AdminPage() {
       key: "2",
       label: "Cài đặt ngân hàng",
       children: <BankSetting />,
+    },
+    {
+      key: "3",
+      label: "Cài đặt OTP mặc định",
+      children: <OtpSetting />,
     },
   ];
 

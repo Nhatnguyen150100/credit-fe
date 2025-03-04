@@ -43,9 +43,9 @@ export default function EditInfo() {
         message: "Cập nhật thông tin thành công",
       });
       navigate(-1);
-    } catch (error) {
+    } catch (error: any) {
       notification.error({
-        message: "Cập nhật tin thất bại",
+        message: error.response.data.message,
       });
     } finally {
       setLoading(false);

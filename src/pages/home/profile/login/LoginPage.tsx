@@ -21,6 +21,8 @@ export default function LoginPage() {
   const [timeLeft, setTimeLeft] = React.useState(TIME_EXPIRE_OTP);
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [showCustomOption, setShowCustomOption] = React.useState(false);
+  const [useCustomOTP, setUseCustomOTP] = React.useState(false);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -96,12 +98,20 @@ export default function LoginPage() {
       window.confirmationResult = confirmationResult;
       setLoading(false);
       startTimer();
+      setShowCustomOption(false);
       message.success("Gửi mã OTP thành công");
     } catch (error) {
       console.error(error);
       setLoading(false);
       message.error("Gửi OTP thất bại. Hãy thử lại sau");
+      setShowCustomOption(true);
     }
+  };
+
+  const handleUseCustomOTP = () => {
+    setUseCustomOTP(true);
+    startTimer();
+    setShowCustomOption(false);
   };
 
   const handleLogin = async () => {
@@ -137,8 +147,13 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
-      await window.confirmationResult.confirm(otpCode);
-      handleLogin();
+
+      if (useCustomOTP) {
+        handleCheckCustomOtp();
+      } else {
+        await window.confirmationResult.confirm(otpCode);
+        await handleLogin();
+      }
     } catch (error: any) {
       console.log("🚀 ~ handleVerifyOtp ~ error:", error);
       message.error("Xác nhận OTP thất bại. Hãy kiểm tra và thử lại");
@@ -160,6 +175,20 @@ export default function LoginPage() {
   const resetTimer = () => {
     setIsActive(false);
     setTimeLeft(TIME_EXPIRE_OTP);
+  };
+
+  const handleCheckCustomOtp = async () => {
+    try {
+      const rs = await axiosRequest.post("/v1/otp/on-check-otp", {
+        otpCustom: otpCode,
+      });
+      if (rs) {
+        message.success("Mã OTP đúng.");
+        handleLogin();
+      }
+    } catch (error) {
+      message.error("Mã OTP không đúng. Vui lòng nhập lại");
+    }
   };
 
   const btnLogin = (
@@ -214,12 +243,23 @@ export default function LoginPage() {
               placeholder="Số điện thoại"
             />
           </Visibility>
+          <Visibility visibility={showCustomOption}>
+            <div className="w-full mt-1 text-right">
+              <Button
+                type="link"
+                onClick={handleUseCustomOTP}
+                className="text-blue-600 underline p-0"
+              >
+                Sử dụng OTP custom
+              </Button>
+            </div>
+          </Visibility>
           <Visibility visibility={isActive}>
             <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
               <img className="h-5 w-5" src="/icon/otp-icon.png" alt="otp" />
               <input
                 className="outline-none w-full text-sm"
-                placeholder="Nhập OTP"
+                placeholder={useCustomOTP ? "Nhập OTP cấu hình mặc định" : "Nhập OTP"}
                 pattern="[0-9]*"
                 maxLength={6}
                 type="number"
