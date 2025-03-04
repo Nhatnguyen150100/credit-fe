@@ -21,9 +21,9 @@ export default function NewInfo() {
         message: "Thêm thông tin thành công",
       });
       navigate(-1);
-    } catch (error) {
+    } catch (error: any) {
       notification.error({
-        message: "Thêm thông tin thất bại",
+        message: error.response.data.message,
       });
     } finally {
       setLoading(false);

@@ -332,7 +332,7 @@ export default function InfoComponentCommon({
               Hủy
             </Button>
             <Button type="primary" htmlType="submit">
-              Cập nhật thông tin
+              {infoProps?._id ? "Cập nhật thông tin" : "Thêm mới thông tin"}
             </Button>
           </div>
         </Form>
