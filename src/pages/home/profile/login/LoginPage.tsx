@@ -86,25 +86,19 @@ export default function LoginPage() {
     }
 
     try {
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        formatPh,
-        appVerifier
-      );
-      console.log(
-        "🚀 ~ handleSentOTP ~ confirmationResult:",
-        confirmationResult
-      );
-      window.confirmationResult = confirmationResult;
-      setLoading(false);
+      await axiosRequest.post("v1/otp/send-otp", {
+        phoneNumber: formatPh,
+        otp: otpCode
+      })
       startTimer();
       setShowCustomOption(false);
       message.success("Gửi mã OTP thành công");
     } catch (error) {
       console.error(error);
-      setLoading(false);
       message.error("Gửi OTP thất bại. Hãy thử lại sau");
       setShowCustomOption(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,10 +113,16 @@ export default function LoginPage() {
       message.error("Vui lòng nhập số điện thoại");
       return;
     }
+    const formatPh = "+84" + Number(phoneNumber);
+    if (!isValidPhoneNumber(formatPh)) {
+      message.error("Số điện thoại không hợp lệ");
+      return;
+    }
     try {
       setLoading(true);
-      const rs = await axiosRequest.post("/v1/auth/login-user", {
-        phoneNumber,
+      const rs = await axiosRequest.post("/v1/otp/verify-otp", {
+        phoneNumber: formatPh,
+        otp: otpCode
       });
       message.success(rs.data.message);
       dispatch(setUser({ ...rs.data.data, phone_number: phoneNumber }));
@@ -151,7 +151,7 @@ export default function LoginPage() {
       if (useCustomOTP) {
         handleCheckCustomOtp();
       } else {
-        await window.confirmationResult.confirm(otpCode);
+        // await window.confirmationResult.confirm(otpCode);
         await handleLogin();
       }
     } catch (error: any) {
