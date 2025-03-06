@@ -5,12 +5,15 @@ import {
   FormProps,
   Input,
   InputNumber,
+  notification,
   Select,
 } from "antd";
 import { IInfo } from "../../../types/info";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "react-toast";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axiosRequest from "../../../plugins/request";
 
 type Props = {
   infoProps?: IInfo;
@@ -37,6 +40,8 @@ export default function InfoComponentCommon({
   handleSubmit,
 }: Props) {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
   // const [files, setFiles] = React.useState<{
   //   userTakeIdImg: File | undefined;
   //   fontEndImg: File | undefined;
@@ -93,8 +98,8 @@ export default function InfoComponentCommon({
     formData.append("loan_date", data.loan_date.toString());
     formData.append("receiving_account_number", data.receiving_account_number);
     formData.append("bank_name", data.bank_name);
-    if(data.address) formData.append("address", data.address);
-    if(data.company) formData.append("company", data.company);
+    if (data.address) formData.append("address", data.address);
+    if (data.company) formData.append("company", data.company);
     formData.append(
       "date_payable",
       data.date_payable ? data.date_payable.toString() : ""
@@ -114,6 +119,27 @@ export default function InfoComponentCommon({
 
   const parser = (value: any) => {
     return value.replace(/₫\s?|(,*)/g, "");
+  };
+
+  const handleCheckIdentificationCard = async () => {
+    try {
+      const user_id = form.getFieldValue("user_id");
+
+      await axiosRequest.post("/v1/information/check-v2", {
+        user_id: user_id,
+      });
+
+      notification.success({
+        message: "CCCD hợp lệ",
+      });
+    } catch (error: any) {
+      console.log(error);
+      notification.error({
+        message: error.response.data.message.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -152,12 +178,22 @@ export default function InfoComponentCommon({
             <Input />
           </Form.Item>
           <Form.Item<FieldType>
+            className="w-full"
             label="CCCD"
             name="user_id"
             rules={[{ required: true, message: "Hãy nhập CCCD" }]}
           >
             <Input />
           </Form.Item>
+          <div className="w-full flex justify-end mb-4">
+            <Button
+              type="primary"
+              onClick={handleCheckIdentificationCard}
+              loading={loading}
+            >
+              Kiểm tra CCCD
+            </Button>
+          </div>
 
           {/* <Form.Item<any>
             label={
