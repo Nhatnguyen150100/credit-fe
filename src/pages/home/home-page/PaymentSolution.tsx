@@ -18,7 +18,7 @@ export default function PaymentSolution() {
         ))}
       </ul>
       <span className="text-sm font-light">
-        {`Khoản vay: Từ ${formatCurrency(1000000)} đến vay: ${formatCurrency(
+        {`Khoản vay: Từ ${formatCurrency(3500000)} đến vay: ${formatCurrency(
           30000000
         )}. Kỳ hạn vay: 91 -> 180 ngày. Lãi suất vay: cao nhất 24%/năm. Phí kiểm soát rủi ro`}
       </span>

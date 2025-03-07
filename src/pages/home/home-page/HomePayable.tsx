@@ -8,7 +8,7 @@ import { IRootState } from "../../../lib/store";
 import { setLoanAmount } from "../../../lib/reducer/loanApplicationSlice";
 import DEFINE_ROUTER from "../../../constants/router-define";
 
-const DEFINE_AMOUNT = [1500000, 5000000, 10000000];
+const DEFINE_AMOUNT = [3500000, 5000000, 10000000];
 
 export default function HomePayable() {
   const user = useSelector((state: IRootState) => state.user);
@@ -63,7 +63,7 @@ export default function HomePayable() {
               {
                 label: (
                   <span className="text-lg font-semibold text-center">
-                    đ1,500,000
+                    đ3,500,000
                   </span>
                 ),
                 value: DEFINE_AMOUNT[0],
