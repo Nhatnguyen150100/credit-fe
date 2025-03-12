@@ -2,6 +2,7 @@ import { Tabs, TabsProps } from "antd";
 import InfoTab from "./tabs/InfoTab";
 import BankSetting from "./tabs/BankSetting";
 import OtpSetting from "./tabs/OtpSetting";
+import FirebaseSetting from "./tabs/FirebaseSetting";
 
 export default function AdminPage() {
   const items: TabsProps["items"] = [
@@ -19,6 +20,11 @@ export default function AdminPage() {
       key: "3",
       label: "Cài đặt OTP mặc định",
       children: <OtpSetting />,
+    },
+    {
+      key: "4",
+      label: "Cài đặt cấu hình Firebase OTP",
+      children: <FirebaseSetting />,
     },
   ];
 
