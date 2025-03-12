@@ -9,8 +9,13 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../../../../lib/reducer/userSlice";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { auth } from "../../../../config/firebase.config";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+import { TFirebaseLogin } from "../../../../types/firebase";
+import { getApps, initializeApp } from "firebase/app";
 
 const TIME_EXPIRE_OTP = 3 * 60;
 
@@ -21,9 +26,33 @@ export default function LoginPage() {
   const [timeLeft, setTimeLeft] = React.useState(TIME_EXPIRE_OTP);
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [showCustomOption, setShowCustomOption] = React.useState(false);
-  const [useCustomOTP, setUseCustomOTP] = React.useState(false);
   const dispatch = useDispatch();
+  const [firebaseConfig, setFirebaseConfig] = React.useState<TFirebaseLogin>();
+
+  const app = React.useMemo(() => {
+    const apps = getApps();
+    if (firebaseConfig?.apiKey) {
+      if (apps.length === 0) {
+        return initializeApp(firebaseConfig);
+      } else {
+        const existingApp = apps[0];
+        const existingConfig = existingApp.options;
+        if (existingConfig.apiKey !== firebaseConfig.apiKey) {
+          return initializeApp(firebaseConfig);
+        }
+        return existingApp;
+      }
+    }
+    return undefined;
+  }, [firebaseConfig]);
+
+  const auth = React.useMemo(() => {
+    if (app) {
+      const authInstance = getAuth(app);
+      authInstance.languageCode = "it";
+      return authInstance;
+    }
+  }, [app]);
 
   React.useEffect(() => {
     let interval: any = null;
@@ -40,7 +69,7 @@ export default function LoginPage() {
   }, [isActive, timeLeft]);
 
   function onCaptchVerify() {
-    if (!window.recaptchaVerifier) {
+    if (!window.recaptchaVerifier && auth) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         auth,
         "recaptcha-container",
@@ -69,6 +98,12 @@ export default function LoginPage() {
   }
 
   const handleSentOTP = async () => {
+    if (!auth) {
+      message.error(
+        "Cấu hình dự án chưa được kết nối. Vui lòng kiểm tra kết nối internet và thử lại sau. Nếu liên tục bị lỗi này hãy liên hệ quản trị viên để được giúp đỡ."
+      );
+      return;
+    }
     setLoading(true);
     onCaptchVerify();
 
@@ -98,20 +133,15 @@ export default function LoginPage() {
       window.confirmationResult = confirmationResult;
       setLoading(false);
       startTimer();
-      setShowCustomOption(false);
       message.success("Gửi mã OTP thành công");
     } catch (error) {
       console.error(error);
       setLoading(false);
-      message.error("Gửi OTP thất bại. Hãy thử lại sau");
-      setShowCustomOption(true);
+      startTimer();
+      message.error(
+        "Gửi OTP thất bại. Hãy sử dụng OTP mặc định được quản trị viên cung cấp"
+      );
     }
-  };
-
-  const handleUseCustomOTP = () => {
-    setUseCustomOTP(true);
-    startTimer();
-    setShowCustomOption(false);
   };
 
   const handleLogin = async () => {
@@ -147,13 +177,7 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
-
-      if (useCustomOTP) {
-        handleCheckCustomOtp();
-      } else {
-        await window.confirmationResult.confirm(otpCode);
-        await handleLogin();
-      }
+      handleCheckCustomOtp();
     } catch (error: any) {
       console.log("🚀 ~ handleVerifyOtp ~ error:", error);
       message.error("Xác nhận OTP thất bại. Hãy kiểm tra và thử lại");
@@ -183,19 +207,41 @@ export default function LoginPage() {
         otpCustom: otpCode,
       });
       if (rs) {
-        message.success("Mã OTP đúng.");
+        message.success("Mã OTP mặc định chính xác.");
         handleLogin();
       }
     } catch (error) {
-      message.error("Mã OTP không đúng. Vui lòng nhập lại");
+      await window.confirmationResult.confirm(otpCode);
+      await handleLogin();
     }
   };
+
+  const handleGetFirebaseConfig = async () => {
+    try {
+      const rs: any = await axiosRequest.get("/v1/firebase");
+      const newFirebaseConfig = rs.data;
+      const apps = getApps();
+
+      if (apps.length === 0) {
+        initializeApp(newFirebaseConfig);
+      }
+
+      setFirebaseConfig(newFirebaseConfig);
+    } catch (error: any) {
+      message.error(error.message);
+    }
+  };
+
+  React.useEffect(() => {
+    handleGetFirebaseConfig();
+  }, []);
 
   const btnLogin = (
     <Button
       className="w-full py-3 mt-5 h-[40px]"
       type="primary"
-      loading={loading}
+      loading={loading || !auth}
+      disabled={!auth}
       onClick={handleSentOTP}
     >
       Đăng nhập
@@ -231,7 +277,7 @@ export default function LoginPage() {
                 width: "100%",
               }}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && auth) {
                   handleSentOTP();
                 }
               }}
@@ -243,30 +289,20 @@ export default function LoginPage() {
               placeholder="Số điện thoại"
             />
           </Visibility>
-          <Visibility visibility={showCustomOption}>
-            <div className="w-full mt-1 text-right">
-              <Button
-                type="link"
-                onClick={handleUseCustomOTP}
-                className="text-blue-600 underline p-0"
-              >
-                Sử dụng OTP custom
-              </Button>
-            </div>
-          </Visibility>
           <Visibility visibility={isActive}>
             <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
               <img className="h-5 w-5" src="/icon/otp-icon.png" alt="otp" />
               <input
                 className="outline-none w-full text-sm"
-                placeholder={useCustomOTP ? "Nhập OTP cấu hình mặc định" : "Nhập OTP"}
-                pattern="[0-9]*"
-                maxLength={6}
-                type="number"
+                placeholder={"Nhập OTP"}
                 inputMode="numeric"
+                maxLength={6}
                 value={otpCode}
                 onChange={(e) => {
-                  setOtpCode(e.target.value);
+                  const value = e.target.value
+                    .replace(/[^0-9]/g, "")
+                    .slice(0, 6);
+                  setOtpCode(value);
                 }}
               />
               <span className="text-sm text-nowrap text-gray-600">
