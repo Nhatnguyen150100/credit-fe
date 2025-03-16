@@ -20,7 +20,7 @@ export default function Repayment({ userInfo }: IProps) {
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
         <CommonElement
-          logo="/skylimit-credit.jpg"
+          logo="/vaycash.jpg"
           listItem={[
             {
               id: 1,

@@ -44,7 +44,7 @@ function App() {
             <div className="grid grid-cols-1 gap-y-10 md:grid-cols-2 md:gap-x-16">
               <div className="flex flex-col justify-center items-end space-y-8">
                 <h1 className="text-5xl md:text-7xl font-bold text-white">
-                  SKYLIMIT CREDIT
+                  VAY CASH
                 </h1>
                 <div className="flex flex-row justify-end items-end space-x-3">
                   <img
@@ -175,7 +175,7 @@ function App() {
           >
             <div className="text-center space-y-3 mb-4">
               <h4 className="uppercase text-3xl text-blue-600 font-bold flex">
-               SKYLIMIT CREDIT
+                VAY CASH
               </h4>
             </div>
             <form>
