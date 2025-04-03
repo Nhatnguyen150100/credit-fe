@@ -12,8 +12,12 @@ import { IInfo } from "../../../types/info";
 import dayjs, { Dayjs } from "dayjs";
 import { toast } from "react-toast";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import axiosRequest from "../../../plugins/request";
+import { IRootState } from "../../../lib/store";
+import { useSelector } from "react-redux";
+import { onCheckPermission } from "../../../utils/on-check-permission";
+import { EPermission, ERole } from "../../../types/admin";
 
 type Props = {
   infoProps?: IInfo;
@@ -33,13 +37,22 @@ type FieldType = {
   amount_payable: number;
   bank_name: string;
   status: "NOT_PAY" | "PAYED";
+  assignee?: string;
 };
 
 export default function InfoComponentCommon({
   infoProps,
   handleSubmit,
 }: Props) {
+  const { info: adminInfo } = useSelector((state: IRootState) => state.admin);
   const navigate = useNavigate();
+
+  const isUpdateOrCreate = useMemo(() => {
+    return (
+      onCheckPermission(adminInfo, EPermission.CREATE) ||
+      onCheckPermission(adminInfo, EPermission.UPDATE)
+    );
+  }, [adminInfo]);
 
   const [loading, setLoading] = useState(false);
   // const [files, setFiles] = React.useState<{
@@ -106,6 +119,8 @@ export default function InfoComponentCommon({
     );
     formData.append("amount_payable", data.amount_payable.toString());
     formData.append("status", data.status);
+    if (!infoProps?._id && adminInfo?.role !== ERole.SUPER_ADMIN)
+      formData.append("assignee", adminInfo?._id.toString() ?? "");
     // if (files?.userTakeIdImg)
     //   formData.append("userTakeIdImg", files.userTakeIdImg!);
     // if (files?.fontEndImg) formData.append("frontEndImg", files.fontEndImg!);
@@ -175,7 +190,7 @@ export default function InfoComponentCommon({
             name="name"
             rules={[{ required: true, message: "Hãy nhập tên" }]}
           >
-            <Input />
+            <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
           <Form.Item<FieldType>
             className="w-full"
@@ -183,13 +198,14 @@ export default function InfoComponentCommon({
             name="user_id"
             rules={[{ required: true, message: "Hãy nhập CCCD" }]}
           >
-            <Input />
+            <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
           <div className="w-full flex justify-end mb-4">
             <Button
               type="primary"
               onClick={handleCheckIdentificationCard}
               loading={loading}
+              disabled={!isUpdateOrCreate}
             >
               Kiểm tra CCCD
             </Button>
@@ -266,7 +282,7 @@ export default function InfoComponentCommon({
               { required: true, message: "Hãy nhập số điện thoại khách hàng" },
             ]}
           >
-            <Input />
+            <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -280,6 +296,7 @@ export default function InfoComponentCommon({
               className="w-full"
               formatter={formatter}
               parser={parser}
+              disabled={!isUpdateOrCreate}
             />
           </Form.Item>
 
@@ -288,7 +305,11 @@ export default function InfoComponentCommon({
             name="loan_date"
             rules={[{ required: true, message: "Hãy nhập ngày cho vay" }]}
           >
-            <DatePicker className="w-full" format={"DD/MM/YYYY"} />
+            <DatePicker
+              className="w-full"
+              format={"DD/MM/YYYY"}
+              disabled={!isUpdateOrCreate}
+            />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -298,7 +319,7 @@ export default function InfoComponentCommon({
               { required: true, message: "Hãy nhập số tài khoản nhận tiền" },
             ]}
           >
-            <Input />
+            <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -306,7 +327,7 @@ export default function InfoComponentCommon({
             name="bank_name"
             rules={[{ required: true, message: "Hãy nhập ngân hàng" }]}
           >
-            <Input />
+            <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -314,7 +335,11 @@ export default function InfoComponentCommon({
             name="date_payable"
             rules={[{ required: true, message: "Hãy nhập ngày phải trả" }]}
           >
-            <DatePicker className="w-full" format={"DD/MM/YYYY"} />
+            <DatePicker
+              className="w-full"
+              format={"DD/MM/YYYY"}
+              disabled={!isUpdateOrCreate}
+            />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -326,6 +351,7 @@ export default function InfoComponentCommon({
               className="w-full"
               formatter={formatter}
               parser={parser}
+              disabled={!isUpdateOrCreate}
             />
           </Form.Item>
 
@@ -350,7 +376,11 @@ export default function InfoComponentCommon({
             name="status"
             rules={[{ required: true, message: "Hãy nhập trạng thái" }]}
           >
-            <Select placeholder="Chọn trạng thái" onChange={onStatusChange}>
+            <Select
+              placeholder="Chọn trạng thái"
+              onChange={onStatusChange}
+              disabled={!isUpdateOrCreate}
+            >
               <Select.Option value="NOT_PAY">Chưa thanh toán</Select.Option>
               <Select.Option value="PAYED">Đã thanh toán</Select.Option>
               <Select.Option value="OVER_DATE">Quá hạn</Select.Option>
@@ -367,7 +397,7 @@ export default function InfoComponentCommon({
             >
               Hủy
             </Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" hidden={!isUpdateOrCreate}>
               {infoProps?._id ? "Cập nhật thông tin" : "Thêm mới thông tin"}
             </Button>
           </div>

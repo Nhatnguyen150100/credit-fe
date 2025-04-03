@@ -6,6 +6,8 @@ import { toast } from "react-toast";
 import axiosRequest from "../../plugins/request";
 import GeneralLoading from "../../components/GeneralLoading";
 import DEFINE_ROUTER from "../../constants/router-define";
+import { useDispatch } from "react-redux";
+import { setAdminInfo } from "../../lib/reducer/adminSlice";
 
 export default function LoginAdminPage() {
   const [form, setForm] = React.useState({
@@ -14,6 +16,7 @@ export default function LoginAdminPage() {
   });
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onHandleSubmit = async () => {
     if (!(form.userName && form.password)) {
@@ -29,6 +32,7 @@ export default function LoginAdminPage() {
       cookiesStore.set("access_token", rs.data.data.accessToken);
       cookiesStore.set("admin", "admin");
       navigate(DEFINE_ROUTER.admin);
+      dispatch(setAdminInfo(rs.data.data.user));
     } catch (error) {
       toast.error("Login failed. Please check your credentials");
     } finally {

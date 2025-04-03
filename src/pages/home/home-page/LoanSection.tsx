@@ -172,7 +172,10 @@ export default function LoanSection() {
         </div>
       </div>
 
-      <button className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-green-700 rounded-3xl mt-5" onClick={handleAccept}>
+      <button
+        className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-green-700 rounded-3xl mt-5"
+        onClick={handleAccept}
+      >
         Gửi yêu cầu
       </button>
     </div>

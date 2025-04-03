@@ -23,7 +23,8 @@ export default function NewInfo() {
       navigate(-1);
     } catch (error: any) {
       notification.error({
-        message: error.response.data.message,
+        message: "Thêm thông tin thất bại",
+        description: error.response.data.message,
       });
     } finally {
       setLoading(false);

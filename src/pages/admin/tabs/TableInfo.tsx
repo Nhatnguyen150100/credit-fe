@@ -4,6 +4,7 @@ import {
   Button,
   DatePicker,
   Empty,
+  message,
   Modal,
   notification,
   Select,
@@ -30,8 +31,14 @@ import DEFINE_STATUS from "../../../constants/status";
 import InputSearch from "../../../components/InputSearch";
 import { TableRowSelection } from "antd/es/table/interface";
 import dayjs from "dayjs";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../lib/store";
+import { EPermission, ERole } from "../../../types/admin";
+import { onCheckPermission } from "../../../utils/on-check-permission";
 
 export default function TableInfo() {
+  const { info: adminInfo } = useSelector((state: IRootState) => state.admin);
+  console.log("🚀 ~ TableInfo ~ adminInfo:", adminInfo);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [listInfo, setListInfo] = React.useState<IInfo[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -45,7 +52,56 @@ export default function TableInfo() {
     limit: 5,
   });
   const [total, setTotal] = React.useState(0);
+  const [assignLoading, setAssignLoading] = React.useState(false);
+  const [userOptions, setUserOptions] = React.useState<
+    { value: string; label: string }[]
+  >([]);
+  const [selectedUserId, setSelectedUserId] = React.useState<string>("");
   const navigate = useNavigate();
+
+  const handleUserSearch = async (search: string) => {
+    try {
+      const response = await axiosRequest.get("/v1/admin", {
+        params: { search, limit: 10, page: 1 },
+      });
+      setUserOptions(
+        response.data.data.map((user: any) => ({
+          value: user._id,
+          label: user.userName,
+        }))
+      );
+    } catch (error) {
+      message.error("Lỗi tải danh sách user");
+    }
+  };
+
+  const handleAssignUser = async () => {
+    if (adminInfo?.role !== ERole.SUPER_ADMIN) return;
+    if (!selectedUserId || selectedRowKeys.length === 0) return;
+
+    try {
+      setAssignLoading(true);
+      const rs = await axiosRequest.post(
+        "/v1/information/assignee-information",
+        {
+          userId: selectedUserId,
+          listInformationIds: selectedRowKeys,
+        }
+      );
+      message.success(rs.data.message || "Gán user thành công");
+      setSelectedRowKeys([]);
+      setSelectedUserId("");
+      onGetListInfo();
+    } catch (error: any) {
+      console.log(
+        "🚀 ~ handleAssignUser ~ error:",
+        error.response.data.message
+      );
+      message.error("Gán user thất bại");
+    } finally {
+      setAssignLoading(false);
+    }
+  };
 
   const onGetListInfo = async () => {
     try {
@@ -81,9 +137,12 @@ export default function TableInfo() {
           );
           setSelectedRowKeys([]);
           onGetListInfo();
-          toast.success(rs.data.message);
+          message.success(rs.data.message);
         } catch (error: any) {
-          toast.error(error.message);
+          notification.error({
+            message: "Xóa thông tin thất bại",
+            description: error.response.data.message,
+          });
         } finally {
           setLoading(false);
         }
@@ -123,7 +182,7 @@ export default function TableInfo() {
         } catch (error: any) {
           notification.error({
             message: "Xóa thông tin thất bại",
-            description: error.message,
+            description: error.response.data.message,
           });
         }
       },
@@ -163,6 +222,15 @@ export default function TableInfo() {
       title: "Số thứ tự",
       dataIndex: "index",
       render: (_, __, index) => index + 1,
+    },
+    {
+      title: "Admin quản lý",
+      dataIndex: "assignee",
+      key: "assignee",
+      render: (assignee) => (
+        <span className="text-lg font-semibold">{assignee?.userName}</span>
+      ),
+      hidden: adminInfo?.role !== ERole.SUPER_ADMIN,
     },
     {
       title: "Tên",
@@ -237,11 +305,12 @@ export default function TableInfo() {
           }}
           className="ms-3"
           variant="solid"
-          color="danger"
+          danger
           shape="default"
           icon={<DeleteOutlined />}
         />
       ),
+      hidden: !onCheckPermission(adminInfo, EPermission.DELETE),
     },
   ];
 
@@ -267,6 +336,7 @@ export default function TableInfo() {
 
   React.useEffect(() => {
     onGetListInfo();
+    if (adminInfo?.role === ERole.SUPER_ADMIN) handleUserSearch("");
   }, [query.page, query.limit]);
 
   return (
@@ -331,6 +401,7 @@ export default function TableInfo() {
           type="primary"
           icon={<PlusOutlined />}
           iconPosition="start"
+          hidden={!onCheckPermission(adminInfo, EPermission.CREATE)}
           onClick={() => {
             navigate(DEFINE_ROUTER.newInfo);
           }}
@@ -338,19 +409,48 @@ export default function TableInfo() {
           Thêm mới thông tin
         </Button>
       </div>
-      <Visibility visibility={hasSelected && selectedRowKeys.length > 1}>
-        <div className="w-full flex justify-start items-center mb-5">
-          <Button
-            variant="solid"
-            color="danger"
-            shape="default"
-            icon={<DeleteOutlined />}
-            iconPosition="end"
-            onClick={deleteMultiple}
-          >
-            Xóa các hàng đã chọn
-          </Button>
-        </div>
+      <Visibility visibility={hasSelected && selectedRowKeys.length > 0}>
+        <Visibility
+          visibility={adminInfo?.role === ERole.SUPER_ADMIN}
+          suspenseComponent={
+            <Button
+              className="mb-3"
+              danger
+              icon={<DeleteOutlined />}
+              hidden={!onCheckPermission(adminInfo, EPermission.DELETE)}
+              onClick={deleteMultiple}
+            >
+              Xóa các hàng đã chọn
+            </Button>
+          }
+        >
+          <div className="w-full flex justify-start items-center mb-5 gap-3">
+            <Select
+              showSearch
+              placeholder="Chọn user để gán"
+              optionFilterProp="label"
+              onSearch={handleUserSearch}
+              filterOption={false}
+              options={userOptions}
+              onChange={(value) => setSelectedUserId(value)}
+              style={{ width: 300 }}
+              loading={assignLoading}
+            />
+
+            <Button
+              type="primary"
+              onClick={handleAssignUser}
+              disabled={!selectedUserId}
+              loading={assignLoading}
+            >
+              Gán cho ADMIN
+            </Button>
+
+            <Button danger icon={<DeleteOutlined />} onClick={deleteMultiple}>
+              Xóa các hàng đã chọn
+            </Button>
+          </div>
+        </Visibility>
       </Visibility>
       <div className="mb-5 flex w-full justify-start items-start">
         <Button
@@ -359,6 +459,7 @@ export default function TableInfo() {
           shape="default"
           iconPosition="end"
           onClick={updateMultipleStatus}
+          hidden={!onCheckPermission(adminInfo, EPermission.UPDATE)}
         >
           {`Kiểm tra và cập nhật dữ liệu đã bị quá hạn trả (quá ngày ${dayjs().format(
             "DD/MM/YYYY"

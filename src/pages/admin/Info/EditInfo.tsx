@@ -18,9 +18,9 @@ export default function EditInfo() {
       const data = rs.data.data;
       setUserInfo(data);
     } catch (error: any) {
-      console.log("🚀 ~ handleGetInfo ~ error:", error.message);
       notification.error({
-        message: error.message,
+        message: "Cập nhât thông tin thất bại",
+        description: error.response.data.message,
       });
     } finally {
       setLoading(false);
