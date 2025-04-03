@@ -26,4 +26,10 @@ export interface IInfo {
   amount_payable: number;
   status: "NOT_PAY" | "PAYED";
   __v: number;
+  assignee: Assignee;
+}
+
+export interface Assignee {
+  _id: string;
+  userName: string;
 }

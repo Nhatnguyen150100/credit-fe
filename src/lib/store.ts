@@ -4,17 +4,19 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 import userReducer from "./reducer/userSlice";
 import generalReducer from "./reducer/generalSlice";
 import loanApplicationReducer from "./reducer/loanApplicationSlice";
+import adminReducer from "./reducer/adminSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ['general']
+  blacklist: ["general"],
 };
 
 const rootReducer = combineReducers({
   user: userReducer,
+  admin: adminReducer,
   general: generalReducer,
-  loanApplication: loanApplicationReducer
+  loanApplication: loanApplicationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
