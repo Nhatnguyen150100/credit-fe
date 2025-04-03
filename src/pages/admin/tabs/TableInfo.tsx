@@ -427,7 +427,7 @@ export default function TableInfo() {
           <div className="w-full flex justify-start items-center mb-5 gap-3">
             <Select
               showSearch
-              placeholder="Chọn user để gán"
+              placeholder="Chọn user để gán (Nhập tên user để tìm kiếm)"
               optionFilterProp="label"
               onSearch={handleUserSearch}
               filterOption={false}
