@@ -36,9 +36,27 @@ import { IRootState } from "../../../lib/store";
 import { EPermission, ERole } from "../../../types/admin";
 import { onCheckPermission } from "../../../utils/on-check-permission";
 
+const customCheckboxStyle = `
+  .ant-table-thead .ant-checkbox-inner, 
+  .ant-table-tbody .ant-checkbox-inner {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+  }
+
+  .ant-checkbox-inner::after {
+    width: 8.71428571px;
+    height: 14.14285714px;
+    left: 28%;
+  }
+
+  .ant-checkbox {
+    transform: scale(1.2);
+  }
+`;
+
 export default function TableInfo() {
   const { info: adminInfo } = useSelector((state: IRootState) => state.admin);
-  console.log("🚀 ~ TableInfo ~ adminInfo:", adminInfo);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
   const [listInfo, setListInfo] = React.useState<IInfo[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -341,6 +359,7 @@ export default function TableInfo() {
 
   return (
     <>
+      <style>{customCheckboxStyle}</style>
       <div className="w-full flex justify-between items-center mb-5">
         <div className="flex-grow flex justify-start items-center space-x-3">
           <InputSearch
