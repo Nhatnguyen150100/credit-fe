@@ -45,7 +45,7 @@ export default function Term() {
             <ol className="list-decimal pl-6 space-y-2">
               <li>
                 <strong>Quy định thu thập thông tin:</strong> Chính sách này quy
-                định cách mà VAY CASH thu thập, sử dụng, bảo vệ và chia sẻ
+                định cách mà Check Vay thu thập, sử dụng, bảo vệ và chia sẻ
                 thông tin.
               </li>
               <li>
@@ -83,7 +83,7 @@ export default function Term() {
                   </li>
                   <li>
                     <strong>Thông tin thiết bị:</strong> Thông tin về thiết bị
-                    Bạn sử dụng để truy cập Ứng dụng VAY CASH
+                    Bạn sử dụng để truy cập Ứng dụng Check Vay
                   </li>
                 </ol>
               </li>

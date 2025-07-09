@@ -41,7 +41,7 @@ export default function LoanSection() {
       {DEFINE_AMOUNT.map((item, index) => (
         <div
           key={index}
-          className={`text-base text-green-700 ${
+          className={`text-base text-[var(--primary)] ${
             count === item.value && "font-semibold"
           }`}
           onClick={() => setCount(item.value)}
@@ -110,28 +110,28 @@ export default function LoanSection() {
       <div className="w-[93vw] md:w-[400px] bg-white rounded-lg shadow relative flex flex-col justify-start items-center px-3 pb-3">
         <img className="absolute top-0 h-[20px]" src="/bg-loan-app.png" />
         <span className="z-10 text-[13px]">Số tiền vay</span>
-        <span className="text-4xl text-center font-normal lato-light mt-8">
+        <span className="text-4xl primary-color text-center font-normal lato-light mt-8">
           {count.toLocaleString()}
         </span>
         <Slider
           className="w-full mt-8"
           styles={{
             track: {
-              background: "green",
+              background: "purple",
             },
             tracks: {
-              background: "green",
+              background: "purple",
             },
             rail: {
               background: "gray",
               opacity: "20%",
               height: "4px",
-              accentColor: "green",
+              accentColor: "purple",
             },
             handle: {
-              color: "green",
-              background: "green",
-              borderColor: "green",
+              color: "purple",
+              background: "purple",
+              borderColor: "purple",
             },
           }}
           value={valueSlide}
@@ -150,7 +150,7 @@ export default function LoanSection() {
           <div className="flex flex-row justify-center items-center space-x-3">
             <button
               className={`text-sm text-gray-400 px-5 py-1 border border-solid border-gray-500 rounded-2xl border-opacity-25 ${
-                day === 180 && "bg-green-700 !border-none !text-white"
+                day === 180 && "primary-bg !border-none !text-white"
               }`}
               onClick={() => {
                 setDay(180);
@@ -160,7 +160,7 @@ export default function LoanSection() {
             </button>
             <button
               className={`text-sm text-gray-400 px-5 py-1 border border-solid border-gray-500 rounded-2xl border-opacity-25 ${
-                day === 360 && "bg-green-700 !border-none !text-white"
+                day === 360 && "primary-bg !border-none !text-white"
               }`}
               onClick={() => {
                 setDay(360);
@@ -173,7 +173,7 @@ export default function LoanSection() {
       </div>
 
       <button
-        className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-green-700 rounded-3xl mt-5"
+        className="w-[93vw] md:w-[400px] py-3 text-white text-center primary-bg rounded-3xl mt-5"
         onClick={handleAccept}
       >
         Gửi yêu cầu
