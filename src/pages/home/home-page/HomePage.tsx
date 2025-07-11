@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <div className="space-y-3 pb-3">
       <div
-        className="h-[280px] w-full md:h-[400px] lg:h-[500px] bg-contain object-fill bg-no-repeat border-none relative"
+        className="h-[300px] w-full md:h-[400px] lg:h-[500px] bg-contain object-fill bg-no-repeat border-none relative"
         style={{ backgroundImage: "url('./bg-home.png')" }}
       >
         <div className="w-full h-full md:h-auto flex flex-col justify-start items-center space-y-2 pt-12 md:pt-10">
