@@ -153,6 +153,15 @@ export default function PaymentMethod() {
               {user?.amount_payable.toLocaleString()}
             </span>
           </div>
+          <div className="flex flex-col justify-between items-center w-full px-5">
+            <span className="text-sm font-medium">QR Code</span>
+            <img
+              crossOrigin="anonymous"
+              className="h-40 w-auto mt-1"
+              alt="QR code"
+              src={listBank[0]?.qr_code_img}
+            />
+          </div>
         </div>
         <p className="text-base md:text-2xl font-bold max-w-[820px] text-center px-5 mt-5">
           Thanh toán vui lòng gởi hóa đơn cho hỗ trợ viên qua zalo để được hỗ
