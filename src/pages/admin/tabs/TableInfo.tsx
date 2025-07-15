@@ -527,6 +527,11 @@ export default function TableInfo() {
               current: query.page,
               pageSize: query.limit,
               total: total,
+              showSizeChanger: true,
+              pageSizeOptions: ['5','10', '20', '50', '100'],
+              showTotal(total, range) {
+                return `${range[0]}-${range[1]} trong tổng số ${total} bản ghi`;
+              },
               onChange: (page: number, limit: number) => {
                 setQuery((pre) => ({
                   ...pre,
