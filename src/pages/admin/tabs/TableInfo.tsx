@@ -68,6 +68,7 @@ export default function TableInfo() {
     datePayable: "",
     page: 1,
     limit: 5,
+    assigneeIds: [],
   });
   const [total, setTotal] = React.useState(0);
   const [assignLoading, setAssignLoading] = React.useState(false);
@@ -92,6 +93,11 @@ export default function TableInfo() {
       message.error("Lỗi tải danh sách user");
     }
   };
+
+  const adminFilterOptions = userOptions.map((user) => ({
+    value: user.value,
+    label: user.label,
+  }));
 
   const handleAssignUser = async () => {
     if (adminInfo?.role !== ERole.SUPER_ADMIN) return;
@@ -355,7 +361,7 @@ export default function TableInfo() {
   React.useEffect(() => {
     onGetListInfo();
     if (adminInfo?.role === ERole.SUPER_ADMIN) handleUserSearch("");
-  }, [query.page, query.limit]);
+  }, [query.page, query.limit, query.assigneeIds]);
 
   return (
     <>
@@ -412,6 +418,7 @@ export default function TableInfo() {
             <Select.Option value="PAYED">Đã thanh toán</Select.Option>
             <Select.Option value="OVER_DATE">Quá hạn</Select.Option>
           </Select>
+
           <Button type="primary" color="primary" onClick={onGetListInfo}>
             Tìm kiếm
           </Button>
@@ -428,6 +435,21 @@ export default function TableInfo() {
           Thêm mới thông tin
         </Button>
       </div>
+      <Visibility visibility={adminInfo?.role === ERole.SUPER_ADMIN}>
+        <Select
+          mode="multiple"
+          allowClear
+          style={{ minWidth: 200 }}
+          placeholder="Lọc theo Admin"
+          options={adminFilterOptions}
+          onChange={(value) =>
+            setQuery((prev) => ({ ...prev, assigneeIds: value }))
+          }
+          filterOption={false}
+          value={query.assigneeIds}
+          className="mb-3"
+        />
+      </Visibility>
       <Visibility visibility={hasSelected && selectedRowKeys.length > 0}>
         <Visibility
           visibility={adminInfo?.role === ERole.SUPER_ADMIN}
