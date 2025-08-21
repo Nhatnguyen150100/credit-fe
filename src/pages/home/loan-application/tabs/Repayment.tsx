@@ -20,7 +20,7 @@ export default function Repayment({ userInfo }: IProps) {
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
         <CommonElement
-          logo="/checkvay.jpg"
+          logo="/jootvay.jpg"
           listItem={[
             {
               id: 1,
