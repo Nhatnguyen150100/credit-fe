@@ -269,7 +269,7 @@ export default function LoginPage() {
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
           <img
             className="object-cover h-[100px] w-[100px] mb-5"
-            src="/vaycash.jpg"
+            src="/jootvay.jpg"
           />
           <Visibility visibility={!isActive}>
             <PhoneInput

@@ -37,7 +37,7 @@ export default function Setting() {
       </div>
       <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[80px]">
         <div className="flex flex-col justify-start items-center w-full space-y-2">
-          <img className="h-[56px]" src="/vaycash.jpg" alt="logo" />
+          <img className="h-[56px]" src="/jootvay.jpg" alt="logo" />
           <h2 className="text-lg">V1.6.0</h2>
         </div>
       </div>
