@@ -31,11 +31,11 @@ body {
 }
 
 .primary-color {
-  color: #9568ff;
+  color: #33CCCC;
 }
 
 .primary-bg {
-  background-color: #9568ff;
+  background-color: #33CCCC;
 }
 
 @tailwind base;

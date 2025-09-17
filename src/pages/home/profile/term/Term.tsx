@@ -5,7 +5,7 @@ export default function Term() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
-      <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
+      <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full primary-bg border-b border-white">
         <ArrowLeftOutlined
           className="text-white"
           onClick={() => navigate(-1)}
@@ -45,7 +45,7 @@ export default function Term() {
             <ol className="list-decimal pl-6 space-y-2">
               <li>
                 <strong>Quy định thu thập thông tin:</strong> Chính sách này quy
-                định cách mà Bee Cash thu thập, sử dụng, bảo vệ và chia sẻ
+                định cách mà Fish Cash thu thập, sử dụng, bảo vệ và chia sẻ
                 thông tin.
               </li>
               <li>
@@ -83,7 +83,7 @@ export default function Term() {
                   </li>
                   <li>
                     <strong>Thông tin thiết bị:</strong> Thông tin về thiết bị
-                    Bạn sử dụng để truy cập Ứng dụng Bee Cash
+                    Bạn sử dụng để truy cập Ứng dụng Fish Cash
                   </li>
                 </ol>
               </li>

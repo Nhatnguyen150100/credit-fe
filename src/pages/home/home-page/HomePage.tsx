@@ -14,11 +14,11 @@ export default function HomePage() {
   return (
     <div className="space-y-3 pb-3">
       <div
-        className="h-[200px] w-screen bg-contain object-fill bg-no-repeat border-none"
+        className="h-[200px] w-screen bg-origin-content bg-[0%_60%] object-fill bg-no-repeat border-none"
         style={{ backgroundImage: "url('./bg-home.jpg')" }}
       >
         <div className="w-full flex justify-center">
-          <span className="text-center text-white font-medium mt-3">Bee Cash</span>
+          <span className="text-center text-white font-medium mt-3">Fish Cash</span>
         </div>
       </div>
       <div className="px-5 space-y-5">

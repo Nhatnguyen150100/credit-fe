@@ -93,7 +93,7 @@ export default function InformationDetail() {
       >
         <div className="w-full flex items-center justify-center">
           <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
-            <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full bg-blue-700 border-b border-white">
+            <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full primary-bg border-b border-white">
               <ArrowLeftOutlined
                 className="text-white"
                 onClick={() => navigate(-1)}
@@ -104,7 +104,7 @@ export default function InformationDetail() {
               <PhoneOutlined className="text-white" />
             </div>
             <div className="flex w-full flex-col justify-start items-center pb-10">
-              <div className="h-[160px] w-full bg-blue-700 relative">
+              <div className="h-[160px] w-full primary-bg relative">
                 <div className="w-full absolute top-10 flex justify-center items-center">
                   <div className="rounded-lg w-[90vw] bg-white p-5 flex flex-col justify-start items-center space-y-5 sm:w-[380px]">
                     <div className="flex flex-col w-full space-y-2 justify-start items-center">

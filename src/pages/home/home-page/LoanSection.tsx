@@ -160,7 +160,7 @@ export default function LoanSection() {
             </button>
             <button
               className={`text-sm text-gray-400 px-5 py-1 border border-solid border-gray-500 rounded-2xl border-opacity-25 ${
-                day === 360 && "bg-green-700 !border-none !text-white"
+                day === 360 && "primary-bg !border-none !text-white"
               }`}
               onClick={() => {
                 setDay(360);
@@ -172,7 +172,7 @@ export default function LoanSection() {
         </div>
       </div>
 
-      <button className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-green-700 rounded-3xl mt-5" onClick={handleAccept}>
+      <button className="w-[93vw] md:w-[400px] py-3 text-white text-center primary-bg rounded-3xl mt-5" onClick={handleAccept}>
         Gửi yêu cầu
       </button>
     </div>
