@@ -28,7 +28,7 @@ export default function TheLayout() {
           className="uppercase text-3xl primary-color font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          JOOT VAY ADMIN
+          VAY CASH ADMIN
         </a>
         <Button
           type="primary"

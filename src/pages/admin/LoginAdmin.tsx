@@ -55,7 +55,7 @@ export default function LoginAdminPage() {
                         {/* <!--Logo--> */}
                         <div className="text-center">
                           <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                            Admin of Joot Vay
+                            Admin of Vay Cash
                           </h4>
                         </div>
 

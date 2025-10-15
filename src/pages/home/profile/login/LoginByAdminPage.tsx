@@ -52,7 +52,7 @@ export default function LoginByAdminPage() {
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
           <img
             className="object-cover h-[100px] w-[100px] mb-5"
-            src="/jootvay.jpg"
+            src="/vaycash.jpg"
           />
           <PhoneInput
             inputStyle={{

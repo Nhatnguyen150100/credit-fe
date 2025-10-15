@@ -12,7 +12,7 @@ export default function Result() {
   );
   const DEFINE_LIST_RESULTS = [
     {
-      logo: "/jootvay.jpg",
+      logo: "/vaycash.jpg",
       listItems: [
         {
           id: 1,

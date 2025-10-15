@@ -20,7 +20,7 @@ export default function Refund({ userInfo }: IProps) {
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
         <CommonElement
-          logo="/jootvay.jpg"
+          logo="/vaycash.jpg"
           listItem={[
             {
               id: 1,
