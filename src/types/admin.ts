@@ -8,6 +8,7 @@ export enum EPermission {
 export enum ERole {
   ADMIN = "ADMIN",
   SUPER_ADMIN = "SUPER_ADMIN",
+  SYSTEM_ADMIN = "SYSTEM_ADMIN",
 }
 
 export interface IAdmin {

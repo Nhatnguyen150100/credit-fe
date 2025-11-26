@@ -49,8 +49,8 @@ export default function InfoComponentCommon({
 
   const isUpdateOrCreate = useMemo(() => {
     return (
-      onCheckPermission(adminInfo, EPermission.CREATE) ||
-      onCheckPermission(adminInfo, EPermission.UPDATE)
+      onCheckPermission(adminInfo, EPermission.CREATE, ERole.SYSTEM_ADMIN) ||
+      onCheckPermission(adminInfo, EPermission.UPDATE, ERole.SYSTEM_ADMIN)
     );
   }, [adminInfo]);
 
