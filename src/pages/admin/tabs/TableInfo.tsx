@@ -427,7 +427,7 @@ export default function TableInfo() {
           type="primary"
           icon={<PlusOutlined />}
           iconPosition="start"
-          hidden={!onCheckPermission(adminInfo, EPermission.CREATE)}
+          hidden={!onCheckPermission(adminInfo, EPermission.CREATE, ERole.SYSTEM_ADMIN)}
           onClick={() => {
             navigate(DEFINE_ROUTER.newInfo);
           }}
@@ -458,7 +458,7 @@ export default function TableInfo() {
               className="mb-3"
               danger
               icon={<DeleteOutlined />}
-              hidden={!onCheckPermission(adminInfo, EPermission.DELETE)}
+              hidden={!onCheckPermission(adminInfo, EPermission.DELETE, ERole.SYSTEM_ADMIN)}
               onClick={deleteMultiple}
             >
               Xóa các hàng đã chọn
@@ -500,7 +500,7 @@ export default function TableInfo() {
           shape="default"
           iconPosition="end"
           onClick={updateMultipleStatus}
-          hidden={!onCheckPermission(adminInfo, EPermission.UPDATE)}
+          hidden={!onCheckPermission(adminInfo, EPermission.UPDATE, ERole.SYSTEM_ADMIN)}
         >
           {`Kiểm tra và cập nhật dữ liệu đã bị quá hạn trả (quá ngày ${dayjs().format(
             "DD/MM/YYYY"
