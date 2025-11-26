@@ -71,9 +71,6 @@ export default function LoginByAdminPage() {
             placeholder="Số điện thoại"
           />
           {btnLogin}
-          <div className="mt-5 flex justify-center items-center">
-            <span className="text-red-600 text-sm">--- Đăng nhập chỉ dành cho ADMIN ---</span>
-          </div>
         </div>
       </div>
     </div>
