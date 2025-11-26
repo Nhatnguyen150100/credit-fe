@@ -2,9 +2,12 @@ import cookiesStore from "../../plugins/cookiesStore";
 import { Navigate, Outlet } from "react-router-dom";
 import DEFINE_ROUTER from "../../constants/router-define";
 import { Button, Divider } from "antd";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../lib/store";
 
 export default function TheLayout() {
   const admin = cookiesStore.get("admin");
+  const { info } = useSelector((state: IRootState) => state.admin);
 
   if (!admin) {
     return (
@@ -28,7 +31,7 @@ export default function TheLayout() {
           className="uppercase text-3xl primary-color font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          VAY CASH ADMIN
+          VAY CASH ADMIN - {info?.role}
         </a>
         <Button
           type="primary"
