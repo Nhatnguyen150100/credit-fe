@@ -17,6 +17,7 @@ import LoginPage from "../pages/home/profile/login/LoginPage";
 import MyAccountBanking from "../pages/home/profile/account-banking/MyAccountBanking";
 import Term from "../pages/home/profile/term/Term";
 import LoginByAdminPage from "../pages/home/profile/login/LoginByAdminPage";
+import LandingPage from "../pages/home/home-page/LandingPage";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <LandingPage />,
       },
       {
         path: DEFINE_ROUTER.paymentApplication,
