@@ -1,14 +1,13 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axiosRequest from "../../../../plugins/request";
-import Visibility from "../../../../components/visibility";
 import DEFINE_ROUTER from "../../../../constants/router-define";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../../lib/reducer/userSlice";
-import "react-phone-input-2/lib/style.css";
-import PhoneInput from "react-phone-input-2";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   getAuth,
   RecaptchaVerifier,
@@ -16,18 +15,42 @@ import {
 } from "firebase/auth";
 import { TFirebaseLogin } from "../../../../types/firebase";
 import { getApps, initializeApp } from "firebase/app";
+import TheHeader from "../../layout/TheHeader";
+import TheFooter from "../../layout/TheFooter";
 
 const TIME_EXPIRE_OTP = 3 * 60;
 
+const LoginSchema = z.object({
+  phoneNumber: z
+    .string()
+    .min(1, "Vui lòng nhập số điện thoại")
+    .regex(/^0\d{9}$/, "Số điện thoại phải gồm 10 số và bắt đầu bằng 0"),
+  otpCode: z.string().optional(),
+});
+
+type LoginFormValues = z.infer<typeof LoginSchema>;
+
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [phoneNumber, setPhoneNumber] = React.useState<string>();
-  const [otpCode, setOtpCode] = React.useState<string>();
   const [timeLeft, setTimeLeft] = React.useState(TIME_EXPIRE_OTP);
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const [firebaseConfig, setFirebaseConfig] = React.useState<TFirebaseLogin>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    setError,
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      phoneNumber: "",
+      otpCode: "",
+    },
+  });
 
   const app = React.useMemo(() => {
     const apps = getApps();
@@ -97,7 +120,9 @@ export default function LoginPage() {
     return phoneRegex.test(phone);
   }
 
-  const handleSentOTP = async () => {
+  const handleSentOTPRaw = async () => {
+    const phoneNumber = getValues("phoneNumber");
+
     if (!auth) {
       message.error(
         "Cấu hình dự án chưa được kết nối. Vui lòng kiểm tra kết nối internet và thử lại sau. Nếu liên tục bị lỗi này hãy liên hệ quản trị viên để được giúp đỡ."
@@ -145,6 +170,8 @@ export default function LoginPage() {
   };
 
   const handleLogin = async () => {
+    const phoneNumber = getValues("phoneNumber");
+
     if (!phoneNumber) {
       message.error("Vui lòng nhập số điện thoại");
       return;
@@ -165,13 +192,21 @@ export default function LoginPage() {
   };
 
   const handleVerifyOtp = async () => {
+    const otpCode = getValues("otpCode") || "";
+
     if (!otpCode) {
-      message.error("Vui lòng nhập OTP");
+      setError("otpCode", {
+        type: "manual",
+        message: "Vui lòng nhập OTP",
+      });
       return;
     }
 
     if (otpCode.length !== 6) {
-      message.error("Mã OTP phải có 6 chữ số");
+      setError("otpCode", {
+        type: "manual",
+        message: "Mã OTP phải có 6 chữ số",
+      });
       return;
     }
 
@@ -202,6 +237,8 @@ export default function LoginPage() {
   };
 
   const handleCheckCustomOtp = async () => {
+    const otpCode = getValues("otpCode") || "";
+
     try {
       const rs = await axiosRequest.post("/v1/otp/on-check-otp", {
         otpCustom: otpCode,
@@ -236,115 +273,118 @@ export default function LoginPage() {
     handleGetFirebaseConfig();
   }, []);
 
-  const btnLogin = (
-    <Button
-      className="w-full py-3 mt-5 h-[40px] primary-bg"
-      type="primary"
-      loading={loading || !auth}
-      disabled={!auth}
-      onClick={handleSentOTP}
-    >
-      Đăng nhập
-    </Button>
-  );
-
-  const btnVerifyOtp = (
-    <Button
-      className="w-full py-3 mt-5 h-[40px]"
-      type="primary"
-      loading={loading}
-      onClick={handleVerifyOtp}
-    >
-      Xác nhận mã OTP
-    </Button>
-  );
-
   return (
-    <div className="w-full flex justify-center items-center">
-      <div id="recaptcha-container"></div>
-      <div className="h-screen overflow-hidden flex flex-col justify-start items-start w-screen p-3 sm:max-w-[450px] sm:border">
-        <div className="w-full flex justify-start items-center">
-          <ArrowLeftOutlined className="h-6 w-6" onClick={() => navigate(-1)} />
-        </div>
-        <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
-          <img
-            className="object-cover h-[100px] w-[100px] mb-5"
-            src="/logo.jpg"
-          />
-          <Visibility visibility={!isActive}>
-            <PhoneInput
-              inputStyle={{
-                width: "100%",
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && auth) {
-                  handleSentOTP();
-                }
-              }}
-              country={"vn"}
-              disableCountryCode
-              disableDropdown
-              value={phoneNumber}
-              onChange={setPhoneNumber}
-              placeholder="Số điện thoại"
-            />
-          </Visibility>
-          <Visibility visibility={isActive}>
-            <div className="w-full py-3 border-b border-solid border-gray-300 flex justify-start items-center space-x-3 mt-10">
-              <img className="h-5 w-5" src="/icon/otp-icon.png" alt="otp" />
+    <div className="min-h-screen w-screen flex flex-col justify-start items-center bg-white">
+      <TheHeader />
+      <main className="px-4">
+        <div id="recaptcha-container" />
+
+        <div className="w-full max-w-md flex flex-col items-stretch text-center">
+          <h1 className="text-[24px] leading-8 font-semibold text-gray-800 mb-2">
+            Ưu đãi dành riêng cho
+            <br />
+            khách hàng thân thiết.
+          </h1>
+          <p className="text-[16px] leading-7 text-gray-700 mb-8">
+            Nhận khoản vay lớn hơn, nhanh hơn và dễ dàng hơn từ lần vay thứ hai
+            trở đi!
+          </p>
+
+          <form
+            className="w-full"
+            onSubmit={handleSubmit(() => {
+              handleSentOTPRaw();
+            })}
+          >
+            <div className="text-left space-y-2 mb-2">
+              <label className="block text-sm text-gray-700 font-medium">
+                Số điện thoại của bạn
+              </label>
               <input
-                className="outline-none w-full text-sm"
-                placeholder={"Nhập OTP"}
+                className={`w-full h-[52px] rounded-[12px] border focus:border-[#FF8A3D] bg-[#F7FBFF] px-4 text-sm outline-none`}
+                type="tel"
                 inputMode="numeric"
-                maxLength={6}
-                value={otpCode}
-                onChange={(e) => {
-                  const value = e.target.value
-                    .replace(/[^0-9]/g, "")
-                    .slice(0, 6);
-                  setOtpCode(value);
+                disabled={isActive}
+                placeholder="0xx xxx xxxx"
+                {...register("phoneNumber")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && auth) {
+                    e.preventDefault();
+                    handleSubmit(() => handleSentOTPRaw())();
+                  }
                 }}
               />
-              <span className="text-sm text-nowrap text-gray-600">
-                {formatTime(timeLeft)}
-              </span>
+              {errors.phoneNumber && (
+                <p className="text-xs text-red-500">
+                  {errors.phoneNumber.message}
+                </p>
+              )}
             </div>
-            <div className="w-full mt-3 flex flex-row justify-end items-center">
-              <span
-                className={`text-sm text-blue-600 underline`}
-                onClick={() => {
-                  if (timeLeft >= 60) {
-                    message.error("Đợi còn 1 phút để gửi lại OTP");
-                    return;
-                  }
-                  handleSentOTP();
-                  resetTimer();
-                }}
-              >
-                Gửi lại OTP
-              </span>
-            </div>
-          </Visibility>
-          <Visibility visibility={!isActive} suspenseComponent={btnVerifyOtp}>
-            {btnLogin}
-          </Visibility>
-          <div className="flex flex-col justify-center items-center my-3">
-            <span className="text-red-600 text-sm">
-              <sup>*</sup>Chú ý: Phải nhập đầy đủ số điện thoại bao gồm 10 số
-              bao gồm cả số <strong>0</strong> ở đầu.
-            </span>
-            <span className="text-red-600 text-sm">
-              Ví dụ: Số điện thoại của bạn là <strong>0123456789.</strong> Thì
-              bạn phải nhập đầy đủ là <strong>0123456789</strong>.
-            </span>
+
+          {!isActive ? (
+            <Button
+              htmlType="submit"
+              className="w-full h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] border-none text-white mb-8 mt-5"
+              type="primary"
+              loading={loading || !auth}
+              disabled={!auth}
+            >
+              Xác nhận bằng mã OTP
+            </Button>
+          ) : (
+            <button
+              type="button"
+              className="w-full h-[52px] rounded-[12px] bg-[#F7FBFF] text-[#7F8FA6] text-sm font-semibold mb-8 flex flex-col items-center justify-center"
+              onClick={() => {
+                if (timeLeft >= 60) {
+                  message.error("Đợi còn 1 phút để gửi lại OTP");
+                  return;
+                }
+                handleSentOTPRaw();
+                resetTimer();
+              }}
+            >
+              <span>Gửi lại</span>
+              <span className="mt-1 text-xs">{formatTime(timeLeft)}</span>
+            </button>
+          )}
+
+          <div className="text-left space-y-2 mb-6">
+            <label className="block text-sm text-gray-700 font-medium">
+              Mã xác nhận
+            </label>
+
+            <input
+              className="w-full h-[52px] rounded-[12px] border border-[#E5F0FF] bg-[#F7FBFF] px-4 text-sm outline-none"
+              placeholder="Mã xác nhận"
+              inputMode="numeric"
+              maxLength={6}
+              {...register("otpCode")}
+            />
+            {errors.otpCode && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.otpCode.message}
+              </p>
+            )}
           </div>
-          <div className="mt-5 flex justify-center items-center">
-            <Link className="text-sm text-blue-600 underline" to={"/#"}>
-              Đăng kí / Đăng nhập bằng số điện thoại
-            </Link>
-          </div>
-        </div>
+
+          <Button
+            className={`w-full h-[52px] rounded-[12px] text-base font-semibold shadow-none border-none ${
+              (getValues("otpCode") || "").length === 6
+                ? "bg-[#FFEDD9] text-[#FF8A3D]"
+                : "bg-[#FFEFE0] text-[#F0B38D]"
+            }`}
+            type="primary"
+            loading={loading}
+            disabled={(getValues("otpCode") || "").length !== 6}
+            onClick={handleVerifyOtp}
+          >
+            Đăng nhập
+          </Button>
+        </form>
       </div>
-    </div>
+    </main>
+    <TheFooter />
+  </div>
   );
 }

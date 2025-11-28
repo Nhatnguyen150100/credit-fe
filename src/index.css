@@ -1,5 +1,6 @@
 :root {
-  font-family: "Roboto", sans-serif;
+  font-family: "Lexend Deca", "Trebuchet MS", "Helvetica Neue", Helvetica,
+    Tahoma, sans-serif;
   line-height: 1.5;
 
   font-synthesis: none;
@@ -25,19 +26,348 @@ body {
 .custom-shape {
   padding: 20px; /* Khoảng cách bên trong */
   color: white; /* Màu chữ */
-  clip-path: polygon(0 0, 100% 0, 100% 20%, 100% 80%, 69% 94%, 26% 94%, 0% 80%, 0% 20%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 20%,
+    100% 80%,
+    69% 94%,
+    26% 94%,
+    0% 80%,
+    0% 20%
+  );
   border-bottom-left-radius: 50px; /* Độ cong cho góc dưới bên trái */
   border-bottom-right-radius: 50px; /* Độ cong cho góc dưới bên phải */
 }
 
 .primary-color {
-  color: #33CCCC;
+  color: #fdf5c1;
+}
+
+.bg-primary-color {
+  background-color: #fdf5c1;
+}
+
+.bg-primary-color-dark {
+  background-color: #f2b600;
+}
+
+.primary-color-dark {
+  color: #f2b600;
 }
 
 .primary-bg {
-  background-color: #33CCCC;
+  background-color: #33cccc;
+}
+
+.text-primary-color {
+  color: #2d2d2f;
+}
+
+.bg-text-primary-color {
+  background-color: #2d2d2f;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --error: #f41c1e;
+  --error--rgb: rgb(244, 28, 30);
+  --notice: #68936a;
+  --notice--rgb: rgb(104, 147, 106);
+  --warning: #ce982d;
+  --warning--rgb: rgb(206, 152, 45);
+  --info: #5496ba;
+  --info--rgb: rgb(84, 150, 186);
+  --general: #b2b2b2;
+  --general--rgb: rgb(178, 178, 178);
+  --theme_orangish: #fc924f;
+  --theme_orangish--rgb: rgb(252, 146, 79);
+  --theme_orangish_dark: #ee701f;
+  --theme_orangish_dark--rgb: rgb(238, 112, 31);
+  --theme_orangish_light: #f2a258;
+  --theme_orangish_light--rgb: rgb(242, 162, 88);
+  --theme_orangish_light_ultra: #ffe8ce;
+  --theme_orangish_light_ultra--rgb: rgb(255, 232, 206);
+  --theme_cloudless: #e3f0fe;
+  --theme_cloudless--rgb: rgb(227, 240, 254);
+  --theme_cloudless_dark: #c6e2fc;
+  --theme_cloudless_dark--rgb: rgb(198, 226, 252);
+  --theme_cloudless_light: #f0f7fb;
+  --theme_cloudless_light--rgb: rgb(240, 247, 251);
+  --theme_cloudless_light_ultra: #f9fcfe;
+  --theme_cloudless_light_ultra--rgb: rgb(249, 252, 254);
+  --theme_cloudless_dirty: #e4ecf4;
+  --theme_cloudless_dirty--rgb: rgb(228, 236, 244);
+  --theme_sand: #fce95f;
+  --theme_sand--rgb: rgb(252, 233, 95);
+  --theme_sand_dark: #fbd900;
+  --theme_sand_dark--rgb: rgb(251, 217, 0);
+  --theme_sand_light: #fdf5c1;
+  --theme_sand_light--rgb: rgb(253, 245, 193);
+  --theme_sand_light_ultra: #fdfaeb;
+  --theme_sand_light_ultra--rgb: rgb(253, 250, 235);
+  --theme_accent: #facc56;
+  --theme_accent--rgb: rgb(250, 204, 86);
+  --theme_dark_background: #2f2f2f;
+  --theme_dark_background--rgb: rgb(47, 47, 47);
+  --theme_back: #030303;
+  --theme_back--rgb: rgb(3, 3, 3);
+  --theme_gray: #cacaca;
+  --theme_gray--rgb: rgb(202, 202, 202);
+  --theme_gray_ultra: #d9d9d9;
+  --theme_gray_ultra--rgb: rgb(217, 217, 217);
+  --theme_dark: #2d2d2f;
+  --theme_dark--rgb: rgb(45, 45, 47);
+  --theme_payment_data: #1c8af4;
+  --theme_payment_data--rgb: rgb(28, 138, 244);
+  --account_theme_active: #6cb238;
+  --account_theme_active--rgb: rgb(108, 178, 56);
+  --account_theme_active_light: #f1f9ec;
+  --account_theme_active_light--rgb: rgb(241, 249, 236);
+  --account_theme_today: #f4861c;
+  --account_theme_today--rgb: rgb(244, 134, 28);
+  --account_theme_today_light: #fef7f0;
+  --account_theme_today_light--rgb: rgb(254, 247, 240);
+  --account_theme_overdue: #c55147;
+  --account_theme_overdue--rgb: rgb(197, 81, 71);
+  --account_theme_overdue_light: #fef0f1;
+  --account_theme_overdue_light--rgb: rgb(254, 240, 241);
+  --label: #898989;
+  --secondary_link: #69707f;
+  --secondary_link--rgb: rgb(105, 112, 127);
+  --default_color: #343434;
+  --text_color: #2d2d2f;
+  --graphite: #494a50;
+  --typographic_color: #585858;
+  --light_graphite: #929292;
+  --default_white: #d9d9d9;
+  --disable: #b9bdc5;
+  --soft_accent: #c7c7c7;
+  --border_accent: #f2f2f2;
+  --soft_gray: #dfdfdf;
+  --default_font: "Lexend Deca", "Trebuchet MS", "Helvetica Neue", Helvetica,
+    Tahoma, sans-serif;
+  --condensed_font: "Lexend Deca", "Trebuchet MS", "Helvetica Neue", Helvetica,
+    Tahoma, sans-serif;
+  --accent_font: "Lexend Deca", "Trebuchet MS", "Helvetica Neue", Helvetica,
+    Tahoma, sans-serif;
+  --title_font: "Lexend Deca", "Trebuchet MS", "Helvetica Neue", Helvetica,
+    Tahoma, sans-serif;
+}
+
+@layer utilities {
+  /* Status colors */
+  .bg-error { background-color: var(--error); }
+  .text-error { color: var(--error); }
+  .border-error { border-color: var(--error); }
+  
+  .bg-notice { background-color: var(--notice); }
+  .text-notice { color: var(--notice); }
+  .border-notice { border-color: var(--notice); }
+  
+  .bg-warning { background-color: var(--warning); }
+  .text-warning { color: var(--warning); }
+  .border-warning { border-color: var(--warning); }
+  
+  .bg-info { background-color: var(--info); }
+  .text-info { color: var(--info); }
+  .border-info { border-color: var(--info); }
+  
+  .bg-general { background-color: var(--general); }
+  .text-general { color: var(--general); }
+  .border-general { border-color: var(--general); }
+  
+  /* Theme colors - Orangish */
+  .bg-theme-orangish { background-color: var(--theme_orangish); }
+  .text-theme-orangish { color: var(--theme_orangish); }
+  .border-theme-orangish { border-color: var(--theme_orangish); }
+  
+  .bg-theme-orangish-dark { background-color: var(--theme_orangish_dark); }
+  .text-theme-orangish-dark { color: var(--theme_orangish_dark); }
+  .border-theme-orangish-dark { border-color: var(--theme_orangish_dark); }
+  
+  .bg-theme-orangish-light { background-color: var(--theme_orangish_light); }
+  .text-theme-orangish-light { color: var(--theme_orangish_light); }
+  .border-theme-orangish-light { border-color: var(--theme_orangish_light); }
+  
+  .bg-theme-orangish-light-ultra { background-color: var(--theme_orangish_light_ultra); }
+  .text-theme-orangish-light-ultra { color: var(--theme_orangish_light_ultra); }
+  .border-theme-orangish-light-ultra { border-color: var(--theme_orangish_light_ultra); }
+  
+  /* Theme colors - Cloudless */
+  .bg-theme-cloudless { background-color: var(--theme_cloudless); }
+  .text-theme-cloudless { color: var(--theme_cloudless); }
+  .border-theme-cloudless { border-color: var(--theme_cloudless); }
+  
+  .bg-theme-cloudless-dark { background-color: var(--theme_cloudless_dark); }
+  .text-theme-cloudless-dark { color: var(--theme_cloudless_dark); }
+  .border-theme-cloudless-dark { border-color: var(--theme_cloudless_dark); }
+  
+  .bg-theme-cloudless-light { background-color: var(--theme_cloudless_light); }
+  .text-theme-cloudless-light { color: var(--theme_cloudless_light); }
+  .border-theme-cloudless-light { border-color: var(--theme_cloudless_light); }
+  
+  .bg-theme-cloudless-light-ultra { background-color: var(--theme_cloudless_light_ultra); }
+  .text-theme-cloudless-light-ultra { color: var(--theme_cloudless_light_ultra); }
+  .border-theme-cloudless-light-ultra { border-color: var(--theme_cloudless_light_ultra); }
+  
+  .bg-theme-cloudless-dirty { background-color: var(--theme_cloudless_dirty); }
+  .text-theme-cloudless-dirty { color: var(--theme_cloudless_dirty); }
+  .border-theme-cloudless-dirty { border-color: var(--theme_cloudless_dirty); }
+  
+  /* Theme colors - Sand */
+  .bg-theme-sand { background-color: var(--theme_sand); }
+  .text-theme-sand { color: var(--theme_sand); }
+  .border-theme-sand { border-color: var(--theme_sand); }
+  
+  .bg-theme-sand-dark { background-color: var(--theme_sand_dark); }
+  .text-theme-sand-dark { color: var(--theme_sand_dark); }
+  .border-theme-sand-dark { border-color: var(--theme_sand_dark); }
+  
+  .bg-theme-sand-light { background-color: var(--theme_sand_light); }
+  .text-theme-sand-light { color: var(--theme_sand_light); }
+  .border-theme-sand-light { border-color: var(--theme_sand_light); }
+  
+  .bg-theme-sand-light-ultra { background-color: var(--theme_sand_light_ultra); }
+  .text-theme-sand-light-ultra { color: var(--theme_sand_light_ultra); }
+  .border-theme-sand-light-ultra { border-color: var(--theme_sand_light_ultra); }
+  
+  /* Theme colors - Accent & Background */
+  .bg-theme-accent { background-color: var(--theme_accent); }
+  .text-theme-accent { color: var(--theme_accent); }
+  .border-theme-accent { border-color: var(--theme_accent); }
+  
+  .bg-theme-dark-background { background-color: var(--theme_dark_background); }
+  .text-theme-dark-background { color: var(--theme_dark_background); }
+  .border-theme-dark-background { border-color: var(--theme_dark_background); }
+  
+  .bg-theme-back { background-color: var(--theme_back); }
+  .text-theme-back { color: var(--theme_back); }
+  .border-theme-back { border-color: var(--theme_back); }
+  
+  .bg-theme-gray { background-color: var(--theme_gray); }
+  .text-theme-gray { color: var(--theme_gray); }
+  .border-theme-gray { border-color: var(--theme_gray); }
+  
+  .bg-theme-gray-ultra { background-color: var(--theme_gray_ultra); }
+  .text-theme-gray-ultra { color: var(--theme_gray_ultra); }
+  .border-theme-gray-ultra { border-color: var(--theme_gray_ultra); }
+  
+  .bg-theme-dark { background-color: var(--theme_dark); }
+  .text-theme-dark { color: var(--theme_dark); }
+  .border-theme-dark { border-color: var(--theme_dark); }
+  
+  .bg-theme-payment-data { background-color: var(--theme_payment_data); }
+  .text-theme-payment-data { color: var(--theme_payment_data); }
+  .border-theme-payment-data { border-color: var(--theme_payment_data); }
+  
+  /* Account theme colors */
+  .bg-account-theme-active { background-color: var(--account_theme_active); }
+  .text-account-theme-active { color: var(--account_theme_active); }
+  .border-account-theme-active { border-color: var(--account_theme_active); }
+  
+  .bg-account-theme-active-light { background-color: var(--account_theme_active_light); }
+  .text-account-theme-active-light { color: var(--account_theme_active_light); }
+  .border-account-theme-active-light { border-color: var(--account_theme_active_light); }
+  
+  .bg-account-theme-today { background-color: var(--account_theme_today); }
+  .text-account-theme-today { color: var(--account_theme_today); }
+  .border-account-theme-today { border-color: var(--account_theme_today); }
+  
+  .bg-account-theme-today-light { background-color: var(--account_theme_today_light); }
+  .text-account-theme-today-light { color: var(--account_theme_today_light); }
+  .border-account-theme-today-light { border-color: var(--account_theme_today_light); }
+  
+  .bg-account-theme-overdue { background-color: var(--account_theme_overdue); }
+  .text-account-theme-overdue { color: var(--account_theme_overdue); }
+  .border-account-theme-overdue { border-color: var(--account_theme_overdue); }
+  
+  .bg-account-theme-overdue-light { background-color: var(--account_theme_overdue_light); }
+  .text-account-theme-overdue-light { color: var(--account_theme_overdue_light); }
+  .border-account-theme-overdue-light { border-color: var(--account_theme_overdue_light); }
+  
+  /* Text & Typography colors */
+  .bg-label { background-color: var(--label); }
+  .text-label { color: var(--label); }
+  .border-label { border-color: var(--label); }
+  
+  .bg-secondary-link { background-color: var(--secondary_link); }
+  .text-secondary-link { color: var(--secondary_link); }
+  .border-secondary-link { border-color: var(--secondary_link); }
+  
+  .bg-default-color { background-color: var(--default_color); }
+  .text-default-color { color: var(--default_color); }
+  .border-default-color { border-color: var(--default_color); }
+  
+  .bg-text-color { background-color: var(--text_color); }
+  .text-text-color { color: var(--text_color); }
+  .border-text-color { border-color: var(--text_color); }
+  
+  .bg-graphite { background-color: var(--graphite); }
+  .text-graphite { color: var(--graphite); }
+  .border-graphite { border-color: var(--graphite); }
+  
+  .bg-light-graphite { background-color: var(--light_graphite); }
+  .text-light-graphite { color: var(--light_graphite); }
+  .border-light-graphite { border-color: var(--light_graphite); }
+  
+  .bg-typographic-color { background-color: var(--typographic_color); }
+  .text-typographic-color { color: var(--typographic_color); }
+  .border-typographic-color { border-color: var(--typographic_color); }
+  
+  .bg-default-white { background-color: var(--default_white); }
+  .text-default-white { color: var(--default_white); }
+  .border-default-white { border-color: var(--default_white); }
+  
+  .bg-disable { background-color: var(--disable); }
+  .text-disable { color: var(--disable); }
+  .border-disable { border-color: var(--disable); }
+  
+  .bg-soft-accent { background-color: var(--soft_accent); }
+  .text-soft-accent { color: var(--soft_accent); }
+  .border-soft-accent { border-color: var(--soft_accent); }
+  
+  .bg-border-accent { background-color: var(--border_accent); }
+  .text-border-accent { color: var(--border_accent); }
+  .border-border-accent { border-color: var(--border_accent); }
+  
+  .bg-soft-gray { background-color: var(--soft_gray); }
+  .text-soft-gray { color: var(--soft_gray); }
+  .border-soft-gray { border-color: var(--soft_gray); }
+}
+
+/* Custom Slider Styles */
+
+.custom-slider {
+  margin: 20px 0px;
+}
+
+.custom-slider .ant-slider-handle::after,
+.custom-slider .ant-slider-handle::before {
+  display: none;
+}
+
+.custom-slider .ant-slider-handle {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.2s ease;
+  border-radius: 50% !important;
+}
+
+.custom-slider .ant-slider-handle:hover,
+.custom-slider .ant-slider-handle:focus,
+.custom-slider .ant-slider-handle:active {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  transform: scale(1.1);
+  border-color: white !important;
+}
+
+.custom-slider .ant-slider-rail {
+  filter: blur(0.3px);
+}
+
+.custom-slider .ant-slider-track {
+  filter: blur(0.3px);
+}

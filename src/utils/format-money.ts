@@ -4,8 +4,8 @@ export function formatCurrency(amount: number): string {
     .split("")
     .reverse()
     .reduce((prev, next, index) => {
-      return (index % 3 ? next : next + ",") + prev;
+      return (index % 3 ? next : next + " ") + prev;
     });
 
-    return `${format} VND`
+    return `${format} đ`
 }
