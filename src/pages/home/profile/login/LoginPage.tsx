@@ -274,117 +274,121 @@ export default function LoginPage() {
   }, []);
 
   return (
-    <div className="min-h-screen w-screen flex flex-col justify-start items-center bg-white">
-      <TheHeader />
-      <main className="px-4">
-        <div id="recaptcha-container" />
+    <div className="overflow-hidden sm:w-full sm:flex sm:justify-center sm:items-center">
+      <div className="h-screen w-screen flex flex-col justify-between items-start bg-gray-100 md:max-w-[450px] overflow-hidden">
+        <div className="h-full relative overflow-y-auto overflow-x-hidden bg-white">
+          <TheHeader />
+          <main className="px-4">
+            <div id="recaptcha-container" />
 
-        <div className="w-full max-w-md flex flex-col items-stretch text-center">
-          <h1 className="text-[24px] leading-8 font-semibold text-gray-800 mb-2">
-            Ưu đãi dành riêng cho
-            <br />
-            khách hàng thân thiết.
-          </h1>
-          <p className="text-[16px] leading-7 text-gray-700 mb-8">
-            Nhận khoản vay lớn hơn, nhanh hơn và dễ dàng hơn từ lần vay thứ hai
-            trở đi!
-          </p>
-
-          <form
-            className="w-full"
-            onSubmit={handleSubmit(() => {
-              handleSentOTPRaw();
-            })}
-          >
-            <div className="text-left space-y-2 mb-2">
-              <label className="block text-sm text-gray-700 font-medium">
-                Số điện thoại của bạn
-              </label>
-              <input
-                className={`w-full h-[52px] rounded-[12px] border focus:border-[#FF8A3D] bg-[#F7FBFF] px-4 text-sm outline-none`}
-                type="tel"
-                inputMode="numeric"
-                disabled={isActive}
-                placeholder="0xx xxx xxxx"
-                {...register("phoneNumber")}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && auth) {
-                    e.preventDefault();
-                    handleSubmit(() => handleSentOTPRaw())();
-                  }
-                }}
-              />
-              {errors.phoneNumber && (
-                <p className="text-xs text-red-500">
-                  {errors.phoneNumber.message}
-                </p>
-              )}
-            </div>
-
-          {!isActive ? (
-            <Button
-              htmlType="submit"
-              className="w-full h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] border-none text-white mb-8 mt-5"
-              type="primary"
-              loading={loading || !auth}
-              disabled={!auth}
-            >
-              Xác nhận bằng mã OTP
-            </Button>
-          ) : (
-            <button
-              type="button"
-              className="w-full h-[52px] rounded-[12px] bg-[#F7FBFF] text-[#7F8FA6] text-sm font-semibold mb-8 flex flex-col items-center justify-center"
-              onClick={() => {
-                if (timeLeft >= 60) {
-                  message.error("Đợi còn 1 phút để gửi lại OTP");
-                  return;
-                }
-                handleSentOTPRaw();
-                resetTimer();
-              }}
-            >
-              <span>Gửi lại</span>
-              <span className="mt-1 text-xs">{formatTime(timeLeft)}</span>
-            </button>
-          )}
-
-          <div className="text-left space-y-2 mb-6">
-            <label className="block text-sm text-gray-700 font-medium">
-              Mã xác nhận
-            </label>
-
-            <input
-              className="w-full h-[52px] rounded-[12px] border border-[#E5F0FF] bg-[#F7FBFF] px-4 text-sm outline-none"
-              placeholder="Mã xác nhận"
-              inputMode="numeric"
-              maxLength={6}
-              {...register("otpCode")}
-            />
-            {errors.otpCode && (
-              <p className="mt-1 text-xs text-red-500">
-                {errors.otpCode.message}
+            <div className="w-full max-w-md flex flex-col items-stretch text-center">
+              <h1 className="text-[24px] leading-8 font-semibold text-gray-800 mb-2">
+                Ưu đãi dành riêng cho
+                <br />
+                khách hàng thân thiết.
+              </h1>
+              <p className="text-[16px] leading-7 text-gray-700 mb-8">
+                Nhận khoản vay lớn hơn, nhanh hơn và dễ dàng hơn từ lần vay thứ
+                hai trở đi!
               </p>
-            )}
-          </div>
 
-          <Button
-            className={`w-full h-[52px] rounded-[12px] text-base font-semibold shadow-none border-none ${
-              (getValues("otpCode") || "").length === 6
-                ? "bg-[#FFEDD9] text-[#FF8A3D]"
-                : "bg-[#FFEFE0] text-[#F0B38D]"
-            }`}
-            type="primary"
-            loading={loading}
-            disabled={(getValues("otpCode") || "").length !== 6}
-            onClick={handleVerifyOtp}
-          >
-            Đăng nhập
-          </Button>
-        </form>
+              <form
+                className="w-full"
+                onSubmit={handleSubmit(() => {
+                  handleSentOTPRaw();
+                })}
+              >
+                <div className="text-left space-y-2 mb-2">
+                  <label className="block text-sm text-gray-700 font-medium">
+                    Số điện thoại của bạn
+                  </label>
+                  <input
+                    className={`w-full h-[52px] rounded-[12px] border focus:border-[#FF8A3D] bg-[#F7FBFF] px-4 text-sm outline-none`}
+                    type="tel"
+                    inputMode="numeric"
+                    disabled={isActive}
+                    placeholder="0xx xxx xxxx"
+                    {...register("phoneNumber")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && auth) {
+                        e.preventDefault();
+                        handleSubmit(() => handleSentOTPRaw())();
+                      }
+                    }}
+                  />
+                  {errors.phoneNumber && (
+                    <p className="text-xs text-red-500">
+                      {errors.phoneNumber.message}
+                    </p>
+                  )}
+                </div>
+
+                {!isActive ? (
+                  <Button
+                    htmlType="submit"
+                    className="w-full h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] border-none text-white mb-8 mt-5"
+                    type="primary"
+                    loading={loading || !auth}
+                    disabled={!auth}
+                  >
+                    Xác nhận bằng mã OTP
+                  </Button>
+                ) : (
+                  <button
+                    type="button"
+                    className="w-full h-[52px] rounded-[12px] bg-[#F7FBFF] text-[#7F8FA6] text-sm font-semibold mb-8 flex flex-col items-center justify-center"
+                    onClick={() => {
+                      if (timeLeft >= 60) {
+                        message.error("Đợi còn 1 phút để gửi lại OTP");
+                        return;
+                      }
+                      handleSentOTPRaw();
+                      resetTimer();
+                    }}
+                  >
+                    <span>Gửi lại</span>
+                    <span className="mt-1 text-xs">{formatTime(timeLeft)}</span>
+                  </button>
+                )}
+
+                <div className="text-left space-y-2 mb-6">
+                  <label className="block text-sm text-gray-700 font-medium">
+                    Mã xác nhận
+                  </label>
+
+                  <input
+                    className="w-full h-[52px] rounded-[12px] border border-[#E5F0FF] bg-[#F7FBFF] px-4 text-sm outline-none"
+                    placeholder="Mã xác nhận"
+                    inputMode="numeric"
+                    maxLength={6}
+                    {...register("otpCode")}
+                  />
+                  {errors.otpCode && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {errors.otpCode.message}
+                    </p>
+                  )}
+                </div>
+
+                <Button
+                  className={`w-full h-[52px] rounded-[12px] text-base font-semibold shadow-none border-none ${
+                    (getValues("otpCode") || "").length === 6
+                      ? "bg-[#FFEDD9] text-[#FF8A3D]"
+                      : "bg-[#FFEFE0] text-[#F0B38D]"
+                  }`}
+                  type="primary"
+                  loading={loading}
+                  disabled={(getValues("otpCode") || "").length !== 6}
+                  onClick={handleVerifyOtp}
+                >
+                  Đăng nhập
+                </Button>
+              </form>
+            </div>
+          </main>
+          <TheFooter />
+        </div>
       </div>
-    </main>
-    <TheFooter />
-  </div>
+    </div>
   );
 }
