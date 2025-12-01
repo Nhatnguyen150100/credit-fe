@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { Button, Empty, message, Spin } from "antd";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axiosRequest from "../../../plugins/request";
@@ -41,6 +42,61 @@ export default function InformationDetail() {
     message.error("Không tìm thấy hồ sơ của bạn");
     return <Navigate to={DEFINE_ROUTER.home} replace />;
   }
+
+  const daysLeft =
+    userInfo?.date_payable && dayjs(userInfo.date_payable).isValid()
+      ? dayjs(userInfo.date_payable).diff(dayjs(), "day")
+      : undefined;
+
+  const renderStatusBadge = () => {
+    if (!userInfo) return null;
+
+    if (userInfo.status === "PAYED") {
+      return (
+        <span className="rounded-full bg-account-theme-active px-3 py-1 text-xs font-semibold text-white">
+          Đã thanh toán
+        </span>
+      );
+    }
+
+    if (userInfo.status === "NOT_PAY") {
+      if (typeof daysLeft === "number") {
+        if (daysLeft > 0) {
+          return (
+            <span className="rounded-full bg-account-theme-active px-3 py-1 text-xs font-semibold text-white">
+              Còn {daysLeft} ngày
+            </span>
+          );
+        }
+
+        if (daysLeft === 0) {
+          return (
+            <span className="rounded-full bg-account-theme-today px-3 py-1 text-xs font-semibold text-white">
+              Đến hạn hôm nay
+            </span>
+          );
+        }
+
+        return (
+          <span className="rounded-full bg-account-theme-overdue px-3 py-1 text-xs font-semibold text-white">
+            Quá hạn {Math.abs(daysLeft)} ngày
+          </span>
+        );
+      }
+
+      return (
+        <span className="rounded-full bg-account-theme-today px-3 py-1 text-xs font-semibold text-white">
+          Chưa thanh toán
+        </span>
+      );
+    }
+
+    return (
+      <span className="rounded-full bg-account-theme-overdue px-3 py-1 text-xs font-semibold text-white">
+        Quá hạn
+      </span>
+    );
+  };
 
   const DEFINE_TABLE_INFO = [
     {
@@ -89,113 +145,109 @@ export default function InformationDetail() {
     <>
       <Visibility
         visibility={Boolean(userInfo)}
-        suspenseComponent={loading ? <Spin /> : <Empty />}
-      >
-        <div className="w-full flex items-center justify-center">
-          <div className="flex flex-col justify-start items-center bg-gray-100 sm:max-w-[450px] sm:border">
-            <div className="shadow sticky top-0 z-10 py-3 px-4 flex justify-between items-center w-full primary-bg border-b border-white">
-              <ArrowLeftOutlined
-                className="text-white"
-                onClick={() => navigate(-1)}
-              />
-              <span className="text-sm text-white font-light">
-                Chi tiết đơn vay
-              </span>
-              <PhoneOutlined className="text-white" />
+        suspenseComponent={
+          loading ? (
+            <div className="flex items-center justify-center h-full">
+              <Spin />
             </div>
-            <div className="flex w-full flex-col justify-start items-center pb-10">
-              <div className="h-[160px] w-full primary-bg relative">
-                <div className="w-full absolute top-10 flex justify-center items-center">
-                  <div className="rounded-lg w-[90vw] bg-white p-5 flex flex-col justify-start items-center space-y-5 sm:w-[380px]">
-                    <div className="flex flex-col w-full space-y-2 justify-start items-center">
-                      <span className="text-sm text-gray-700">
-                        Tổng số tiền cần phải trả
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <Empty />
+            </div>
+          )
+        }
+      >
+        <div className="flex w-full items-center justify-center">
+          <div className="min-h-screen w-full bg-theme-sand-light-ultra pb-8 sm:max-w-[450px]">
+            <div className="px-4 mt-5">
+              <div className="rounded-2xl bg-account-theme-active-light px-4 py-4">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="mb-1 text-xs uppercase tracking-wide text-theme-dark">
+                      Tổng số tiền cần phải trả
+                    </p>
+                    <p className="m-0 text-3xl font-semibold text-text-color">
+                      {formatCurrency(userInfo?.amount_payable ?? 0)}
+                    </p>
+                  </div>
+                  {renderStatusBadge()}
+                </div>
+
+                <div className="mt-4 flex items-end justify-between text-sm">
+                  <div>
+                    <p className="mb-0.5 text-xs text-theme-dark">
+                      Ngày hoàn trả khoản vay
+                    </p>
+                    <p className="m-0 text-lg font-medium text-text-color">
+                      {formatDate(userInfo?.date_payable ?? "", "DD.MM.YYYY")}
+                    </p>
+                  </div>
+                  <div className="text-right text-xs text-secondary-link">
+                    <p className="m-0">
+                      Mã hồ sơ:{" "}
+                      <span className="font-semibold">{userInfo?._id}</span>
+                    </p>
+                    <p className="m-0 mt-0.5">
+                      Ngày nộp đơn:{" "}
+                      <span className="font-semibold">
+                        {formatDate(userInfo?.loan_date ?? "", "DD.MM.YYYY")}
                       </span>
-                      <span className="text-3xl text-blue-700 font-semibold">
-                        {formatCurrency(userInfo?.amount_payable ?? 0)}
-                      </span>
-                    </div>
-                    <div className="w-full px-5 flex flex-row justify-between items-center">
-                      <div className="flex flex-col justify-start items-start space-y-1">
-                        <span className="text-sm text-gray-700">
-                          Ngày hoàn trả khoản vay
-                        </span>
-                        <span className="text-sm ">
-                          {formatDate(
-                            userInfo?.date_payable ?? "",
-                            "DD-MM-YYYY"
-                          )}
-                        </span>
-                      </div>
-                      <div className="flex flex-col justify-start items-start space-y-1">
-                        <span
-                          className={`text-sm ${
-                            userInfo?.status === "PAYED"
-                              ? "text-green-700"
-                              : userInfo?.status === "NOT_PAY"
-                              ? "text-red-700"
-                              : "text-red-700"
-                          }`}
-                        >
-                          {userInfo?.status === "PAYED"
-                            ? "Đã thanh toán"
-                            : userInfo?.status === "NOT_PAY"
-                            ? "Chưa thanh toán"
-                            : userInfo?.status === "OVER_DATE"
-                            ? "Quá hạn"
-                            : null}
-                        </span>
-                      </div>
-                    </div>
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="mt-[80px] flex flex-col justify-start items-center space-y-5 w-full">
-                <div className="bg-white w-full p-3">
-                  <div className=" grid grid-cols-2 w-full border">
-                    {DEFINE_TABLE_INFO.map((item, index) => (
-                      <div key={index}>
-                        <span
-                          className={`text-sm text-gray-700 border-r h-[40px] flex justify-center items-center ${
-                            index !== DEFINE_TABLE_INFO.length - 1 && "border-b"
-                          }`}
-                          key={index}
-                        >
-                          {item.label}
-                        </span>
-                        <span
-                          className={`text-sm  h-[40px] flex justify-center items-center ${
-                            index !== DEFINE_TABLE_INFO.length - 1 && "border-b"
-                          }`}
-                        >
-                          {item.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+            </div>
+
+            <div className="mt-5 px-4">
+              <div className="rounded-2xl bg-white px-4 py-3 shadow-sm">
+                <p className="mb-3 text-sm font-semibold text-text-color">
+                  Thông tin chi tiết
+                </p>
+                <div className="divide-y divide-border-accent">
+                  {DEFINE_TABLE_INFO.map((item) => (
+                    <div
+                      key={item.label}
+                      className="flex items-start justify-between py-2"
+                    >
+                      <span className="text-xs text-secondary-link">
+                        {item.label}
+                      </span>
+                      <span className="max-w-[55%] text-right text-sm font-medium text-text-color truncate">
+                        {item.value || "--"}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
+            </div>
+
+            <div className="mt-6 px-4">
               <Visibility visibility={userInfo?.status !== "PAYED"}>
                 <Button
                   type="primary"
-                  onClick={() => {
-                    handleClickPayment();
-                  }}
-                  className="rounded-sm h-[40px] mt-5 w-[90vw] sm:max-w-[360px] primary-bg"
+                  onClick={handleClickPayment}
+                  className="button-gradient h-[44px] w-full rounded-full text-sm font-semibold"
                 >
                   Lập tức thanh toán
                 </Button>
               </Visibility>
-              <p className="text-yellow-600 text-sm whitespace-pre-wrap px-5 mt-5">
-                Lưu ý: tài khoản thanh toán của mỗi đơn đặt hàng khác nhau, hãy
-                nhấp vào "thanh toán ngay lập tức" để xem tài khoản thanh toán
-                thứ tự của bạn. Để tránh mất tiền, hãy cẩn thận kiểm tra tài
-                khoản chuyển tiền.
-              </p>
-              <p className="text-yellow-600 text-sm whitespace-pre-wrap px-5 mt-3">
-                Nếu có bất kỳ câu hỏi nào khác, vui lòng liên hệ với chúng tôi{" "}
-                <a className="text-blue-700 underline">Đi ngay</a>
-              </p>
+
+              <div className="mt-4 rounded-2xl bg-theme-sand-light px-4 py-3 text-[13px] leading-relaxed text-text-color">
+                <p className="m-0">
+                  Lưu ý: tài khoản thanh toán của mỗi đơn đặt hàng khác nhau,
+                  hãy nhấp vào{" "}
+                  <span className="font-semibold">"Lập tức thanh toán"</span> để
+                  xem tài khoản thanh toán của đơn hiện tại. Vui lòng kiểm tra
+                  kỹ thông tin trước khi chuyển khoản.
+                </p>
+              </div>
+              <div className="mt-3 rounded-2xl bg-theme-cloudless-light px-4 py-3 text-[13px] leading-relaxed">
+                <p className="m-0">
+                  Nếu có bất kỳ câu hỏi nào khác, vui lòng liên hệ với bộ phận
+                  hỗ trợ qua số điện thoại hiển thị trong ứng dụng để được giải
+                  đáp nhanh chóng.
+                </p>
+              </div>
             </div>
           </div>
         </div>

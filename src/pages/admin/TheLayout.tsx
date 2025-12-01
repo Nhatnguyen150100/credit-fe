@@ -4,6 +4,7 @@ import DEFINE_ROUTER from "../../constants/router-define";
 import { Button, Divider } from "antd";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../lib/store";
+import { APP_NAME } from "../../constants/global";
 
 export default function TheLayout() {
   const admin = cookiesStore.get("admin");
@@ -31,7 +32,7 @@ export default function TheLayout() {
           className="uppercase text-3xl text-blue-600 font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          Fish Cash ADMIN - {info?.role}
+          {APP_NAME} ADMIN - {info?.role}
         </a>
         <Button
           type="primary"

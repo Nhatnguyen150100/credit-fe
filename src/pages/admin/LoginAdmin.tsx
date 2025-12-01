@@ -8,6 +8,7 @@ import GeneralLoading from "../../components/GeneralLoading";
 import DEFINE_ROUTER from "../../constants/router-define";
 import { useDispatch } from "react-redux";
 import { setAdminInfo } from "../../lib/reducer/adminSlice";
+import { APP_NAME } from "../../constants/global";
 
 export default function LoginAdminPage() {
   const [form, setForm] = React.useState({
@@ -55,7 +56,7 @@ export default function LoginAdminPage() {
                         {/* <!--Logo--> */}
                         <div className="text-center">
                           <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                            Admin of Fish Cash
+                            Admin of {APP_NAME}
                           </h4>
                         </div>
 

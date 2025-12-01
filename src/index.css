@@ -11,7 +11,7 @@
 
 .button-gradient {
   border: none;
-  background: linear-gradient(151deg, #279eff 12.42%, #064be2 99.72%);
+  background: linear-gradient(151deg, #ee701f 12.42%, #ee701f 99.72%);
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -371,3 +371,9 @@ body {
 .custom-slider .ant-slider-track {
   filter: blur(0.3px);
 }
+
+:where(.ant-btn).ant-btn-primary:not(:disabled):hover {
+  background: #ee701f !important;
+  color: #fff !important;
+}
+

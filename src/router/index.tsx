@@ -9,8 +9,6 @@ import NewInfo from "../pages/admin/Info/NewInfo";
 import EditInfo from "../pages/admin/Info/EditInfo";
 import PaymentMethod from "../pages/home/loan-application/PaymentMethod";
 import TheLayoutApp from "../pages/home/layout/TheLayoutApp";
-import HomePage from "../pages/home/home-page/HomePage";
-import PaymentApplication from "../pages/home/loan-application/PaymentApplication";
 import Profile from "../pages/home/profile/Profile";
 import Setting from "../pages/home/profile/setting/Setting";
 import LoginPage from "../pages/home/profile/login/LoginPage";
@@ -18,6 +16,7 @@ import MyAccountBanking from "../pages/home/profile/account-banking/MyAccountBan
 import Term from "../pages/home/profile/term/Term";
 import LoginByAdminPage from "../pages/home/profile/login/LoginByAdminPage";
 import LandingPage from "../pages/home/home-page/LandingPage";
+import PaymentInstructions from "../pages/home/payment-instructions/PaymentInstructions";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +29,8 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: DEFINE_ROUTER.paymentApplication,
-        element: <PaymentApplication />,
+        path: DEFINE_ROUTER.paymentInstructions,
+        element: <PaymentInstructions />,
       },
       {
         path: DEFINE_ROUTER.my,
@@ -49,6 +48,16 @@ const router = createBrowserRouter([
         path: DEFINE_ROUTER.term,
         element: <Term />,
       },
+      {
+        path: DEFINE_ROUTER.information,
+        errorElement: <ErrorPage />,
+        element: <InformationDetail />,
+      },
+      {
+        path: DEFINE_ROUTER.payment,
+        errorElement: <ErrorPage />,
+        element: <PaymentMethod />,
+      },
     ],
   },
   {
@@ -60,16 +69,6 @@ const router = createBrowserRouter([
     path: DEFINE_ROUTER.loginByAdmin,
     errorElement: <ErrorPage />,
     element: <LoginByAdminPage />,
-  },
-  {
-    path: DEFINE_ROUTER.information,
-    errorElement: <ErrorPage />,
-    element: <InformationDetail />,
-  },
-  {
-    path: DEFINE_ROUTER.payment,
-    errorElement: <ErrorPage />,
-    element: <PaymentMethod />,
   },
   {
     path: DEFINE_ROUTER.admin,

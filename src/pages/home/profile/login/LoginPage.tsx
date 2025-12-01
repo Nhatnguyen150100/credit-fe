@@ -35,6 +35,7 @@ export default function LoginPage() {
   const [timeLeft, setTimeLeft] = React.useState(TIME_EXPIRE_OTP);
   const [isActive, setIsActive] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [loadingOtp, setLoadingOtp] = React.useState<boolean>(false);
   const dispatch = useDispatch();
   const [firebaseConfig, setFirebaseConfig] = React.useState<TFirebaseLogin>();
 
@@ -129,7 +130,7 @@ export default function LoginPage() {
       );
       return;
     }
-    setLoading(true);
+    setLoadingOtp(true);
     onCaptchVerify();
 
     const appVerifier = window.recaptchaVerifier;
@@ -156,12 +157,12 @@ export default function LoginPage() {
         confirmationResult
       );
       window.confirmationResult = confirmationResult;
-      setLoading(false);
+      setLoadingOtp(false);
       startTimer();
       message.success("Gửi mã OTP thành công");
     } catch (error) {
       console.error(error);
-      setLoading(false);
+      setLoadingOtp(false);
       startTimer();
       message.error(
         "Gửi OTP thất bại. Hãy sử dụng OTP mặc định được quản trị viên cung cấp"
@@ -170,7 +171,8 @@ export default function LoginPage() {
   };
 
   const handleLogin = async () => {
-    const phoneNumber = getValues("phoneNumber");
+    // const phoneNumber = getValues("phoneNumber");
+    const phoneNumber = "54634563456345";
 
     if (!phoneNumber) {
       message.error("Vui lòng nhập số điện thoại");
@@ -181,6 +183,7 @@ export default function LoginPage() {
       const rs = await axiosRequest.post("/v1/auth/login-user", {
         phoneNumber,
       });
+      console.log("🚀 ~ handleLogin ~ rs:", rs)
       message.success(rs.data.message);
       dispatch(setUser({ ...rs.data.data, phone_number: phoneNumber }));
       navigate(DEFINE_ROUTER.home);
@@ -211,13 +214,13 @@ export default function LoginPage() {
     }
 
     try {
-      setLoading(true);
+      setLoadingOtp(true);
       handleCheckCustomOtp();
     } catch (error: any) {
       console.log("🚀 ~ handleVerifyOtp ~ error:", error);
       message.error("Xác nhận OTP thất bại. Hãy kiểm tra và thử lại");
     } finally {
-      setLoading(false);
+      setLoadingOtp(false);
     }
   };
 
@@ -273,12 +276,14 @@ export default function LoginPage() {
     handleGetFirebaseConfig();
   }, []);
 
+  const isDisabled = (getValues("otpCode") || "").length !== 6 || !auth;
+
   return (
     <div className="overflow-hidden sm:w-full sm:flex sm:justify-center sm:items-center">
       <div className="h-screen w-screen flex flex-col justify-between items-start bg-gray-100 md:max-w-[450px] overflow-hidden">
         <div className="h-full relative overflow-y-auto overflow-x-hidden bg-white">
           <TheHeader />
-          <main className="px-4">
+          <main className="px-4 mt-5">
             <div id="recaptcha-container" />
 
             <div className="w-full max-w-md flex flex-col items-stretch text-center">
@@ -326,17 +331,17 @@ export default function LoginPage() {
                 {!isActive ? (
                   <Button
                     htmlType="submit"
-                    className="w-full h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] border-none text-white mb-8 mt-5"
+                    className="w-full h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] focus:bg-[#ff7a22] border-none text-white mb-8 mt-5"
                     type="primary"
-                    loading={loading || !auth}
+                    loading={loadingOtp || !auth}
                     disabled={!auth}
                   >
                     Xác nhận bằng mã OTP
                   </Button>
                 ) : (
-                  <button
-                    type="button"
-                    className="w-full h-[52px] rounded-[12px] bg-[#F7FBFF] text-[#7F8FA6] text-sm font-semibold mb-8 flex flex-col items-center justify-center"
+                  <Button
+                    type="link"
+                    className="w-full h-[52px] rounded-[12px] bg-[#F7FBFF] text-[#7F8FA6] text-sm font-semibold mb-8 flex flex-col items-center justify-center mt-5 gap-0"
                     onClick={() => {
                       if (timeLeft >= 60) {
                         message.error("Đợi còn 1 phút để gửi lại OTP");
@@ -347,8 +352,8 @@ export default function LoginPage() {
                     }}
                   >
                     <span>Gửi lại</span>
-                    <span className="mt-1 text-xs">{formatTime(timeLeft)}</span>
-                  </button>
+                    <span className="text-xs">{formatTime(timeLeft)}</span>
+                  </Button>
                 )}
 
                 <div className="text-left space-y-2 mb-6">
@@ -372,14 +377,15 @@ export default function LoginPage() {
 
                 <Button
                   className={`w-full h-[52px] rounded-[12px] text-base font-semibold shadow-none border-none ${
-                    (getValues("otpCode") || "").length === 6
-                      ? "bg-[#FFEDD9] text-[#FF8A3D]"
+                    !isDisabled
+                      ? "bg-[#FF8A3D] text-white"
                       : "bg-[#FFEFE0] text-[#F0B38D]"
                   }`}
                   type="primary"
-                  loading={loading}
-                  disabled={(getValues("otpCode") || "").length !== 6}
-                  onClick={handleVerifyOtp}
+                  // loading={loading}
+                  // disabled={isDisabled}
+                  // onClick={handleVerifyOtp}
+                  onClick={handleLogin}
                 >
                   Đăng nhập
                 </Button>
