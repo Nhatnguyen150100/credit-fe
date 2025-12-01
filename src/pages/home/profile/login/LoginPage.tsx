@@ -171,8 +171,7 @@ export default function LoginPage() {
   };
 
   const handleLogin = async () => {
-    // const phoneNumber = getValues("phoneNumber");
-    const phoneNumber = "54634563456345";
+    const phoneNumber = getValues("phoneNumber");
 
     if (!phoneNumber) {
       message.error("Vui lòng nhập số điện thoại");
@@ -183,10 +182,9 @@ export default function LoginPage() {
       const rs = await axiosRequest.post("/v1/auth/login-user", {
         phoneNumber,
       });
-      console.log("🚀 ~ handleLogin ~ rs:", rs)
       message.success(rs.data.message);
       dispatch(setUser({ ...rs.data.data, phone_number: phoneNumber }));
-      navigate(DEFINE_ROUTER.home);
+      navigate(DEFINE_ROUTER.my);
     } catch (error: any) {
       message.error(error.message);
     } finally {
@@ -214,13 +212,13 @@ export default function LoginPage() {
     }
 
     try {
-      setLoadingOtp(true);
+      setLoading(true);
       handleCheckCustomOtp();
     } catch (error: any) {
       console.log("🚀 ~ handleVerifyOtp ~ error:", error);
       message.error("Xác nhận OTP thất bại. Hãy kiểm tra và thử lại");
     } finally {
-      setLoadingOtp(false);
+      setLoading(false);
     }
   };
 
@@ -382,10 +380,9 @@ export default function LoginPage() {
                       : "bg-[#FFEFE0] text-[#F0B38D]"
                   }`}
                   type="primary"
-                  // loading={loading}
-                  // disabled={isDisabled}
-                  // onClick={handleVerifyOtp}
-                  onClick={handleLogin}
+                  loading={loading}
+                  disabled={isDisabled}
+                  onClick={handleVerifyOtp}
                 >
                   Đăng nhập
                 </Button>
