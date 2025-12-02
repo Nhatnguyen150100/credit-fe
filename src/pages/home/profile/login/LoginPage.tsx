@@ -149,16 +149,12 @@ export default function LoginPage() {
     }
 
     try {
-      // const confirmationResult = await signInWithPhoneNumber(
-      //   auth,
-      //   formatPh,
-      //   appVerifier
-      // );
-      // console.log(
-      //   "🚀 ~ handleSentOTP ~ confirmationResult:",
-      //   confirmationResult
-      // );
-      // window.confirmationResult = confirmationResult;
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        formatPh,
+        appVerifier
+      );
+      window.confirmationResult = confirmationResult;
       setLoadingOtp(false);
       startTimer();
       message.success("Gửi mã OTP thành công");
