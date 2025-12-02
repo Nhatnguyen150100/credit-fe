@@ -82,7 +82,7 @@ export default function Profile() {
               Xin chào,
             </p>
             <Visibility visibility={user?.phone_number}>
-              <p className="text-2xl font-semibold text-graphite">
+              <p className="text-2xl font-semibold text-graphite truncate max-w-[320px]">
                 {displayName}
               </p>
             </Visibility>
@@ -107,12 +107,12 @@ export default function Profile() {
 
         <div className="px-4 bg-account-theme-active-light pb-5">
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap">
               <div>
                 <p className="mb-1 text-xs tracking-wide text-theme-dark">
                   Số tiền cần thanh toán
                 </p>
-                <p className="m-0 text-3xl font-semibold text-text-color">
+                <p className="m-0 text-3xl font-semibold text-text-color text-nowrap">
                   {formatCurrency(user?.amount_payable ?? 0)}
                 </p>
               </div>

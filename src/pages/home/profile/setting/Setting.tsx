@@ -25,10 +25,10 @@ export default function Setting() {
   };
 
   return (
-    <div className="w-screen d-flex flex-col justify-center items-start space-y-5 sm:max-w-[450px] sm:border mt-20">
+    <div className="w-screen d-flex flex-col justify-center items-start space-y-5 sm:max-w-[450px] mt-20">
       <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[120px]">
         <div className="flex flex-col justify-start items-center w-full space-y-3">
-          <img className="h-[56px]" src="/logo.jpg" alt="logo" />
+          <img className="h-[56px]" src="/logo.png" alt="logo" />
           <h2 className="text-lg">{APP_NAME}</h2>
           <h2 className="text-lg">V1.6.0</h2>
         </div>

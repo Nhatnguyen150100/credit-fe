@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DEFINE_ROUTER from "../../../constants/router-define";
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
+import { APP_NAME } from "../../../constants/global";
 
 const menuItemsNotLoggedIn = [{ id: 3, label: "Hướng dẫn thanh toán" }];
 
@@ -21,6 +22,9 @@ type TheHeaderProps = {
 };
 
 export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
+  const location = useLocation();
+  const isProfile = location.pathname === DEFINE_ROUTER.my;
+  console.log("🚀 ~ TheHeader ~ location.pathname:", location.pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -126,7 +130,9 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
 
   return (
     <header
-      className={`sticky bg-white z-50 p-[10px] flex w-full items-center justify-between transition-all duration-200 ${
+      className={`sticky ${
+        isProfile ? "bg-account-theme-active-light" : "bg-white"
+      } z-50 p-[10px] flex w-full items-center justify-between transition-all duration-200 ${
         isVisible ? "top-0" : "-top-24"
       }`}
     >
@@ -138,11 +144,12 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
       )}
 
       <Link className="relative z-50" to="/">
-        <img
-          src="/cayvang-logo.png"
-          alt="CayVang logo"
-          className="z-50 h-auto w-auto"
-        />
+        <div className="flex items-center space-x-2">
+          <img src="/logo.png" alt="logo" className="z-50 h-12 w-auto" />
+          <span className="text-lg font-semibold text-theme-orangish-dark">
+            {APP_NAME}
+          </span>
+        </div>
       </Link>
 
       <div

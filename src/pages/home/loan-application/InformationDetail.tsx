@@ -160,8 +160,8 @@ export default function InformationDetail() {
         <div className="flex w-full items-center justify-center">
           <div className="min-h-screen w-full bg-theme-sand-light-ultra pb-8 sm:max-w-[450px]">
             <div className="px-4 mt-5">
-              <div className="rounded-2xl bg-account-theme-active-light px-4 py-4">
-                <div className="flex items-start justify-between">
+              <div className="rounded-2xl bg-account-theme-active-light p-4">
+                <div className="flex items-start justify-between flex-wrap">
                   <div>
                     <p className="mb-1 text-xs uppercase tracking-wide text-theme-dark">
                       Tổng số tiền cần phải trả
@@ -183,10 +183,10 @@ export default function InformationDetail() {
                     </p>
                   </div>
                   <div className="text-right text-xs text-secondary-link">
-                    <p className="m-0">
-                      Mã hồ sơ:{" "}
-                      <span className="font-semibold">{userInfo?._id}</span>
-                    </p>
+                    <div className="m-0 flex flex-col justify-end items-end">
+                      <span className="text-xs text-secondary-link">Mã hồ sơ:</span>{" "}
+                      <span className="font-semibold truncate max-w-[120px]">{userInfo?._id}</span>
+                    </div>
                     <p className="m-0 mt-0.5">
                       Ngày nộp đơn:{" "}
                       <span className="font-semibold">

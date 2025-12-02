@@ -1,3 +1,3 @@
-const APP_NAME = "Cây Vàng";
+const APP_NAME = "APPLE VAY";
 
 export { APP_NAME };

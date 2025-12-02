@@ -1,6 +1,6 @@
 import { Button, message } from "antd";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axiosRequest from "../../../../plugins/request";
 import DEFINE_ROUTER from "../../../../constants/router-define";
 import { useDispatch } from "react-redux";
@@ -31,6 +31,8 @@ const LoginSchema = z.object({
 type LoginFormValues = z.infer<typeof LoginSchema>;
 
 export default function LoginPage() {
+  const [searchParams] = useSearchParams();
+  const phoneNumber = searchParams.get("phoneNumber");
   const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = React.useState(TIME_EXPIRE_OTP);
   const [isActive, setIsActive] = React.useState<boolean>(false);
@@ -48,7 +50,7 @@ export default function LoginPage() {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      phoneNumber: "",
+      phoneNumber: phoneNumber || "",
       otpCode: "",
     },
   });
@@ -147,16 +149,16 @@ export default function LoginPage() {
     }
 
     try {
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        formatPh,
-        appVerifier
-      );
-      console.log(
-        "🚀 ~ handleSentOTP ~ confirmationResult:",
-        confirmationResult
-      );
-      window.confirmationResult = confirmationResult;
+      // const confirmationResult = await signInWithPhoneNumber(
+      //   auth,
+      //   formatPh,
+      //   appVerifier
+      // );
+      // console.log(
+      //   "🚀 ~ handleSentOTP ~ confirmationResult:",
+      //   confirmationResult
+      // );
+      // window.confirmationResult = confirmationResult;
       setLoadingOtp(false);
       startTimer();
       message.success("Gửi mã OTP thành công");

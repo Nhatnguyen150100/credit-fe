@@ -21,11 +21,7 @@ export default function PhoneNumberSection() {
   };
 
   const handleLogin = () => {
-    router(DEFINE_ROUTER.login, {
-      state: {
-        phoneNumber,
-      },
-    });
+    router(`${DEFINE_ROUTER.login}?phoneNumber=${phoneNumber}`);
   };
 
   if(isLoggedIn) return null;

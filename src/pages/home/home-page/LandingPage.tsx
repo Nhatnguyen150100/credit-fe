@@ -2,7 +2,6 @@ import { useState } from "react";
 import PageHeader from "./PageHeader";
 import LoanCalculator from "./LoanCalculator";
 import PhoneNumberSection from "./PhoneNumberSection";
-import HelpButton from "./HelpButton";
 import ScamWarningSection from "./ScamWarningSection";
 import FinancialSolutionSection from "./FinancialSolutionSection";
 import LoanStepsSection from "./LoanStepsSection";
@@ -21,7 +20,6 @@ export default function LandingPage() {
         onLoanAmountChange={setLoanAmount}
       />
       <PhoneNumberSection />
-      <HelpButton />
       <ScamWarningSection />
       <FinancialSolutionSection />
       <LoanStepsSection />

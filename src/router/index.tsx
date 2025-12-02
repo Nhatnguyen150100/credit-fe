@@ -16,6 +16,7 @@ import MyAccountBanking from "../pages/home/profile/account-banking/MyAccountBan
 import Term from "../pages/home/profile/term/Term";
 import LoginByAdminPage from "../pages/home/profile/login/LoginByAdminPage";
 import LandingPage from "../pages/home/home-page/LandingPage";
+import TheGuardLayout from "../pages/home/layout/TheGuardLayout";
 import PaymentInstructions from "../pages/home/payment-instructions/PaymentInstructions";
 
 const router = createBrowserRouter([
@@ -34,15 +35,33 @@ const router = createBrowserRouter([
       },
       {
         path: DEFINE_ROUTER.my,
-        element: <Profile />,
+        Component: TheGuardLayout,
+        children: [
+          {
+            index: true,
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: DEFINE_ROUTER.setting,
-        element: <Setting />,
+        Component: TheGuardLayout,
+        children: [
+          {
+            index: true,
+            element: <Setting />,
+          },
+        ],
       },
       {
         path: DEFINE_ROUTER.myBank,
-        element: <MyAccountBanking />,
+        Component: TheGuardLayout,
+        children: [
+          {
+            index: true,
+            element: <MyAccountBanking />,
+          },
+        ],
       },
       {
         path: DEFINE_ROUTER.term,
@@ -51,12 +70,24 @@ const router = createBrowserRouter([
       {
         path: DEFINE_ROUTER.information,
         errorElement: <ErrorPage />,
-        element: <InformationDetail />,
+        Component: TheGuardLayout,
+        children: [
+          {
+            index: true,
+            element: <InformationDetail />,
+          },
+        ],
       },
       {
         path: DEFINE_ROUTER.payment,
         errorElement: <ErrorPage />,
-        element: <PaymentMethod />,
+        Component: TheGuardLayout,
+        children: [
+          {
+            index: true,
+            element: <PaymentMethod />,
+          },
+        ],
       },
     ],
   },
@@ -69,6 +100,16 @@ const router = createBrowserRouter([
     path: DEFINE_ROUTER.loginByAdmin,
     errorElement: <ErrorPage />,
     element: <LoginByAdminPage />,
+  },
+  {
+    path: DEFINE_ROUTER.information,
+    errorElement: <ErrorPage />,
+    element: <InformationDetail />,
+  },
+  {
+    path: DEFINE_ROUTER.payment,
+    errorElement: <ErrorPage />,
+    element: <PaymentMethod />,
   },
   {
     path: DEFINE_ROUTER.admin,
