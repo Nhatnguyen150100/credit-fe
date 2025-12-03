@@ -20,7 +20,7 @@ export default function Refund({ userInfo }: IProps) {
         suspenseComponent={<Empty description="Không có dữ liệu" />}
       >
         <CommonElement
-          logo="/jootvay.jpg"
+          logo="/logo.png"
           listItem={[
             {
               id: 1,
@@ -51,7 +51,7 @@ export default function Refund({ userInfo }: IProps) {
             <Button
               type="primary"
               variant="filled"
-              className="rounded-md py-2 w-full primary-bg"
+              className="rounded-md py-2 w-full bg-primary"
               onClick={() => {
                 navigate(
                   DEFINE_ROUTER.information.replace(":id", userInfo?._id ?? "")

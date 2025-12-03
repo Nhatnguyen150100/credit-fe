@@ -41,7 +41,7 @@ export default function LoanSection() {
       {DEFINE_AMOUNT.map((item, index) => (
         <div
           key={index}
-          className={`text-base text-green-700 ${
+          className={`text-base primary-color ${
             count === item.value && "font-semibold"
           }`}
           onClick={() => setCount(item.value)}
@@ -117,21 +117,21 @@ export default function LoanSection() {
           className="w-full mt-8"
           styles={{
             track: {
-              background: "green",
+              background: "#101141",
             },
             tracks: {
-              background: "green",
+              background: "#101141",
             },
             rail: {
               background: "gray",
               opacity: "20%",
               height: "4px",
-              accentColor: "green",
+              accentColor: "#101141",
             },
             handle: {
-              color: "green",
-              background: "green",
-              borderColor: "green",
+              color: "#101141",
+              background: "#101141",
+              borderColor: "#101141",
             },
           }}
           value={valueSlide}
@@ -150,7 +150,7 @@ export default function LoanSection() {
           <div className="flex flex-row justify-center items-center space-x-3">
             <button
               className={`text-sm text-gray-400 px-5 py-1 border border-solid border-gray-500 rounded-2xl border-opacity-25 ${
-                day === 180 && "bg-green-700 !border-none !text-white"
+                day === 180 && "bg-primary !border-none !text-white"
               }`}
               onClick={() => {
                 setDay(180);
@@ -160,7 +160,7 @@ export default function LoanSection() {
             </button>
             <button
               className={`text-sm text-gray-400 px-5 py-1 border border-solid border-gray-500 rounded-2xl border-opacity-25 ${
-                day === 360 && "bg-green-700 !border-none !text-white"
+                day === 360 && "bg-primary !border-none !text-white"
               }`}
               onClick={() => {
                 setDay(360);
@@ -173,7 +173,7 @@ export default function LoanSection() {
       </div>
 
       <button
-        className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-green-700 rounded-3xl mt-5"
+        className="w-[93vw] md:w-[400px] py-3 text-white text-center bg-primary rounded-3xl mt-5"
         onClick={handleAccept}
       >
         Gửi yêu cầu

@@ -37,13 +37,13 @@ export default function Setting() {
       </div>
       <div className="w-full flex flex-col justify-start items-center space-y-5 min-h-[80px]">
         <div className="flex flex-col justify-start items-center w-full space-y-2">
-          <img className="h-[56px]" src="/jootvay.jpg" alt="logo" />
+          <img className="h-[56px]" src="/logo.png" alt="logo" />
           <h2 className="text-lg">V1.6.0</h2>
         </div>
       </div>
       <div className="flex flex-row px-5 justify-center items-center">
         <Button
-          className="w-[220px] py-2 primary-bg"
+          className="w-[220px] py-2 bg-primary"
           type="primary"
           variant="solid"
           onClick={handleLogout}

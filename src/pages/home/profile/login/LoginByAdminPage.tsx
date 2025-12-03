@@ -36,7 +36,7 @@ export default function LoginByAdminPage() {
 
   const btnLogin = (
     <Button
-      className="w-full py-3 mt-5 h-[40px] primary-bg"
+      className="w-full py-3 mt-5 h-[40px] bg-primary"
       type="primary"
       loading={loading}
       onClick={handleLogin}
@@ -52,7 +52,7 @@ export default function LoginByAdminPage() {
         <div className="w-full h-full justify-start items-center flex flex-col mt-20 px-5">
           <img
             className="object-cover h-[100px] w-[100px] mb-5"
-            src="/jootvay.jpg"
+            src="/logo.png"
           />
           <PhoneInput
             inputStyle={{

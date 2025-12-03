@@ -100,21 +100,21 @@ body {
 }
 
 .primary-color {
-  color: green;
+  color: #101141;
 }
 
-.primary-bg {
-  background-color: green;
+.bg-primary {
+  background-color: #101141;
 }
 
 :where(.css-dev-only-do-not-override-1hpnbz2).ant-slider:hover
   .ant-slider-handle::after {
-  box-shadow: 0 0 0 2px green !important;
+  box-shadow: 0 0 0 2px #101141 !important;
 }
 
 :where(.css-dev-only-do-not-override-1hpnbz2).ant-slider
   .ant-slider-handle::after {
-  box-shadow: 0 0 0 2px green !important;
+  box-shadow: 0 0 0 2px #101141 !important;
 }
 
 :where(.css-dev-only-do-not-override-1hpnbz2).ant-tabs
@@ -130,11 +130,11 @@ body {
 :where(.css-dev-only-do-not-override-1hpnbz2).ant-tabs
   .ant-tabs-tab.ant-tabs-tab-active
   .ant-tabs-tab-btn {
-  color: green !important;
+  color: #101141 !important;
 }
 
 :where(.css-dev-only-do-not-override-1hpnbz2).ant-btn-variant-solid {
-  background-color: green !important;
+  background-color: #101141 !important;
 }
 
 @tailwind base;
