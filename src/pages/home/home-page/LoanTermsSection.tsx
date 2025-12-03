@@ -1,10 +1,12 @@
+import { APP_NAME } from "../../../constants/global";
+
 export default function LoanTermsSection() {
   return (
     <section className="w-full mt-6 space-y-4">
       <h2 className="text-center text-[18px] font-normal text-[#20273A]">
         Khoản vay trả góp linh hoạt tại
         <br />
-        CayVang
+        {APP_NAME}
       </h2>
 
       <div className="space-y-1">
