@@ -1,9 +1,9 @@
 import { Button, message } from "antd";
 import * as React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import axiosRequest from "../../../../plugins/request";
 import DEFINE_ROUTER from "../../../../constants/router-define";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../../lib/reducer/userSlice";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,6 +17,7 @@ import { TFirebaseLogin } from "../../../../types/firebase";
 import { getApps, initializeApp } from "firebase/app";
 import TheHeader from "../../layout/TheHeader";
 import TheFooter from "../../layout/TheFooter";
+import { IRootState } from "../../../../lib/store";
 
 const TIME_EXPIRE_OTP = 3 * 60;
 
@@ -31,6 +32,8 @@ const LoginSchema = z.object({
 type LoginFormValues = z.infer<typeof LoginSchema>;
 
 export default function LoginPage() {
+  const user = useSelector((state: IRootState) => state.user);
+  const isLoggedIn = Boolean(user?._id || user?.phone_number);
   const [searchParams] = useSearchParams();
   const phoneNumber = searchParams.get("phoneNumber");
   const navigate = useNavigate();
@@ -273,6 +276,10 @@ export default function LoginPage() {
   }, []);
 
   const isDisabled = (getValues("otpCode") || "").length !== 6 || !auth;
+
+  if (isLoggedIn) {
+    return <Navigate to={DEFINE_ROUTER.my} replace />;
+  }
 
   return (
     <div className="overflow-hidden sm:w-full sm:flex sm:justify-center sm:items-center">
