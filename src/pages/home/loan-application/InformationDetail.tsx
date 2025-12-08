@@ -8,7 +8,6 @@ import { IInfo } from "../../../types/info";
 import { formatCurrency } from "../../../utils/format-money";
 import { formatDate } from "../../../utils/day-format";
 import DEFINE_ROUTER from "../../../constants/router-define";
-import { ArrowLeftOutlined, PhoneOutlined } from "@ant-design/icons";
 
 export default function InformationDetail() {
   const { id } = useParams<{ id: string }>();
