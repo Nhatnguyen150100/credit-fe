@@ -38,7 +38,7 @@ export default function ScamWarningSection() {
               không bao giờ chia sẻ mã OTP
             </span>{" "}
             của mình với bất kỳ ai, ngay cả khi họ tự nhận là nhân viên của
-            {APP_NAME}. Nhân viên của chúng tôi sẽ không bao giờ yêu cầu Quý
+            {' '}{APP_NAME}. Nhân viên của chúng tôi sẽ không bao giờ yêu cầu Quý
             khách cung cấp mã OTP.
           </p>
 
@@ -48,13 +48,13 @@ export default function ScamWarningSection() {
             </span>{" "}
             của những người tự xưng là đối tác cho vay. Quý khách chỉ nên
             thanh toán thông qua các kênh thanh toán chính thức trên hệ thống
-            {APP_NAME}.
+            {' '}{APP_NAME}.
           </p>
 
           <p className="text-[11px] leading-relaxed text-[#5A6478]">
             <span className="font-semibold">
               Đảm bảo rằng Quý khách đang liên lạc với đại diện chính thức của
-              {APP_NAME}
+              {' '}{APP_NAME}
             </span>
             . Kiểm tra kỹ đường dẫn trang web, tên ứng dụng và thông tin trên
             các kênh truyền thông chính thức trước khi cung cấp bất kỳ thông
