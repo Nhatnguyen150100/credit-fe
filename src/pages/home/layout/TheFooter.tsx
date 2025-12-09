@@ -1,4 +1,5 @@
 import { PhoneOutlined } from "@ant-design/icons";
+import { APP_NAME } from "../../../constants/global";
 
 export default function TheFooter() {
   return <div className="w-full py-5"/>;
@@ -39,7 +40,7 @@ export default function TheFooter() {
         </p>
       </div>
 
-      <p className="mt-3 text-[12px]">© 2025 Bản quyền thuộc về CayVang.</p>
+      <p className="mt-3 text-[12px]">© 2025 Bản quyền thuộc về {APP_NAME}.</p>
     </footer>
   );
 }
