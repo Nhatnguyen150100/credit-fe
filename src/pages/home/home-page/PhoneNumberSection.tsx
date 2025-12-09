@@ -5,8 +5,13 @@ import { useNavigate } from "react-router-dom";
 import DEFINE_ROUTER from "../../../constants/router-define";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../lib/store";
+import LoanRegistrationSection from "./LoanRegistrationSection";
 
-export default function PhoneNumberSection() {
+interface PhoneNumberSectionProps {
+  loanAmount?: number;
+}
+
+export default function PhoneNumberSection({ loanAmount }: PhoneNumberSectionProps) {
   const router = useNavigate();
   const user = useSelector((state: IRootState) => state.user);
   const isLoggedIn = Boolean(user?._id || user?.phone_number);
@@ -24,7 +29,9 @@ export default function PhoneNumberSection() {
     router(`${DEFINE_ROUTER.login}?phoneNumber=${phoneNumber}`);
   };
 
-  if(isLoggedIn) return null;
+  if (isLoggedIn) {
+    return <LoanRegistrationSection loanAmount={loanAmount} />;
+  }
 
   return (
     <section className="w-full rounded-2xl mt-5 flex flex-col space-y-4">

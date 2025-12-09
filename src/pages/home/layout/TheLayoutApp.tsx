@@ -11,7 +11,7 @@ export default function TheLayoutApp() {
       <div className="h-screen w-screen flex flex-col justify-between items-start bg-gray-100 md:max-w-[450px] overflow-hidden">
         <div
           ref={scrollRef}
-          className="h-full relative overflow-y-auto overflow-x-hidden bg-white flex flex-col"
+          className="h-full relative overflow-y-auto overflow-x-hidden bg-white flex flex-col w-full"
         >
           <TheHeader scrollContainerRef={scrollRef} />
           <div className="flex-grow">

@@ -19,7 +19,7 @@ export default function LandingPage() {
         loanAmount={loanAmount}
         onLoanAmountChange={setLoanAmount}
       />
-      <PhoneNumberSection />
+      <PhoneNumberSection loanAmount={loanAmount} />
       <ScamWarningSection />
       <FinancialSolutionSection />
       <LoanStepsSection />

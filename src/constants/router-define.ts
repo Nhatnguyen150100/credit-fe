@@ -15,6 +15,7 @@ const DEFINE_ROUTER = {
   loginAdmin: "/login-admin",
   newInfo: "/admin/new-info",
   editInfo: "/admin/edit-info/:id",
+  newLoanPending: "/new-loan-pending",
 };
 
 export default DEFINE_ROUTER;

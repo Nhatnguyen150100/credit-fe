@@ -6,15 +6,17 @@ import DEFINE_ROUTER from "../../../constants/router-define";
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
 import { APP_NAME } from "../../../constants/global";
+import { message } from "antd";
 
 const menuItemsNotLoggedIn = [{ id: 3, label: "Hướng dẫn thanh toán" }];
 
 const menuItemsLoggedIn = [
   { id: 1, label: "Tài khoản" },
-  { id: 2, label: "Quản lý thẻ ngân hàng" },
-  { id: 3, label: "Hướng dẫn thanh toán" },
-  { id: 4, label: "Chính sách bảo mật" },
-  { id: 5, label: "Thiết lập" },
+  { id: 2, label: "Khoản vay chờ xét duyệt" },
+  { id: 3, label: "Quản lý thẻ ngân hàng" },
+  { id: 4, label: "Hướng dẫn thanh toán" },
+  { id: 5, label: "Chính sách bảo mật" },
+  { id: 6, label: "Thiết lập" },
 ];
 
 type TheHeaderProps = {
@@ -24,6 +26,7 @@ type TheHeaderProps = {
 export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   const location = useLocation();
   const isProfile = location.pathname === DEFINE_ROUTER.my;
+  const isNewLoanPending = location.pathname === DEFINE_ROUTER.newLoanPending;
   console.log("🚀 ~ TheHeader ~ location.pathname:", location.pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -31,6 +34,10 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   const lastScrollY = useRef(0);
   const navigate = useNavigate();
   const user = useSelector((state: IRootState) => state.user);
+  const loanAmount = useSelector(
+    (state: IRootState) => state.loanApplication.loanAmount
+  );
+  const hasPendingLoan = loanAmount !== null && loanAmount !== undefined;
   const isLoggedIn = Boolean(user?._id || user?.phone_number);
   const menuItems = isLoggedIn ? menuItemsLoggedIn : menuItemsNotLoggedIn;
 
@@ -43,7 +50,7 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
 
     if (!isLoggedIn) {
       switch (id) {
-        case 3:
+        case 4:
           navigate(DEFINE_ROUTER.paymentInstructions);
           break;
         default:
@@ -57,15 +64,24 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
         navigate(DEFINE_ROUTER.my);
         break;
       case 2:
-        navigate(DEFINE_ROUTER.myBank);
+        if (hasPendingLoan) {
+          navigate(DEFINE_ROUTER.newLoanPending);
+        } else {
+          message.error(
+            "Bạn chưa có khoản vay đang chờ xét duyệt. Vui lòng kiểm tra lại sau."
+          );
+        }
         break;
       case 3:
-        navigate(DEFINE_ROUTER.paymentInstructions);
+        navigate(DEFINE_ROUTER.myBank);
         break;
       case 4:
-        navigate(DEFINE_ROUTER.term);
+        navigate(DEFINE_ROUTER.paymentInstructions);
         break;
       case 5:
+        navigate(DEFINE_ROUTER.term);
+        break;
+      case 6:
         navigate(DEFINE_ROUTER.setting);
         break;
       default:
@@ -131,7 +147,7 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   return (
     <header
       className={`sticky ${
-        isProfile ? "bg-account-theme-active-light" : "bg-white"
+        isProfile ? "bg-account-theme-active-light" : isNewLoanPending ? "bg-theme-orangish-light-ultra" : "bg-white"
       } z-50 p-[10px] flex w-full items-center justify-between transition-all duration-200 ${
         isVisible ? "top-0" : "-top-24"
       }`}

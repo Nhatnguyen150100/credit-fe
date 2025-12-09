@@ -18,6 +18,7 @@ import LoginByAdminPage from "../pages/home/profile/login/LoginByAdminPage";
 import LandingPage from "../pages/home/home-page/LandingPage";
 import TheGuardLayout from "../pages/home/layout/TheGuardLayout";
 import PaymentInstructions from "../pages/home/payment-instructions/PaymentInstructions";
+import NewLoanPending from "../pages/home/loan-application/NewLoanPending";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,17 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <PaymentMethod />,
+          },
+        ],
+      },
+      {
+        path: DEFINE_ROUTER.newLoanPending,
+        errorElement: <ErrorPage />,
+        Component: TheGuardLayout,
+        children: [
+          {
+            index: true,
+            element: <NewLoanPending />,
           },
         ],
       },
