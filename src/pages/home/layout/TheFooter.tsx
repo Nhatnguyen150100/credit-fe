@@ -1,6 +1,7 @@
 import { PhoneOutlined } from "@ant-design/icons";
 
 export default function TheFooter() {
+  return <div className="w-full py-5"/>;
   return (
     <footer className="w-full pt-8 pb-10 text-center text-[#5A6478]">
       <a
