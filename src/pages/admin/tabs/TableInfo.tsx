@@ -334,7 +334,7 @@ export default function TableInfo() {
           icon={<DeleteOutlined />}
         />
       ),
-      hidden: !onCheckPermission(adminInfo, EPermission.DELETE),
+      hidden: !onCheckPermission(adminInfo, EPermission.DELETE, ERole.SYSTEM_ADMIN),
     },
   ];
 
