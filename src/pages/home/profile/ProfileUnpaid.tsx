@@ -284,24 +284,6 @@ export default function ProfileUnpaid() {
             ))}
           </>
         </Visibility>
-
-        <div className="mt-6 px-4 pb-8">
-          <h2 className="text-base font-semibold text-text-color">Gia hạn</h2>
-          <div className="mt-2 px-4 py-4 text-sm leading-relaxed">
-            <p className="mb-3">
-              Trong trường hợp chưa thể thanh toán khoản vay, bạn có thể gia hạn
-              thêm <span className="font-semibold">30 ngày</span>.
-            </p>
-            <p className="mb-3">
-              Để gia hạn, vui lòng thanh toán tối thiểu{" "}
-              <span className="font-semibold">200.000 VNĐ</span>.
-            </p>
-            <p className="mb-0">
-              Nếu quý khách gia hạn khoản vay, quý khách sẽ không bị quá hạn và
-              chúng tôi sẽ không làm phiền cho đến kỳ thanh toán.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );
