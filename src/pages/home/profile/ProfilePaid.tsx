@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CheckCircleFilled } from "@ant-design/icons";
 
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";

@@ -6,7 +6,6 @@ import DEFINE_ROUTER from "../../../constants/router-define";
 import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
 import { APP_NAME } from "../../../constants/global";
-import { message } from "antd";
 
 const menuItemsNotLoggedIn = [{ id: 3, label: "Hướng dẫn thanh toán" }];
 
@@ -34,10 +33,6 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   const lastScrollY = useRef(0);
   const navigate = useNavigate();
   const user = useSelector((state: IRootState) => state.user);
-  const loanAmount = useSelector(
-    (state: IRootState) => state.loanApplication.loanAmount
-  );
-  const hasPendingLoan = loanAmount !== null && loanAmount !== undefined;
   const isLoggedIn = Boolean(user?._id || user?.phone_number);
   const menuItems = isLoggedIn ? menuItemsLoggedIn : menuItemsNotLoggedIn;
 
@@ -64,13 +59,7 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
         navigate(DEFINE_ROUTER.my);
         break;
       case 2:
-        if (hasPendingLoan) {
-          navigate(DEFINE_ROUTER.newLoanPending);
-        } else {
-          message.error(
-            "Bạn chưa có khoản vay đang chờ xét duyệt. Vui lòng kiểm tra lại sau."
-          );
-        }
+        navigate(DEFINE_ROUTER.newLoanPending);
         break;
       case 3:
         navigate(DEFINE_ROUTER.myBank);
