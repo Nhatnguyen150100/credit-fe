@@ -1,48 +1,68 @@
-import { PhoneOutlined } from "@ant-design/icons";
-import { APP_NAME } from "../../../constants/global";
+import { useLocation, useNavigate } from "react-router-dom";
+import DEFINE_ROUTER from "../../../constants/router-define";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../lib/store";
+import { message } from "antd";
 
 export default function TheFooter() {
-  return <div className="w-full py-5"/>;
+  const user = useSelector((state: IRootState) => state.user);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const LIST_TAB = [
+    {
+      label: "Trang chủ",
+      path: DEFINE_ROUTER.home,
+      icon: "home",
+      handleClick: () => {
+        navigate(DEFINE_ROUTER.home);
+      },
+    },
+    {
+      label: "Đơn vay",
+      path: DEFINE_ROUTER.loanApplication,
+      icon: "loan",
+      handleClick: () => {
+        if (!user?.phone_number) {
+          message.error("Đăng nhập để xem thông tin đơn vay");
+          return;
+        }
+        navigate(DEFINE_ROUTER.loanApplication);
+      },
+    },
+    {
+      label: "Của tôi",
+      path: DEFINE_ROUTER.my,
+      icon: "user",
+    },
+  ];
+
   return (
-    <footer className="w-full pt-8 pb-10 text-center text-[#5A6478]">
-      <a
-        href="tel:1900636059"
-        className="mx-auto flex max-w-[320px] items-center justify-center space-x-3"
-      >
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F5F7FB] text-[#20273A]">
-          <PhoneOutlined />
-        </div>
-        <span className="text-[20px] font-semibold text-[#20273A]">
-          1900 636059
-        </span>
-      </a>
-
-      <p className="mt-3 px-8 text-[12px] leading-relaxed">
-        Cước gọi 1000đ/phút. Xin hãy kiểm tra số dư trước khi gọi, hoặc sử
-        dụng phương thức liên hệ khác.
-      </p>
-
-      <div className="mt-3 space-y-1 text-[12px]">
-        <p>
-          Thứ 2 - Thứ 6: <span className="font-semibold">07:30 - 18:00</span>
-        </p>
-        <p>
-          Thứ 7 &amp; Chủ Nhật:{" "}
-          <span className="font-semibold">08:00 - 17:00</span>
-        </p>
-      </div>
-
-      <div className="mt-6 px-6 text-[12px] leading-relaxed">
-        <p>
-          64 Võ Thị Sáu, Phường Tân Định, Quận 1, Thành phố Hồ Chí Minh, Việt
-          Nam. Giấy CN ĐKDN số 0317720328 do Sở Kế hoạch và Đầu tư TP.HCM cấp
-          ngày 07/03/2023.
-        </p>
-      </div>
-
-      <p className="mt-3 text-[12px]">© 2025 Bản quyền thuộc về {APP_NAME}.</p>
-    </footer>
+    <div className="bg-white border-b border-solid flex flex-row justify-evenly items-end w-full shadow-lg z-50 fixed bottom-0 left-0 right-0">
+      {LIST_TAB.map((item) => {
+        const isActive = item.path === location.pathname;
+        return (
+          <div
+            key={item.label}
+            className={`flex flex-col flex-1 items-center justify-start py-2 px-4 rounded-md text-center text-sm font-medium text-neutral-700`}
+            onClick={() => {
+              if (item.handleClick) {
+                item.handleClick();
+              } else {
+                navigate(item.path);
+              }
+            }}
+          >
+            <img
+              className="h-5 w-5"
+              src={`/bottom-bar/${
+                isActive ? `${item.icon}-active` : item.icon
+              }.png`}
+            />
+            <span className="mt-1 font-normal">{item.label}</span>
+          </div>
+        );
+      })}
+    </div>
   );
 }
-
-

@@ -7,15 +7,10 @@ import { IRootState } from "../../../lib/store";
 import Visibility from "../../../components/visibility";
 import { APP_NAME } from "../../../constants/global";
 
-const menuItemsNotLoggedIn = [{ id: 3, label: "Hướng dẫn thanh toán" }];
-
 const menuItemsLoggedIn = [
-  { id: 1, label: "Tài khoản" },
-  { id: 2, label: "Khoản vay chờ xét duyệt" },
-  { id: 3, label: "Quản lý thẻ ngân hàng" },
-  { id: 4, label: "Hướng dẫn thanh toán" },
-  { id: 5, label: "Chính sách bảo mật" },
-  { id: 6, label: "Thiết lập" },
+  { id: 1, label: "Quản lý thẻ ngân hàng" },
+  { id: 2, label: "Chính sách bảo mật" },
+  { id: 3, label: "Thiết lập" },
 ];
 
 type TheHeaderProps = {
@@ -24,8 +19,6 @@ type TheHeaderProps = {
 
 export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   const location = useLocation();
-  const isProfile = location.pathname === DEFINE_ROUTER.my;
-  const isNewLoanPending = location.pathname === DEFINE_ROUTER.newLoanPending;
   console.log("🚀 ~ TheHeader ~ location.pathname:", location.pathname);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -34,7 +27,6 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   const navigate = useNavigate();
   const user = useSelector((state: IRootState) => state.user);
   const isLoggedIn = Boolean(user?._id || user?.phone_number);
-  const menuItems = isLoggedIn ? menuItemsLoggedIn : menuItemsNotLoggedIn;
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -43,34 +35,16 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
   const handleMenuItemClick = (id: number) => {
     setIsMenuOpen(false);
 
-    if (!isLoggedIn) {
-      switch (id) {
-        case 4:
-          navigate(DEFINE_ROUTER.paymentInstructions);
-          break;
-        default:
-          break;
-      }
-      return;
-    }
+    if (!isLoggedIn) return;
 
     switch (id) {
       case 1:
-        navigate(DEFINE_ROUTER.my);
-        break;
-      case 2:
-        navigate(DEFINE_ROUTER.newLoanPending);
-        break;
-      case 3:
         navigate(DEFINE_ROUTER.myBank);
         break;
-      case 4:
-        navigate(DEFINE_ROUTER.paymentInstructions);
-        break;
-      case 5:
+      case 2:
         navigate(DEFINE_ROUTER.term);
         break;
-      case 6:
+      case 3: 
         navigate(DEFINE_ROUTER.setting);
         break;
       default:
@@ -135,9 +109,7 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
 
   return (
     <header
-      className={`sticky ${
-        isProfile ? "bg-account-theme-active-light" : isNewLoanPending ? "bg-theme-orangish-light-ultra" : "bg-white"
-      } z-50 p-[10px] flex w-full items-center justify-between transition-all duration-200 ${
+      className={`sticky bg-white z-50 p-[10px] flex w-full items-center justify-between transition-all duration-200 ${
         isVisible ? "top-0" : "-top-24"
       }`}
     >
@@ -169,22 +141,24 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
             Đăng nhập
           </button>
         </Visibility>
-        <button
-          onClick={toggleMenu}
-          className={`flex h-[42px] w-[42px] items-center justify-center rounded-[16px] bg-primary-color transition-transform hover:scale-105 ${
-            isMenuOpen ? "scale-105" : ""
-          }`}
-        >
-          <div className="flex flex-col items-end gap-[5px]">
-            <span className="block h-[2px] w-[19.5px] rounded-full bg-text-primary-color" />
-            <span className="block h-[2px] w-[15px] rounded-full bg-text-primary-color" />
-            <span className="block h-[2px] w-[19.5px] rounded-full bg-text-primary-color" />
-          </div>
-        </button>
+        {isLoggedIn && (
+          <button
+            onClick={toggleMenu}
+            className={`flex h-[42px] w-[42px] items-center justify-center rounded-[16px] bg-primary-color transition-transform hover:scale-105 ${
+              isMenuOpen ? "scale-105" : ""
+            }`}
+          >
+            <div className="flex flex-col items-end gap-[5px]">
+              <span className="block h-[2px] w-[19.5px] rounded-full bg-text-primary-color" />
+              <span className="block h-[2px] w-[15px] rounded-full bg-text-primary-color" />
+              <span className="block h-[2px] w-[19.5px] rounded-full bg-text-primary-color" />
+            </div>
+          </button>
+        )}
 
         {isMenuOpen && (
           <div className="absolute top-[60px] right-0 z-50 min-w-[220px] overflow-hidden rounded-[12px] bg-white shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
-            {menuItems.map((item, index) => (
+            {menuItemsLoggedIn.map((item, index) => (
               <div key={item.id}>
                 <button
                   className="w-full px-4 py-3 text-left text-[14px] font-normal text-[#20273A] transition-colors hover:bg-gray-50"
@@ -192,7 +166,7 @@ export default function TheHeader({ scrollContainerRef }: TheHeaderProps) {
                 >
                   {item.label}
                 </button>
-                {index < menuItems.length - 1 && (
+                {index < menuItemsLoggedIn.length - 1 && (
                   <div className="h-[1px] bg-gray-200" />
                 )}
               </div>

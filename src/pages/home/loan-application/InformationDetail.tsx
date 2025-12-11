@@ -8,6 +8,7 @@ import { IInfo } from "../../../types/info";
 import { formatCurrency } from "../../../utils/format-money";
 import { formatDate } from "../../../utils/day-format";
 import DEFINE_ROUTER from "../../../constants/router-define";
+import { CreditCardOutlined } from "@ant-design/icons";
 
 export default function InformationDetail() {
   const { id } = useParams<{ id: string }>();
@@ -156,7 +157,7 @@ export default function InformationDetail() {
           )
         }
       >
-        <div className="flex w-full items-center justify-center">
+        <div className="flex w-full items-center justify-center mb-16">
           <div className="min-h-screen w-full bg-theme-sand-light-ultra pb-8 sm:max-w-[450px]">
             <div className="px-4 mt-5">
               <div className="rounded-2xl bg-account-theme-active-light p-4">
@@ -183,8 +184,12 @@ export default function InformationDetail() {
                   </div>
                   <div className="text-right text-xs text-secondary-link">
                     <div className="m-0 flex flex-col justify-end items-end">
-                      <span className="text-xs text-secondary-link">Mã hồ sơ:</span>{" "}
-                      <span className="font-semibold truncate max-w-[120px]">{userInfo?._id}</span>
+                      <span className="text-xs text-secondary-link">
+                        Mã hồ sơ:
+                      </span>{" "}
+                      <span className="font-semibold truncate max-w-[120px]">
+                        {userInfo?._id}
+                      </span>
                     </div>
                     <p className="m-0 mt-0.5">
                       Ngày nộp đơn:{" "}
@@ -223,11 +228,11 @@ export default function InformationDetail() {
             <div className="mt-6 px-4">
               <Visibility visibility={userInfo?.status !== "PAYED"}>
                 <Button
-                  type="primary"
                   onClick={handleClickPayment}
-                  className="button-gradient h-[44px] w-full rounded-full text-sm font-semibold"
+                  className="!bg-theme-orangish-dark border-none h-[44px] w-full rounded-full text-sm font-semibold flex items-center justify-center gap-2"
                 >
-                  Lập tức thanh toán
+                  <CreditCardOutlined className="text-white" />
+                  <span className="text-white">Lập tức thanh toán</span>
                 </Button>
               </Visibility>
 

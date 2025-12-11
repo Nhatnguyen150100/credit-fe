@@ -17,8 +17,7 @@ import Term from "../pages/home/profile/term/Term";
 import LoginByAdminPage from "../pages/home/profile/login/LoginByAdminPage";
 import LandingPage from "../pages/home/home-page/LandingPage";
 import TheGuardLayout from "../pages/home/layout/TheGuardLayout";
-import PaymentInstructions from "../pages/home/payment-instructions/PaymentInstructions";
-import NewLoanPending from "../pages/home/loan-application/NewLoanPending";
+import LoanApplication from "../pages/home/loan-application/LoanApplication";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +28,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <LandingPage />,
-      },
-      {
-        path: DEFINE_ROUTER.paymentInstructions,
-        element: <PaymentInstructions />,
       },
       {
         path: DEFINE_ROUTER.my,
@@ -91,13 +86,13 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: DEFINE_ROUTER.newLoanPending,
+        path: DEFINE_ROUTER.loanApplication,
         errorElement: <ErrorPage />,
         Component: TheGuardLayout,
         children: [
           {
             index: true,
-            element: <NewLoanPending />,
+            element: <LoanApplication />,
           },
         ],
       },

@@ -3,18 +3,9 @@ import { Input } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DEFINE_ROUTER from "../../../constants/router-define";
-import { useSelector } from "react-redux";
-import { IRootState } from "../../../lib/store";
-import LoanRegistrationSection from "./LoanRegistrationSection";
 
-interface PhoneNumberSectionProps {
-  loanAmount?: number;
-}
-
-export default function PhoneNumberSection({ loanAmount }: PhoneNumberSectionProps) {
+export default function PhoneNumberSection() {
   const router = useNavigate();
-  const user = useSelector((state: IRootState) => state.user);
-  const isLoggedIn = Boolean(user?._id || user?.phone_number);
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,10 +19,6 @@ export default function PhoneNumberSection({ loanAmount }: PhoneNumberSectionPro
   const handleLogin = () => {
     router(`${DEFINE_ROUTER.login}?phoneNumber=${phoneNumber}`);
   };
-
-  if (isLoggedIn) {
-    return <LoanRegistrationSection loanAmount={loanAmount} />;
-  }
 
   return (
     <section className="w-full rounded-2xl mt-5 flex flex-col space-y-4">

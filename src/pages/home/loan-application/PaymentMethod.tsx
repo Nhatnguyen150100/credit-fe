@@ -94,9 +94,8 @@ export default function PaymentMethod() {
     : "CHUYEN KHOAN THANH TOAN";
 
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="flex w-full items-center justify-center mb-16">
       <div className="min-h-screen w-full bg-theme-sand-light-ultra pb-8 sm:max-w-[450px]">
-        {/* Header */}
         <div className="flex items-center px-4 pt-5 pb-4">
           <button
             type="button"
@@ -121,7 +120,6 @@ export default function PaymentMethod() {
           </button>
         </div>
 
-        {/* Nội dung khi chưa có bank */}
         {!primaryBank && (
           <div className="px-4 pt-4 text-sm text-secondary-link">
             Hiện tại chưa có thông tin tài khoản thanh toán. Vui lòng thử lại
@@ -131,7 +129,6 @@ export default function PaymentMethod() {
 
         {primaryBank && (
           <div className="mt-2 space-y-4 px-4">
-            {/* Card thông tin chính */}
             <div className="rounded-2xl bg-white px-4 py-4 shadow-sm">
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-theme-dark">
                 Thông tin chuyển khoản
@@ -231,7 +228,6 @@ export default function PaymentMethod() {
                 </div>
               </div>
 
-              {/* QR code */}
               <div className="mt-5 flex flex-col items-center justify-center">
                 <span className="text-sm font-medium text-text-color">
                   QR Code thanh toán
@@ -249,7 +245,6 @@ export default function PaymentMethod() {
               </div>
             </div>
 
-            {/* Ghi chú & hướng dẫn */}
             <div className="space-y-3">
               <div className="rounded-2xl bg-theme-sand-light px-4 py-3 text-[13px] leading-relaxed text-text-color">
                 <p className="m-0">

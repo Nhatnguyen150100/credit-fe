@@ -1,7 +1,6 @@
 const DEFINE_ROUTER = {
   home: "/",
   paymentApplication: "/payment-application",
-  paymentInstructions: "/payment-instructions",
   my: '/my',
   term: '/term',
   myBank: '/my-bank',
@@ -15,7 +14,7 @@ const DEFINE_ROUTER = {
   loginAdmin: "/login-admin",
   newInfo: "/admin/new-info",
   editInfo: "/admin/edit-info/:id",
-  newLoanPending: "/new-loan-pending",
+  loanApplication: "/loan-application",
 };
 
 export default DEFINE_ROUTER;

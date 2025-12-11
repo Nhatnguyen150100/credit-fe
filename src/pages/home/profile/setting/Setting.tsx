@@ -6,6 +6,7 @@ import { IRootState } from "../../../../lib/store";
 import DEFINE_ROUTER from "../../../../constants/router-define";
 import { setLoanAmount } from "../../../../lib/reducer/loanApplicationSlice";
 import { APP_NAME } from "../../../../constants/global";
+import { LogoutOutlined } from "@ant-design/icons";
 
 export default function Setting() {
   const user = useSelector((state: IRootState) => state.user);
@@ -35,11 +36,12 @@ export default function Setting() {
       </div>
       <div className="flex flex-row px-5 justify-center items-center">
         <Button
-          className="w-[220px] h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] focus:bg-[#ff7a22] border-none text-white mb-8 mt-5"
+          className="w-[220px] h-[52px] rounded-[12px] text-base font-semibold bg-[#FF8A3D] hover:bg-[#ff7a22] focus:bg-[#ff7a22] border-none text-white mb-8 mt-5 gap-3"
           type="primary"
           onClick={handleLogout}
         >
-          Đăng xuất
+          <LogoutOutlined />
+          <span>Đăng xuất</span>
         </Button>
       </div>
     </div>

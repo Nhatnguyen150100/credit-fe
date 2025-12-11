@@ -55,7 +55,7 @@ export default function LoanRegistrationSection({
 
     dispatch(setLoanAmount(loanAmount));
     setIsModalOpen(false);
-    router(DEFINE_ROUTER.newLoanPending);
+    router(DEFINE_ROUTER.loanApplication);
   };
 
   const handleCancelModal = () => {

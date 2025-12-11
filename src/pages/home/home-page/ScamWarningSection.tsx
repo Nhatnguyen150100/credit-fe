@@ -5,7 +5,7 @@ export default function ScamWarningSection() {
   const [showScamDetails, setShowScamDetails] = useState(false);
 
   return (
-    <section className="w-full rounded-[24px] bg-[#FFE4C4] px-5 py-6 mt-6 shadow-sm">
+    <section className="w-full rounded-[24px] bg-[#FFE4C4] px-5 py-6 mt-6 shadow-sm mb-[100px]">
       <div className="mb-4 flex items-start space-x-3">
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F2B600] text-[16px] font-bold text-white">
           !

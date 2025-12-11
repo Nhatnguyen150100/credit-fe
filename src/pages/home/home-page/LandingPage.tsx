@@ -8,9 +8,15 @@ import LoanStepsSection from "./LoanStepsSection";
 import LoanTermsSection from "./LoanTermsSection";
 import RequirementsSection from "./RequirementsSection";
 import IntroSection from "./IntroSection";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../../lib/store";
+import LoanRegistrationSection from "./LoanRegistrationSection";
 
 export default function LandingPage() {
   const [loanAmount, setLoanAmount] = useState(1500000);
+
+  const user = useSelector((state: IRootState) => state.user);
+  const isLoggedIn = Boolean(user?._id || user?.phone_number);
 
   return (
     <main className="flex w-full flex-col p-[10px]">
@@ -19,13 +25,12 @@ export default function LandingPage() {
         loanAmount={loanAmount}
         onLoanAmountChange={setLoanAmount}
       />
-      <PhoneNumberSection loanAmount={loanAmount} />
+      {isLoggedIn ? (
+        <LoanRegistrationSection loanAmount={loanAmount} />
+      ) : (
+        <PhoneNumberSection />
+      )}
       <ScamWarningSection />
-      <FinancialSolutionSection />
-      <LoanStepsSection />
-      <LoanTermsSection />
-      <RequirementsSection />
-      <IntroSection />
     </main>
   );
 }
