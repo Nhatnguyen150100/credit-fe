@@ -42,7 +42,7 @@ export default function NewLoanPending() {
           </p>
         </div>
 
-        <div className="mb-16 space-y-4">
+        <div className="space-y-4">
           <div className="rounded-2xl bg-white px-4 py-4 shadow-sm text-center">
             <div className="flex flex-col items-center mb-4">
               <div className="w-20 h-20 rounded-full bg-theme-cloudless flex items-center justify-center mb-4">
@@ -137,7 +137,7 @@ export default function NewLoanPending() {
         </p>
       </div>
 
-      <div className="mb-16 space-y-4">
+      <div className="space-y-4">
         <div className="rounded-2xl bg-white px-4 py-4 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>

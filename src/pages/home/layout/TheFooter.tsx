@@ -38,9 +38,9 @@ export default function TheFooter() {
   ];
 
   return (
-    <div className="bg-white border-b border-solid flex flex-row justify-evenly items-end w-full shadow-lg z-50 fixed bottom-0 left-0 right-0">
+    <div className="bg-white border-b border-solid flex flex-row justify-evenly items-end shadow-lg z-50 sticky bottom-0 left-0 right-0 w-screen md:max-w-[450px]">
       {LIST_TAB.map((item) => {
-        const isActive = item.path === location.pathname;
+        const isActive = item.path === location.pathname; 
         return (
           <div
             key={item.label}

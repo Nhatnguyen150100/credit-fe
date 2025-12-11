@@ -49,7 +49,7 @@ export default function ProfilePaid() {
         </Visibility>
       </div>
 
-      <div className="mb-16 space-y-4">
+      <div className="pb-4 space-y-4">
         <div className="rounded-2xl bg-white px-4 py-4 shadow-sm">
           <div className="flex items-start justify-between gap-3">
             <div>

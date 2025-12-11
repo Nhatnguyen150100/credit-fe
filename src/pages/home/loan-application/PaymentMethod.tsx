@@ -94,8 +94,8 @@ export default function PaymentMethod() {
     : "CHUYEN KHOAN THANH TOAN";
 
   return (
-    <div className="flex w-full items-center justify-center mb-16">
-      <div className="min-h-screen w-full bg-theme-sand-light-ultra pb-8 sm:max-w-[450px]">
+    <div className="flex w-full items-center justify-center pb-2 bg-theme-sand-light-ultra">
+      <div className="min-h-screen w-full pb-8 sm:max-w-[450px]">
         <div className="flex items-center px-4 pt-5 pb-4">
           <button
             type="button"

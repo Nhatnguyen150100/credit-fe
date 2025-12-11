@@ -17,8 +17,8 @@ export default function TheLayoutApp() {
           <div className="flex-grow">
             <Outlet />
           </div>
-          <TheFooter />
         </div>
+        <TheFooter />
       </div>
     </div>
   );

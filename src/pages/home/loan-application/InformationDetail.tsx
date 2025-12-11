@@ -157,8 +157,8 @@ export default function InformationDetail() {
           )
         }
       >
-        <div className="flex w-full items-center justify-center mb-16">
-          <div className="min-h-screen w-full bg-theme-sand-light-ultra pb-8 sm:max-w-[450px]">
+        <div className="flex w-full items-center justify-center pb-4 bg-theme-sand-light-ultra">
+          <div className="min-h-screen w-full pb-8 sm:max-w-[450px]">
             <div className="px-4 mt-5">
               <div className="rounded-2xl bg-account-theme-active-light p-4">
                 <div className="flex items-start justify-between flex-wrap">
