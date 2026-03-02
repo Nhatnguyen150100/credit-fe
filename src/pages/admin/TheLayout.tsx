@@ -31,7 +31,7 @@ export default function TheLayout() {
           className="uppercase text-3xl primary-color font-bold justify-start items-center flex"
           href={DEFINE_ROUTER.home}
         >
-          MITSIU CREDIT ADMIN - {info?.role}
+          MIUVAY ADMIN - {info?.role}
         </a>
         <Button
           type="primary"
