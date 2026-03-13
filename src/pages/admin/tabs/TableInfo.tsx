@@ -15,10 +15,18 @@ import {
 } from "antd";
 import {
   DeleteOutlined,
+  DownloadOutlined,
+  HistoryOutlined,
   PhoneOutlined,
   PlusOutlined,
+  ReloadOutlined,
+  SearchOutlined,
   TeamOutlined,
+  UploadOutlined,
 } from "@ant-design/icons";
+import { Divider, Tooltip } from "antd";
+import CsvImportModal from "../../../components/CsvImportModal";
+import CsvImportJobsModal from "../../../components/CsvImportJobsModal";
 import { useNavigate } from "react-router-dom";
 import { IInfo } from "../../../types/info";
 import axiosRequest from "../../../plugins/request";
@@ -72,6 +80,9 @@ export default function TableInfo() {
   });
   const [total, setTotal] = React.useState(0);
   const [assignLoading, setAssignLoading] = React.useState(false);
+  const [exportLoading, setExportLoading] = React.useState(false);
+  const [importModalOpen, setImportModalOpen] = React.useState(false);
+  const [importJobsModalOpen, setImportJobsModalOpen] = React.useState(false);
   const [userOptions, setUserOptions] = React.useState<
     { value: string; label: string }[]
   >([]);
@@ -142,10 +153,44 @@ export default function TableInfo() {
     }
   };
 
+  const handleExportCsv = async () => {
+    try {
+      setExportLoading(true);
+      const response = await axiosRequest.get("/v1/information/export-csv", {
+        params: onRemoveParams({
+          nameLike: query.nameLike,
+          userId: query.userId,
+          phoneNumber: query.phoneNumber,
+          status: query.status,
+          datePayable: query.datePayable,
+          assigneeIds: query.assigneeIds.length ? query.assigneeIds : undefined,
+        }),
+        responseType: "text",
+      });
+      // Prepend UTF-8 BOM so Excel/spreadsheet apps render Vietnamese correctly
+      const BOM = "\uFEFF";
+      const url = window.URL.createObjectURL(
+        new Blob([BOM + response.data], { type: "text/csv;charset=utf-8;" })
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `information_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      message.success("Xuất CSV thành công");
+    } catch {
+      message.error("Xuất CSV thất bại");
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
   const deleteMultiple = async () => {
     Modal.confirm({
-      title: "Bạn có muốn xóa các thông tin đã chọn này này",
-      okText: "Có",
+      title: "Bạn có muốn xóa các thông tin đã chọn này này. Không thể hoàn tác sau khi xóa.",
+      okText: "Xác nhận xóa",
       okType: "danger",
       cancelText: "Không",
       style: {
@@ -366,118 +411,157 @@ export default function TableInfo() {
   return (
     <>
       <style>{customCheckboxStyle}</style>
-      <div className="w-full flex justify-between items-center mb-5">
-        <div className="flex-grow flex justify-start items-center space-x-3">
-          <InputSearch
-            value={query.nameLike}
-            onHandleChange={(value) =>
-              setQuery((pre) => ({ ...pre, nameLike: value }))
-            }
-            placeholder="Tìm kiếm theo tên"
-            onSearch={onGetListInfo}
-          />
-          <InputSearch
-            icon={<TeamOutlined />}
-            value={query.userId}
-            onHandleChange={(value) =>
-              setQuery((pre) => ({ ...pre, userId: value }))
-            }
-            placeholder="Tìm kiếm theo CCCD"
-            onSearch={onGetListInfo}
-          />
-          <InputSearch
-            icon={<PhoneOutlined />}
-            typeInput="number"
-            value={query.phoneNumber}
-            onHandleChange={(value) =>
-              setQuery((pre) => ({ ...pre, phoneNumber: value }))
-            }
-            placeholder="Tìm kiếm theo số điện thoại"
-            onSearch={onGetListInfo}
-          />
-          <DatePicker
-            className=" h-[38px] rounded-2xl"
-            placeholder="Tìm kiếm theo ngày trả"
-            format={"DD/MM/YYYY"}
-            value={query.datePayable}
-            onChange={(value) =>
-              setQuery((pre) => ({
-                ...pre,
-                datePayable: value,
-              }))
-            }
-          />
-          <Select
-            className="min-w-[160px]"
-            allowClear
-            placeholder="Tìm kiếm theo trạng thái"
-            value={query.status}
-            onChange={(value) => setQuery((pre) => ({ ...pre, status: value }))}
-          >
-            <Select.Option value="NOT_PAY">Chưa thanh toán</Select.Option>
-            <Select.Option value="PAYED">Đã thanh toán</Select.Option>
-            <Select.Option value="OVER_DATE">Quá hạn</Select.Option>
-          </Select>
 
-          <Button type="primary" color="primary" onClick={onGetListInfo}>
-            Tìm kiếm
-          </Button>
-        </div>
+      {/* ── Row 1: Action Bar ── */}
+      <div className="w-full flex justify-between items-center mb-3">
+        {/* Left: Primary create action */}
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          iconPosition="start"
           hidden={!onCheckPermission(adminInfo, EPermission.CREATE, ERole.SYSTEM_ADMIN)}
-          onClick={() => {
-            navigate(DEFINE_ROUTER.newInfo);
-          }}
+          onClick={() => navigate(DEFINE_ROUTER.newInfo)}
         >
           Thêm mới thông tin
         </Button>
-      </div>
-      <Visibility visibility={adminInfo?.role === ERole.SUPER_ADMIN}>
-        <Select
-          mode="multiple"
-          allowClear
-          style={{ minWidth: 200 }}
-          placeholder="Lọc theo Admin"
-          options={adminFilterOptions}
-          onChange={(value) =>
-            setQuery((prev) => ({ ...prev, assigneeIds: value }))
-          }
-          filterOption={false}
-          value={query.assigneeIds}
-          className="mb-3"
-        />
-      </Visibility>
-      <Visibility visibility={hasSelected && selectedRowKeys.length > 0}>
-        <Visibility
-          visibility={adminInfo?.role === ERole.SUPER_ADMIN}
-          suspenseComponent={
+
+        {/* Right: CSV tools + maintenance */}
+        <div className="flex items-center gap-2">
+          <Button
+            icon={<DownloadOutlined />}
+            loading={exportLoading}
+            onClick={handleExportCsv}
+          >
+            Xuất CSV
+          </Button>
+          <Button
+            icon={<UploadOutlined />}
+            hidden={!onCheckPermission(adminInfo, EPermission.CREATE, ERole.SYSTEM_ADMIN)}
+            onClick={() => setImportModalOpen(true)}
+          >
+            Import CSV
+          </Button>
+          <Button
+            icon={<HistoryOutlined />}
+            hidden={adminInfo?.role !== ERole.SUPER_ADMIN}
+            onClick={() => setImportJobsModalOpen(true)}
+          >
+            Lịch sử Import
+          </Button>
+
+          <Divider type="vertical" className="h-6 mx-1" />
+
+          <Tooltip
+            title={`Kiểm tra và đánh dấu "Quá hạn" toàn bộ dữ liệu quá ngày ${dayjs().format("DD/MM/YYYY")}`}
+          >
             <Button
-              className="mb-3"
-              danger
-              icon={<DeleteOutlined />}
-              hidden={!onCheckPermission(adminInfo, EPermission.DELETE, ERole.SYSTEM_ADMIN)}
-              onClick={deleteMultiple}
+              icon={<ReloadOutlined />}
+              onClick={updateMultipleStatus}
+              hidden={!onCheckPermission(adminInfo, EPermission.UPDATE, ERole.SYSTEM_ADMIN)}
             >
-              Xóa các hàng đã chọn
+              Cập nhật quá hạn
             </Button>
+          </Tooltip>
+        </div>
+      </div>
+
+      {/* ── Row 2: Filter Bar ── */}
+      <div className="w-full flex flex-wrap items-center gap-2 mb-3 px-4 py-3 bg-gray-50 rounded-xl border border-gray-100">
+        <InputSearch
+          value={query.nameLike}
+          onHandleChange={(value) =>
+            setQuery((pre) => ({ ...pre, nameLike: value }))
           }
+          placeholder="Tìm kiếm theo tên"
+          onSearch={onGetListInfo}
+        />
+        <InputSearch
+          icon={<TeamOutlined />}
+          value={query.userId}
+          onHandleChange={(value) =>
+            setQuery((pre) => ({ ...pre, userId: value }))
+          }
+          placeholder="Tìm kiếm theo CCCD"
+          onSearch={onGetListInfo}
+        />
+        <InputSearch
+          icon={<PhoneOutlined />}
+          typeInput="number"
+          value={query.phoneNumber}
+          onHandleChange={(value) =>
+            setQuery((pre) => ({ ...pre, phoneNumber: value }))
+          }
+          placeholder="Tìm kiếm theo số điện thoại"
+          onSearch={onGetListInfo}
+        />
+        <DatePicker
+          className="h-[38px] rounded-2xl"
+          placeholder="Tìm kiếm theo ngày trả"
+          format={"DD/MM/YYYY"}
+          value={query.datePayable}
+          onChange={(value) =>
+            setQuery((pre) => ({ ...pre, datePayable: value }))
+          }
+        />
+        <Select
+          className="min-w-[160px]"
+          allowClear
+          placeholder="Trạng thái"
+          value={query.status}
+          onChange={(value) => setQuery((pre) => ({ ...pre, status: value }))}
         >
-          <div className="w-full flex justify-start items-center mb-5 gap-3">
+          <Select.Option value="NOT_PAY">Chưa thanh toán</Select.Option>
+          <Select.Option value="PAYED">Đã thanh toán</Select.Option>
+          <Select.Option value="OVER_DATE">Quá hạn</Select.Option>
+        </Select>
+        <Visibility visibility={adminInfo?.role === ERole.SUPER_ADMIN}>
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ minWidth: 180 }}
+            placeholder="Lọc theo Admin"
+            options={adminFilterOptions}
+            onChange={(value) =>
+              setQuery((prev) => ({ ...prev, assigneeIds: value }))
+            }
+            filterOption={false}
+            value={query.assigneeIds}
+          />
+        </Visibility>
+        <Button type="primary" icon={<SearchOutlined />} onClick={onGetListInfo}>
+          Tìm kiếm
+        </Button>
+      </div>
+
+      {/* ── Row 3: Bulk Actions (contextual) ── */}
+      <Visibility visibility={hasSelected && selectedRowKeys.length > 0}>
+        <div className="w-full flex items-center gap-2 mb-3 px-4 py-2 bg-blue-50 rounded-xl border border-blue-100">
+          <span className="text-sm text-blue-600 font-medium mr-2">
+            Đã chọn {selectedRowKeys.length} dòng:
+          </span>
+          <Visibility
+            visibility={adminInfo?.role === ERole.SUPER_ADMIN}
+            suspenseComponent={
+              <Button
+                danger
+                icon={<DeleteOutlined />}
+                hidden={!onCheckPermission(adminInfo, EPermission.DELETE, ERole.SYSTEM_ADMIN)}
+                onClick={deleteMultiple}
+              >
+                Xóa các hàng đã chọn
+              </Button>
+            }
+          >
             <Select
               showSearch
-              placeholder="Chọn user để gán (Nhập tên user để tìm kiếm)"
+              placeholder="Chọn Admin để gán"
               optionFilterProp="label"
               onSearch={handleUserSearch}
               filterOption={false}
               options={userOptions}
               onChange={(value) => setSelectedUserId(value)}
-              style={{ width: 300 }}
+              style={{ width: 260 }}
               loading={assignLoading}
             />
-
             <Button
               type="primary"
               onClick={handleAssignUser}
@@ -486,27 +570,13 @@ export default function TableInfo() {
             >
               Gán cho ADMIN
             </Button>
-
-            <Button danger icon={<DeleteOutlined />} onClick={deleteMultiple}>
+            <Divider type="vertical" className="h-5 mx-1" />
+            <Button variant="solid" color="danger" icon={<DeleteOutlined />} onClick={deleteMultiple}>
               Xóa các hàng đã chọn
             </Button>
-          </div>
-        </Visibility>
+          </Visibility>
+        </div>
       </Visibility>
-      <div className="mb-5 flex w-full justify-start items-start">
-        <Button
-          variant="solid"
-          color="primary"
-          shape="default"
-          iconPosition="end"
-          onClick={updateMultipleStatus}
-          hidden={!onCheckPermission(adminInfo, EPermission.UPDATE, ERole.SYSTEM_ADMIN)}
-        >
-          {`Kiểm tra và cập nhật dữ liệu đã bị quá hạn trả (quá ngày ${dayjs().format(
-            "DD/MM/YYYY"
-          )})`}
-        </Button>
-      </div>
       <Visibility
         visibility={Boolean(listInfo.length)}
         suspenseComponent={loading ? <Spin /> : <Empty />}
@@ -538,6 +608,16 @@ export default function TableInfo() {
           />
         </div>
       </Visibility>
+
+      <CsvImportModal
+        open={importModalOpen}
+        onClose={() => setImportModalOpen(false)}
+        onSuccess={onGetListInfo}
+      />
+      <CsvImportJobsModal
+        open={importJobsModalOpen}
+        onClose={() => setImportJobsModalOpen(false)}
+      />
     </>
   );
 }
