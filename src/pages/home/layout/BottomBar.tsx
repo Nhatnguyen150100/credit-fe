@@ -38,7 +38,7 @@ export default function BottomBar() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 py-1 bg-white border-t border-solid flex flex-row justify-evenly items-end w-full shadow-lg">
+    <div className="fixed sm:static bottom-0 left-0 right-0 z-50 py-1 bg-white border-t border-solid flex flex-row justify-evenly items-end w-full shadow-lg">
       {LIST_TAB.map((item) => {
         const isActive = isChildUrl(item.path, location.pathname);
         return (
