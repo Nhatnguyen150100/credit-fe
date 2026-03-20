@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Table, Tag } from "antd";
 import axiosRequest from "../plugins/request";
 import { formatDate } from "../utils/day-format";
