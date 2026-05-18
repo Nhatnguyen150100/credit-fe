@@ -315,9 +315,6 @@ export default function InfoComponentCommon({
           <Form.Item<FieldType>
             label="Số tài khoản nhận tiền"
             name="receiving_account_number"
-            rules={[
-              { required: true, message: "Hãy nhập số tài khoản nhận tiền" },
-            ]}
           >
             <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
@@ -325,7 +322,6 @@ export default function InfoComponentCommon({
           <Form.Item<FieldType>
             label="Ngân hàng"
             name="bank_name"
-            rules={[{ required: true, message: "Hãy nhập ngân hàng" }]}
           >
             <Input disabled={!isUpdateOrCreate} />
           </Form.Item>
