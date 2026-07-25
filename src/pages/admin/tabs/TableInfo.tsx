@@ -597,6 +597,9 @@ export default function TableInfo() {
               current: query.page,
               pageSize: query.limit,
               total: total,
+              showSizeChanger: true,
+              pageSizeOptions: ["5", "10", "20", "50"],
+              showTotal: (total) => `Tổng ${total} bản ghi`,
               onChange: (page: number, limit: number) => {
                 setQuery((pre) => ({
                   ...pre,
